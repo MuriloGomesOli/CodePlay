@@ -11,6 +11,7 @@ interface DashboardProps {
     email: string;
   };
   onLogout: () => void;
+  onStartExercise?: (exercise: Exercise) => void;
 }
 
 interface Exercise {
@@ -94,7 +95,7 @@ const databaseExercises: Exercise[] = [
   },
 ];
 
-function ExerciseCard({ exercise }: { exercise: Exercise }) {
+function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex: Exercise) => void }) {
   const difficultyColors = {
     'Fácil': 'bg-green-100 text-green-800',
     'Médio': 'bg-yellow-100 text-yellow-800',
@@ -121,7 +122,7 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
               </Badge>
             ))}
           </div>
-          <Button className="w-full">
+          <Button className="w-full" onClick={() => onStart?.(exercise)}>
             {exercise.completed ? 'Revisar' : 'Iniciar Desafio'}
           </Button>
         </div>
@@ -130,7 +131,7 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
   );
 }
 
-export function Dashboard({ user, onLogout }: DashboardProps) {
+export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
       <header className="bg-card border-b shadow-sm">
@@ -178,7 +179,7 @@ export function Dashboard({ user, onLogout }: DashboardProps) {
           <TabsContent value="frontend">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {frontendExercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} />
+                <ExerciseCard key={exercise.id} exercise={exercise} onStart={onStartExercise} />
               ))}
             </div>
           </TabsContent>

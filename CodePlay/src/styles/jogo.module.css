@@ -1,0 +1,349 @@
+/* src/styles/jogo.module.css */
+.appContainer {
+  display: grid;
+  /* Define 3 colunas, com a do meio um pouco maior (ex: 1.5fr) */
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 20px; /* Espaçamento entre as colunas */
+  padding: 20px;
+  min-height: 100vh; /* Ocupa a altura total da viewport */
+  background-color: #FAE4DA; /* Cor de fundo pêssego */
+  box-sizing: border-box; /* Garante que padding e border não aumentem o tamanho total */
+}
+
+/* Opcional: para telas menores, empilhar as colunas */
+@media (max-width: 1024px) {
+  .appContainer {
+    grid-template-columns: 1fr; /* Uma única coluna */
+    gap: 15px;
+    padding: 15px;
+  }
+}
+.profileCard {
+  background-color: #FFF7F3; /* Fundo branco/bege claro */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Para garantir que o header arredondado fique dentro */
+}
+
+.profileHeader {
+  background-color: #FF7F50; /* Laranja do cabeçalho */
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.profileContent {
+  padding: 20px;
+  text-align: center;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #FF7F50; /* Borda laranja ao redor do avatar */
+}
+
+.userName {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.userTitle {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.statusBadges {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.statusBadges span {
+  background-color: #A6D7B4; /* Verde claro */
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.navButtons {
+  display: flex;
+  flex-direction: column; /* Botões empilhados */
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.navButton {
+  background-color: white;
+  border: 1px solid #FF7F50; /* Borda laranja */
+  color: #FF7F50;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.navButton:hover {
+  background-color: #FF7F50;
+  color: white;
+}
+
+.logoutButton {
+  background-color: #F8D7DA; /* Um vermelho/rosa mais suave para sair */
+  border-color: #DC3545;
+  color: #DC3545;
+}
+
+.logoutButton:hover {
+  background-color: #DC3545;
+  color: white;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.socialIcons img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.socialIcons img:hover {
+  transform: scale(1.1);
+}
+
+/* src/components/styles/CodeEditor.module.css */
+.codeCard {
+  background-color: #FFF7F3;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.welcomeSection {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #F0F8FF; /* Um azul muito claro */
+  border: 1px solid #D0E0F0;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.codeLogo {
+  width: 50px;
+  height: 50px;
+}
+
+.welcomeText {
+  font-size: 0.9em;
+  color: #555;
+  line-height: 1.4;
+}
+
+.instruction {
+  background-color: #E6F3EA; /* Um verde claro */
+  border: 1px solid #C0E0C0;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 1em;
+  color: #333;
+  line-height: 1.5;
+}
+
+.editorArea {
+  display: flex;
+  background-color: #2D2D2D; /* Fundo escuro do editor */
+  border-radius: 8px;
+  padding: 10px;
+  font-family: 'Fira Code', 'Monaco', 'Consolas', monospace; /* Fonte para código */
+  color: white;
+  min-height: 120px; /* Altura mínima para o editor */
+  align-items: flex-start; /* Alinha o número da linha com o topo */
+}
+
+.lineNumber {
+  color: #888;
+  padding-right: 10px;
+  user-select: none; /* Não permite selecionar o número da linha */
+}
+
+.codeTextarea {
+  flex-grow: 1; /* Preenche o espaço restante */
+  background-color: transparent;
+  border: none;
+  color: white;
+  resize: none; /* Remove a opção de redimensionar */
+  outline: none; /* Remove o contorno ao focar */
+  font-size: 1em;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+}
+
+.hintSection {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.hintBox {
+  background-color: #FFECB3; /* Amarelo da dica */
+  border: 1px solid #FFD54F;
+  border-radius: 10px;
+  padding: 10px 15px;
+  font-size: 0.9em;
+  color: #333;
+  flex-grow: 1;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #FFECB3; /* Cor da dica */
+  /* Girar a seta para apontar para o botão */
+  transform: rotate(90deg) translateX(5px);
+  /* Ou se for apontar para a direita: */
+  /* border-left: 10px solid #FFECB3; */
+  /* border-right: none; */
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.actionButton {
+  background-color: #FF7F50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+  background-color: #E06C3E;
+}
+
+.hintButton {
+  background-color: #6C757D; /* Cinza para DICA */
+}
+
+.hintButton:hover {
+  background-color: #5A6268;
+}
+
+.codePlayButton {
+  background-color: #4CAF50; /* Verde para CODEPLAY */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 25px;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: center; /* Centraliza o botão */
+  margin-top: 20px;
+}
+
+.codePlayButton:hover {
+  background-color: #45a049;
+}
+
+/* src/components/styles/GameView.module.css */
+.gameCard {
+  background-color: #A6D7B4; /* Fundo verde claro da fazenda */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: relative; /* Para posicionar elementos filhos com absolute */
+  overflow: hidden; /* Garante que elementos não transbordem as bordas */
+  display: flex;
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: flex-end; /* Alinha a base dos elementos com o fundo */
+}
+
+.sun {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 80px; /* Ajuste o tamanho conforme necessário */
+  height: auto;
+}
+
+.farm {
+  position: absolute;
+  bottom: 10px; /* Ajuste para que a base da fazenda fique no fundo do card */
+  left: 50%;
+  transform: translateX(-50%); /* Centraliza horizontalmente */
+  width: 250px; /* Ajuste o tamanho conforme necessário */
+  height: auto;
+  z-index: 2; /* Garante que a fazenda fique na frente da grama de fundo */
+}
+
+.chicken {
+  position: absolute;
+  bottom: 10px; /* Ajuste para que a base da galinha fique no fundo do card */
+  right: 20%; /* Posição da galinha */
+  width: 100px; /* Ajuste o tamanho conforme necessário */
+  height: auto;
+  z-index: 3; /* Galinha à frente da fazenda */
+}
+
+.speechBubble {
+  background-color: #FF7F50; /* Laranja do balão de fala */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  position: absolute;
+  top: 80px; /* Posição vertical do balão */
+  right: 15%; /* Posição horizontal do balão */
+  font-size: 1em;
+  font-weight: bold;
+  z-index: 4; /* Balão de fala à frente de tudo */
+  /* Propriedades para criar a "ponta" do balão */
+  /* Você pode usar CSS para desenhar o triângulo ou uma imagem */
+}
+
+/* Exemplo de como fazer a ponta do balão com CSS */
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; /* Ajuste para a ponta ficar abaixo do balão */
+  left: 50%; /* Centraliza a ponta */
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #FF7F50; /* Cor da ponta igual ao balão */
+}

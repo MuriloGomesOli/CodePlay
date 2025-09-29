@@ -2,10 +2,14 @@ import { useState } from 'react';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { Dashboard } from './components/Dashboard';
+import Jogo from './components/jogoBase';
 
 export default function App() {
-  const [appState, setAppState] = useState('login');
-  const [user, setUser] = useState(null);
+  console.log('[App] render start');
+  // Em ambiente de desenvolvimento (Vite) abrir direto no dashboard com um usuário mock
+  const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV;
+  const [appState, setAppState] = useState(isDev ? 'dashboard' : 'login');
+  const [user, setUser] = useState(isDev ? { name: 'Dev', email: 'dev@example.com' } : null);
 
   const handleLogin = (email, password) => {
     const mockUser = {
@@ -28,6 +32,12 @@ export default function App() {
   const handleLogout = () => {
     setUser(null);
     setAppState('login');
+  };
+
+  // Quando um exercício for iniciado, abrir a tela do jogo
+  const handleStartExercise = (exercise) => {
+    console.log('[App] iniciar exercício', exercise?.id ?? exercise);
+    setAppState('jogo');
   };
 
   const switchToRegister = () => setAppState('register');
@@ -55,9 +65,14 @@ export default function App() {
     return (
       <Dashboard
         user={user}
-        onLogout={handleLogout}
+  onLogout={handleLogout}
+  onStartExercise={handleStartExercise}
       />
     );
+  }
+
+  if (appState === 'jogo' && user) {
+    return <Jogo />;
   }
 
   // Fallback - nunca deve chegar aqui
