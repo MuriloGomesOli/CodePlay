@@ -281,7 +281,7 @@
 
 /* src/components/styles/GameView.module.css */
 .gameCard {
-  background-color: #A6D7B4; /* Fundo verde claro da fazenda */
+  background-color: #a7d0fb; /* Fundo verde claro da fazenda */
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -295,8 +295,8 @@
 .sun {
   position: absolute;
   top: 25px;
-  right: 25px;
-  width: 80px; /* Ajuste o tamanho conforme necessário */
+  right: 180px;
+  width: 180px; /* Ajuste o tamanho conforme necessário */
   height: auto;
 }
 
@@ -313,15 +313,15 @@
 .chicken {
   position: absolute;
   bottom: 10px; /* Ajuste para que a base da galinha fique no fundo do card */
-  right: 20%; /* Posição da galinha */
-  width: 100px; /* Ajuste o tamanho conforme necessário */
+  right: -10%; /* Posição da galinha */
+  width: 1000px; /* Ajuste o tamanho conforme necessário */
   height: auto;
   z-index: 3; /* Galinha à frente da fazenda */
 }
 
 .speechBubble {
-  background-color: #FF7F50; /* Laranja do balão de fala */
-  color: white;
+  background-color: #ffffff; /* Laranja do balão de fala */
+  color: rgb(0, 0, 0);
   padding: 10px 15px;
   border-radius: 20px;
   position: absolute;
@@ -345,5 +345,5 @@
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 10px solid #FF7F50; /* Cor da ponta igual ao balão */
+  border-top: 10px solid #ffffff; /* Cor da ponta igual ao balão */
 }
