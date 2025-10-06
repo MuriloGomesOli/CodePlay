@@ -1,0 +1,42 @@
+.# .gitignore - repo root
+# Ignore node modules
+node_modules/
+
+# build outputs
+dist/
+build/
+out/
+.vite/
+.cache/
+
+# dotenv files
+.env
+.env.*.local
+
+# logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# OS generated files
+desktop.ini
+
+# Test coverage
+coverage/
+
+# Package manager lockfiles (keep if you use them intentionally)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Misc
+*.tgz
+dist-ssr/

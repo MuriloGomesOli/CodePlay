@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import '../styles/components/dashboard.css';
+import '../../src/index.css'
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
@@ -26,10 +28,10 @@ interface Exercise {
 const frontendExercises: Exercise[] = [
   {
     id: 1,
-    title: 'Landing Page Responsiva',
-    description: 'Crie uma landing page responsiva usando HTML, CSS e JavaScript.',
+    title: 'A fazenda da Galinha',
+    description: 'Ajude a Galinha Lola a montar sua fazenda.',
     difficulty: 'Fácil',
-    technologies: ['HTML', 'CSS', 'JavaScript'],
+    technologies: [ 'CSS'],
   },
   {
     id: 2,
@@ -103,11 +105,11 @@ function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex
   };
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
+    <Card className="hover:shadow-md transition-shadow dashboard-card">
       <CardHeader>
         <div className="flex justify-between items-start">
           <CardTitle className="text-lg">{exercise.title}</CardTitle>
-          <Badge className={difficultyColors[exercise.difficulty]}>
+          <Badge className={`badge-difficulty ${exercise.difficulty === 'Fácil' ? 'easy' : exercise.difficulty === 'Médio' ? 'medium' : 'hard'}`}>
             {exercise.difficulty}
           </Badge>
         </div>
@@ -134,25 +136,25 @@ function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex
 export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
-      <header className="bg-card border-b shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header className="dashboard-header bg-card border-b shadow-sm">
+        <div className="page-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 brand">
               <Code className="h-8 w-8 text-primary" />
-              <h1 className="text-primary">DevChallenges</h1>
+              <h1 className="text-primary">CODEPLAY</h1>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 actions">
               <span className="text-muted-foreground">Olá, {user.name}</span>
               <Button variant="outline" size="sm" onClick={onLogout}>
                 <LogOut className="h-4 w-4 mr-2" />
-                Sair
+                HOME
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="page-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h2 className="text-3xl text-primary mb-2">Desafios de Programação</h2>
           <p className="text-muted-foreground">
@@ -177,7 +179,7 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
           </TabsList>
 
           <TabsContent value="frontend">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="exercise-grid">
               {frontendExercises.map((exercise) => (
                 <ExerciseCard key={exercise.id} exercise={exercise} onStart={onStartExercise} />
               ))}
@@ -185,7 +187,7 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
           </TabsContent>
 
           <TabsContent value="backend">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="exercise-grid">
               {backendExercises.map((exercise) => (
                 <ExerciseCard key={exercise.id} exercise={exercise} />
               ))}
@@ -193,7 +195,7 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
           </TabsContent>
 
           <TabsContent value="database">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="exercise-grid">
               {databaseExercises.map((exercise) => (
                 <ExerciseCard key={exercise.id} exercise={exercise} />
               ))}

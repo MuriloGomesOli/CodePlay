@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import '../styles/components/login.css';
+import '../../src/index.css'
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -42,11 +44,11 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="login-hero">
+      <Card className="login-card">
         <CardHeader className="text-center flex flex-col items-center">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <img src={logo} alt="Logo CodePlay" className="h-8 w-8 rounded" />
+          <div className="login-brand">
+            <img src={logo} alt="Logo CodePlay" className="login-logo" />
             <CardTitle className="text-primary text-2xl font-bold">CodePlay</CardTitle>
           </div>
           <CardDescription>
@@ -64,6 +66,7 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoFocus
               />
             </div>
             <div className="space-y-2">
@@ -78,17 +81,8 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
               />
             </div>
             {message && (
-              <div className="mt-4 mx-auto w-full flex justify-center">
-                <div
-                  className={`px-4 py-2 rounded text-center font-semibold
-                    ${message.startsWith('Bem-vindo')
-                      ? 'border-2 border-green-600 text-green-700 bg-green-50'
-                      : 'border-2 border-red-600 text-red-700 bg-red-50'}
-                  `}
-                  style={{ maxWidth: '300px' }}
-                >
-                  {message}
-                </div>
+              <div className={`login-message ${message.startsWith('Bem-vindo') ? 'success' : 'error'}`} aria-live="polite">
+                <div className="box">{message}</div>
               </div>
             )}
             <Button type="submit" className="w-full" disabled={loading}>
