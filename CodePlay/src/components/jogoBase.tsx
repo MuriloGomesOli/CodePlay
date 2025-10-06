@@ -6,7 +6,7 @@ import '../../src/index.css'
 
 
 // Usando CSS Modules para evitar conflitos de estilo
-import styles from '../styles/components/jogo.module.css';
+import styles from '../styles/jogo.module.css';
 
 const App: React.FC = () => {
   return (

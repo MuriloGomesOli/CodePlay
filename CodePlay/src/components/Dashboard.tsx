@@ -47,6 +47,27 @@ const frontendExercises: Exercise[] = [
     difficulty: 'Difícil',
     technologies: ['React', 'D3.js', 'Tailwind'],
   },
+    {
+    id: 3,
+    title: 'Dashboard Avançado',
+    description: 'Construa um dashboard complexo com gráficos e animações.',
+    difficulty: 'Difícil',
+    technologies: ['React', 'D3.js', 'Tailwind'],
+  },
+    {
+    id: 3,
+    title: 'Dashboard Avançado',
+    description: 'Construa um dashboard complexo com gráficos e animações.',
+    difficulty: 'Difícil',
+    technologies: ['React', 'D3.js', 'Tailwind'],
+  },
+    {
+    id: 3,
+    title: 'Dashboard Avançado',
+    description: 'Construa um dashboard complexo com gráficos e animações.',
+    difficulty: 'Difícil',
+    technologies: ['React', 'D3.js', 'Tailwind'],
+  },
 ];
 
 const backendExercises: Exercise[] = [
