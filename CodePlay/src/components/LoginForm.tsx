@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import '../styles/components/login.css';
+import '../styles//login.css';
 import '../../src/index.css'
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import logo from './logo.jpg';
+import Logo from './Logo.jsx';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
 interface LoginFormProps {
@@ -48,8 +49,8 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
       <Card className="login-card">
         <CardHeader className="text-center flex flex-col items-center">
           <div className="login-brand">
-            <img src={logo} alt="Logo CodePlay" className="login-logo" />
-            <CardTitle className="text-primary text-2xl font-bold">CodePlay</CardTitle>
+            <Logo/>
+            <CardTitle className="text-primary text-2xl font-bold"> CodePlay</CardTitle>
           </div>
           <CardDescription>
             Entre na sua conta para acessar os desafios
@@ -58,11 +59,11 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">E-mail</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="seu@email.com"
+                placeholder="xxx@xxx.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

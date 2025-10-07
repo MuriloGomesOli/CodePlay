@@ -3,9 +3,9 @@ import React from 'react';
 import styles from '../../styles/jogo.module.css';
 
 // Importe as imagens existentes no projeto
-import farmImage from '../fazenda.png';
-import chickenImage from '../Lola.png';
-import sunImage from '../sol.png';
+import farmImage from '../../assets/fazenda.png';
+import chickenImage from '../../assets/Lola.png';
+import sunImage from '../../assets/sol.png';
 
 const GameView: React.FC = () => {
   return (

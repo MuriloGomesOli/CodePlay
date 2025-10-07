@@ -1,3 +1,4 @@
+/* Entrada do Tailwind (diretivas @tailwind / imports) - caminho absoluto resolvido pelo Vite */
 /* global.css
    - Importa o CSS gerado pelo Tailwind (index.css)
    - Contém comentários e estilos globais do projeto
@@ -5,8 +6,6 @@
    NOTA: Não remova a importação do `../index.css` — esse arquivo
    contém todo o CSS utilitário gerado pelo Tailwind.
 */
-
-@import "/src/styles/components/tailwind.css"; /* Entrada do Tailwind (diretivas @tailwind / imports) - caminho absoluto resolvido pelo Vite */
 @import "./theme.css";    /* Tokens de tema e regras base */
 
 /* Espaço para estilos globais customizados do projeto.
