@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import Logo from './Logo.jsx';
 import '../../src/index.css'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
@@ -70,7 +71,10 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center">
-          <CardTitle className="text-primary">CodePlay</CardTitle>
+          <div className="login-brand">
+            <Logo/>
+            <CardTitle className="text-primary text-2xl font-bold"> CodePlay</CardTitle>
+          </div>
           <CardDescription>
             Crie sua conta e comece a praticar
           </CardDescription>

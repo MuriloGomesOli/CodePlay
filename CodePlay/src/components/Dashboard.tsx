@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import '../styles/components/dashboard.css';
+import '../styles//dashboard.css';
 import '../../src/index.css'
 import { Button } from './ui/button';
+import Logo from './Logo.jsx';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Badge } from './ui/badge';
-import { LogOut, Code, Database, Palette, Monitor } from 'lucide-react';
+import { LogOut, Database, Palette, Monitor } from 'lucide-react';
 
 interface DashboardProps {
   user: {
@@ -41,27 +42,6 @@ const frontendExercises: Exercise[] = [
     technologies: ['React', 'TypeScript', 'CSS'],
   },
   {
-    id: 3,
-    title: 'Dashboard Avançado',
-    description: 'Construa um dashboard complexo com gráficos e animações.',
-    difficulty: 'Difícil',
-    technologies: ['React', 'D3.js', 'Tailwind'],
-  },
-    {
-    id: 3,
-    title: 'Dashboard Avançado',
-    description: 'Construa um dashboard complexo com gráficos e animações.',
-    difficulty: 'Difícil',
-    technologies: ['React', 'D3.js', 'Tailwind'],
-  },
-    {
-    id: 3,
-    title: 'Dashboard Avançado',
-    description: 'Construa um dashboard complexo com gráficos e animações.',
-    difficulty: 'Difícil',
-    technologies: ['React', 'D3.js', 'Tailwind'],
-  },
-    {
     id: 3,
     title: 'Dashboard Avançado',
     description: 'Construa um dashboard complexo com gráficos e animações.',
@@ -161,14 +141,14 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
         <div className="page-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3 brand">
-              <Code className="h-8 w-8 text-primary" />
-              <h1 className="text-primary">CODEPLAY</h1>
+              <Logo />
+              <button style={{ all: 'unset', cursor: 'pointer' }} onClick={() => window.location.reload()}><h1>CodePlay</h1></button>
             </div>
             <div className="flex items-center space-x-4 actions">
               <span className="text-muted-foreground">Olá, {user.name}</span>
               <Button variant="outline" size="sm" onClick={onLogout}>
                 <LogOut className="h-4 w-4 mr-2" />
-                HOME
+
               </Button>
             </div>
           </div>
