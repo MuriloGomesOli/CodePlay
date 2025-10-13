@@ -179,6 +179,7 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
               {loading ? 'Criando...' : 'Criar Conta'}
             </Button>
           </form>
+          
           <div className="mt-4 text-center">
             <p className="text-muted-foreground">
               Já tem uma conta?{' '}
