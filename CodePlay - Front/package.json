@@ -18,7 +18,7 @@
     "express": "^5.1.0",
     "lucide-react": "^0.542.0",
     "mysql": "^2.18.1",
-    "mysql2": "^3.15.1",
+    "mysql2": "^3.15.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwind": "^4.0.0",
@@ -38,5 +38,10 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.14",
     "vite": "^7.1.4"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

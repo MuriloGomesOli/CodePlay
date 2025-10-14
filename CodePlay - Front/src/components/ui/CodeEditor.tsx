@@ -11,7 +11,7 @@ try {
 const CodeEditor: React.FC = () => {
   const [showHint, setShowHint] = useState(false); // controla a visibilidade da dica
 
-  const codeExample = `print("frase esperada")`;
+  const codeExample = `/* Exemplo de comando CSS */`;
 
   return (
     <div className={styles.codeCard}>

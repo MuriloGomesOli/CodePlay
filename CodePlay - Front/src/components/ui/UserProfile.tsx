@@ -26,7 +26,7 @@ const UserProfile: React.FC = () => {
         <p className={styles.userTitle}>Desenvolvedor iniciante</p>
 
         <div className={styles.statusBadges}>
-          <span className={styles.badgePython}>Python</span>
+          <span className={styles.badgePython}>CSS</span>
           <span className={styles.badgeModule}>Módulo: 1</span>
           <span className={styles.badgeLevel}>Nível: 1</span>
         </div>
@@ -37,11 +37,6 @@ const UserProfile: React.FC = () => {
           <button className={`${styles.navButton} ${styles.logoutButton}`}>Sair</button>
         </div>
 
-        <div className={styles.socialIcons}>
-          <a href="#"><img src={instagramIcon} alt="Instagram" /></a>
-          <a href="#"><img src={facebookIcon} alt="Facebook" /></a>
-          <a href="#"><img src={twitterIcon} alt="Twitter" /></a>
-        </div>
       </div>
     </div>
   );

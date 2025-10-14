@@ -25,17 +25,19 @@ connection.connect(err => {
 app.post('/api/register', (req, res) => {
   const { name, email, password, age, gender, location, reason, referral } = req.body;
   connection.query(
-    'INSERT INTO users (name, email, password, age, gender, location, reason, referral) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    [name, email, password, age, gender, location, reason, referral],
-    (err, result) => {
-      if (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
-          return res.status(400).json({ message: 'Email já cadastrado' });
-        }
-        return res.status(500).json({ message: 'Erro ao cadastrar usuário' });
+  'INSERT INTO users (name, email, password, age, gender, location, reason, referral) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+  [name, email, password, age, gender, location, reason, referral],
+  (err, result) => {
+    if (err) {
+      console.error('❌ ERRO DETALHADO AO CADASTRAR:', err); // <-- Adicione este log
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(400).json({ message: 'Email já cadastrado' });
       }
-      res.status(201).json({ message: 'Usuário cadastrado com sucesso' });
+      return res.status(500).json({ message: 'Erro ao cadastrar usuário' });
     }
+    console.log('✅ Usuário cadastrado com sucesso, ID:', result.insertId);
+    res.status(201).json({ message: 'Usuário cadastrado com sucesso' });
+  }
   );
 });
 

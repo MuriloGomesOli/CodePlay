@@ -14,7 +14,7 @@ const GameView: React.FC = () => {
       <img src={farmImage} alt="Fazenda" className={styles.farm} />
       <img src={chickenImage} alt="Galinha Lola" className={styles.chicken} />
       <div className={styles.speechBubble}>
-        frase esperada
+        Olá! Sou a Galinha Lola. Vamos montar minha fazenda juntos?
       </div>
     </div>
   );

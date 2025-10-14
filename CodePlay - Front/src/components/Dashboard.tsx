@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import '../styles//dashboard.css';
-import '../../src/index.css'
-import { Button } from './ui/button';
+import '../styles/dashboard.css';
+import '../index.css'
+import { Button } from './ui/button.js';
 import Logo from './Logo.jsx';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Badge } from './ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card.js';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs.js';
+import { Badge } from './ui/badge.js';
 import { LogOut, Database, Palette, Monitor } from 'lucide-react';
 
 interface DashboardProps {
@@ -46,7 +46,7 @@ const frontendExercises: Exercise[] = [
     title: 'Dashboard Avançado',
     description: 'Construa um dashboard complexo com gráficos e animações.',
     difficulty: 'Difícil',
-    technologies: ['React', 'D3.js', 'Tailwind'],
+    technologies: ['React', 'Tailwind'],
   },
 ];
 
@@ -56,21 +56,21 @@ const backendExercises: Exercise[] = [
     title: 'API REST com Node.js',
     description: 'Crie uma API REST simples para gerenciar usuários.',
     difficulty: 'Fácil',
-    technologies: ['Node.js', 'Express', 'JavaScript'],
+    technologies: ['Node.js', 'JavaScript'],
   },
   {
     id: 5,
     title: 'Sistema de Autenticação',
     description: 'Implemente autenticação JWT em uma aplicação Node.js.',
     difficulty: 'Médio',
-    technologies: ['Node.js', 'JWT', 'bcrypt'],
+    technologies: ['Node.js', 'bcrypt'],
   },
   {
     id: 6,
     title: 'Microserviços',
     description: 'Desenvolva uma arquitetura de microserviços completa.',
     difficulty: 'Difícil',
-    technologies: ['Docker', 'Node.js', 'Redis'],
+    technologies: ['Node.js'],
   },
 ];
 
@@ -80,21 +80,21 @@ const databaseExercises: Exercise[] = [
     title: 'Modelagem de Dados',
     description: 'Projete um esquema de banco de dados para um e-commerce.',
     difficulty: 'Fácil',
-    technologies: ['MySQL', 'SQL', 'Diagrama ER'],
+    technologies: ['MySQL', 'SQL'],
   },
   {
     id: 8,
     title: 'Consultas Complexas',
     description: 'Escreva consultas SQL avançadas com JOINs e subconsultas.',
     difficulty: 'Médio',
-    technologies: ['PostgreSQL', 'SQL', 'Índices'],
+    technologies: [ 'SQL', 'Índices'],
   },
   {
     id: 9,
     title: 'Otimização de Performance',
     description: 'Otimize queries e configure índices para melhor performance.',
     difficulty: 'Difícil',
-    technologies: ['MongoDB', 'Índices', 'Aggregation'],
+    technologies: ['MySQL'],
   },
 ];
 
