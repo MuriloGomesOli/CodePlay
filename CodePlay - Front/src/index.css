@@ -287,6 +287,7 @@
   }
 }
 
+
 /* --- Layer: base ---
   Propósito: estilos base e reset/global (normalize-like).
   Aqui ficam regras para tipografia base, elementos HTML (a, img,
@@ -4298,82 +4299,68 @@
 }
 
 :root {
+  /* Tipografia e Layout (Não mudam no dark) */
   --font-size: 14px;
-  --background: #fdf8f4;
-  --foreground: #3a2317;
-  --card: #fff;
-  --card-foreground: #3a2317;
-  --popover: #fff;
-  --popover-foreground: #3a2317;
-  --primary: #c85a3a;
-  --primary-foreground: #fff;
-  --secondary: #f4e4d8;
-  --secondary-foreground: #3a2317;
-  --muted: #f7ede4;
-  --muted-foreground: #8b6f47;
-  --accent: #e6c2a6;
-  --accent-foreground: #3a2317;
-  --destructive: #dc3545;
-  --destructive-foreground: #fff;
-  --border: #c85a3a33;
-  --input: transparent;
-  --input-background: #faf6f2;
-  --switch-background: #e6c2a6;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #c85a3a;
-  --chart-1: #c85a3a;
-  --chart-2: #d4742a;
-  --chart-3: #e6c2a6;
-  --chart-4: #8b6f47;
-  --chart-5: #a68b5b;
   --radius: .625rem;
-  --sidebar: #fdf8f4;
-  --sidebar-foreground: #3a2317;
-  --sidebar-primary: #c85a3a;
-  --sidebar-primary-foreground: #fff;
-  --sidebar-accent: #f4e4d8;
-  --sidebar-accent-foreground: #3a2317;
-  --sidebar-border: #c85a3a33;
-  --sidebar-ring: #c85a3a;
+  --input: transparent; /* Padrão claro */
+  --switch-background: #e6c2a6;
+
+  /* Cores - Tema Claro (Padrão) */
+  --background: #fdf8f4;
+  --foreground: #3a2317;
+  
+  --primary: #c85a3a; /* Laranja/Marrom Principal */
+  --primary-foreground: #fff;
+  
+  --secondary: #f4e4d8;
+  --secondary-foreground: var(--foreground);
+  
+  --muted: #f7ede4;
+  --muted-foreground: #8b6f47;
+  
+  --accent: #e6c2a6;
+  --accent-foreground: var(--foreground);
+  
+  --destructive: #dc3545;
+  --destructive-foreground: #fff;
+  
+  --ring: var(--primary);
+  --border: #c85a3a33;
+  --input-background: #faf6f2;
+
+  /* Sidebar e componentes análogos (herdam as cores primárias) */
+  --card: var(--background);
+  --popover: var(--background);
+  --sidebar: var(--background);
+  /* ... e as cores -foreground, -border, -ring */
 }
 
 .dark {
+  /* Cores - Tema Escuro */
   --background: #2a1810;
   --foreground: #fdf8f4;
-  --card: #3a2317;
-  --card-foreground: #fdf8f4;
-  --popover: #3a2317;
-  --popover-foreground: #fdf8f4;
-  --primary: #e67849;
+  
+  --primary: #e67849; /* Laranja/Marrom Mais Claro */
   --primary-foreground: #2a1810;
+  
   --secondary: #4a3425;
-  --secondary-foreground: #fdf8f4;
-  --muted: #4a3425;
+  --secondary-foreground: var(--foreground);
+  
+  --muted: var(--secondary);
   --muted-foreground: #a68b5b;
+  
   --accent: #5a4332;
-  --accent-foreground: #fdf8f4;
-  --destructive: #dc3545;
-  --destructive-foreground: #fdf8f4;
+  --accent-foreground: var(--foreground);
+  
   --border: #e678494d;
-  --input: #4a3425;
-  --ring: #e67849;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --chart-1: #e67849;
-  --chart-2: #f4862a;
-  --chart-3: #a68b5b;
-  --chart-4: #8b6f47;
-  --chart-5: #c85a3a;
-  --sidebar: #2a1810;
-  --sidebar-foreground: #fdf8f4;
-  --sidebar-primary: #e67849;
-  --sidebar-primary-foreground: #2a1810;
-  --sidebar-accent: #4a3425;
-  --sidebar-accent-foreground: #fdf8f4;
-  --sidebar-border: #e678494d;
-  --sidebar-ring: #e67849;
+  --input: var(--secondary);
+  --ring: var(--primary);
+
+  /* O restante das variáveis de cor do tema escuro herdam de 'background', 'foreground', 'primary', 'secondary', etc. */
 }
+
 
 html {
   font-size: var(--font-size);
@@ -4733,15 +4720,6 @@ html {
   }
 }
 
-@keyframes accordion-up {
-  from {
-    height: var(--radix-accordion-content-height, var(--bits-accordion-content-height));
-  }
-
-  to {
-    height: 0;
-  }
-}
 
 @keyframes caret-blink {
   0%, 70%, 100% {

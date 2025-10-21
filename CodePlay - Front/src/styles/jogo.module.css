@@ -1,32 +1,31 @@
 /* src/styles/jogo.module.css */
 .appContainer {
   display: grid;
-  /* Define 3 colunas, com a do meio um pouco maior (ex: 1.5fr) */
   grid-template-columns: 1fr 1.5fr 1fr;
-  gap: 20px; /* Espaçamento entre as colunas */
+  gap: 20px;
   padding: 20px;
-  min-height: 100vh; /* Ocupa a altura total da viewport */
-  background-color: #FAE4DA; /* Cor de fundo pêssego */
-  box-sizing: border-box; /* Garante que padding e border não aumentem o tamanho total */
+  min-height: 100vh;
+  background-color: #FAE4DA;
+  box-sizing: border-box;
 }
 
-/* Opcional: para telas menores, empilhar as colunas */
 @media (max-width: 1024px) {
   .appContainer {
-    grid-template-columns: 1fr; /* Uma única coluna */
+    grid-template-columns: 1fr;
     gap: 15px;
     padding: 15px;
   }
 }
+
 .profileCard {
-  background-color: #FFF7F3; /* Fundo branco/bege claro */
+  background-color: #FFF7F3;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Para garantir que o header arredondado fique dentro */
+  overflow: hidden;
 }
 
 .profileHeader {
-  background-color: #FF7F50; /* Laranja do cabeçalho */
+  background-color: #FF7F50;
   color: white;
   padding: 15px 0;
   text-align: center;
@@ -37,6 +36,10 @@
 .profileContent {
   padding: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza horizontalmente */
+  justify-content: center; /* Centraliza verticalmente, se necessário */
 }
 
 .avatar {
@@ -45,7 +48,8 @@
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 15px;
-  border: 3px solid #FF7F50; /* Borda laranja ao redor do avatar */
+  border: 3px solid #FF7F50;
+  left: auto;
 }
 
 .userName {
@@ -69,26 +73,27 @@
 }
 
 .statusBadges span {
-  background-color: #A6D7B4; /* Verde claro */
-  color: #333;
+  background-color: #A6D7B4;
+  color: #640000;
   padding: 5px 10px;
   border-radius: 20px;
   font-size: 0.8em;
   font-weight: 500;
 }
 
+/* Botões de menu */
 .navButtons {
   display: flex;
-  flex-direction: column; /* Botões empilhados */
+  flex-direction: column;
   gap: 10px;
   margin-bottom: 25px;
 }
 
 .navButton {
   background-color: white;
-  border: 1px solid #FF7F50; /* Borda laranja */
+  border: 1px solid #FF7F50;
   color: #FF7F50;
-  padding: 10px 15px;
+  padding: 10px 100px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1em;
@@ -97,13 +102,14 @@
 }
 
 .navButton:hover {
-  background-color: #FF7F50;
+  background-color: #bf3300;
   color: white;
 }
 
+/* Botão sair */
 .logoutButton {
-  background-color: #F8D7DA; /* Um vermelho/rosa mais suave para sair */
-  border-color: #DC3545;
+  background-color: #F8D7DA;
+  border-color: #ff0000;
   color: #DC3545;
 }
 
@@ -123,14 +129,9 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
-  transition: transform 0.2s;
 }
 
-.socialIcons img:hover {
-  transform: scale(1.1);
-}
-
-/* src/components/styles/CodeEditor.module.css */
+/* ----------------------- Code Editor ----------------------- */
 .codeCard {
   background-color: #FFF7F3;
   border-radius: 15px;
@@ -145,8 +146,8 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  background-color: #F0F8FF; /* Um azul muito claro */
-  border: 1px solid #D0E0F0;
+  background-color: #fff0f0;
+  border: 1px solid #f0d0d0;
   border-radius: 10px;
   padding: 15px;
 }
@@ -163,8 +164,8 @@
 }
 
 .instruction {
-  background-color: #E6F3EA; /* Um verde claro */
-  border: 1px solid #C0E0C0;
+  background-color: #E6F3EA;
+  border: 1px solid #00ca00;
   border-radius: 10px;
   padding: 15px;
   font-size: 1em;
@@ -174,49 +175,66 @@
 
 .editorArea {
   display: flex;
-  background-color: #2D2D2D; /* Fundo escuro do editor */
+  background-color: #000000;
   border-radius: 8px;
   padding: 10px;
-  font-family: 'Fira Code', 'Monaco', 'Consolas', monospace; /* Fonte para código */
+  font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
   color: white;
-  min-height: 120px; /* Altura mínima para o editor */
-  align-items: flex-start; /* Alinha o número da linha com o topo */
+  min-height: 100px;
+  align-items: flex-start; /* alinhamento no topo */
 }
 
+
 .lineNumber {
+  font-family: monospace;
+  font-size: 1em;
+  line-height: 1.5; /* MESMO que o textarea */
   color: #888;
-  padding-right: 10px;
-  user-select: none; /* Não permite selecionar o número da linha */
+}
+
+.lineNumbersContainer {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 0px 10px;
+  background-color: #111; /* cor do fundo da linha */
+  border-right: 1px solid #333;
+  text-align: right;
+  user-select: none;
 }
 
 .codeTextarea {
-  flex-grow: 1; /* Preenche o espaço restante */
+  flex-grow: 1;
   background-color: transparent;
   border: none;
   color: white;
-  resize: none; /* Remove a opção de redimensionar */
-  outline: none; /* Remove o contorno ao focar */
+  resize: none;
+  outline: none;
+  font-family: 'Fira Code', monospace;
   font-size: 1em;
-  line-height: 1.5;
-  padding: 0;
-  margin: 0;
+  line-height: 1,5; /* MESMO que os números */
+  padding: 0 10px;
+  white-space: pre-wrap; /* respeita quebras de linha */
+  overflow-wrap: break-word;
 }
 
+/* Hint + Botões */
 .hintSection {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  flex-direction: column; /* Coloca a dica acima dos botões */
+  gap: 10px;
   margin-top: 10px;
 }
 
 .hintBox {
-  background-color: #FFECB3; /* Amarelo da dica */
+  background-color: #FFECB3;
   border: 1px solid #FFD54F;
   border-radius: 10px;
   padding: 10px 15px;
   font-size: 0.9em;
   color: #333;
   flex-grow: 1;
+  position: relative;
 }
 
 .arrow {
@@ -224,36 +242,56 @@
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-left: 10px solid #FFECB3; /* Cor da dica */
-  /* Girar a seta para apontar para o botão */
-  transform: rotate(90deg) translateX(5px);
-  /* Ou se for apontar para a direita: */
-  /* border-left: 10px solid #FFECB3; */
-  /* border-right: none; */
+  border-left: 10px solid #FFECB3;
+  transform: rotate(180deg) translateX(5px);
+  position: absolute;
+  top: 50%;
+  left: -10px;
 }
 
 .buttonGroup {
   display: flex;
   gap: 10px;
+  justify-content: flex-start;
 }
 
 .actionButton {
-  background-color: #FF7F50;
+  background-color: #ff4400;
   color: white;
   border: none;
   border-radius: 8px;
   padding: 8px 15px;
   cursor: pointer;
   font-weight: bold;
-  transition: background-color 0.2s;
 }
 
 .actionButton:hover {
   background-color: #E06C3E;
 }
 
+.buttonLine {
+  display: flex;
+  justify-content: space-between; /* DICA à esquerda, CODEPLAY à direita */
+  gap: 10px; /* Espaço entre os botões */
+  margin-top: 10px;
+}
+
+.hintButton,
+.codePlayButton {
+  flex: 1; /* Faz ambos os botões ocuparem o mesmo espaço */
+  text-align: center;
+  padding: 15px 0; /* Altura uniforme */
+  font-size: 1.2em; /* Mesma fonte */
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Cores individuais */
 .hintButton {
-  background-color: #6C757D; /* Cinza para DICA */
+  background-color: #6C757D;
+  color: white;
+  border: none;
 }
 
 .hintButton:hover {
@@ -261,89 +299,52 @@
 }
 
 .codePlayButton {
-  background-color: #4CAF50; /* Verde para CODEPLAY */
+  background-color: #4CAF50;
   color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 15px 25px;
-  font-size: 1.2em;
-  font-weight: bold;
   text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  align-self: center; /* Centraliza o botão */
-  margin-top: 20px;
+  border: none;
 }
 
 .codePlayButton:hover {
   background-color: #45a049;
 }
 
-/* src/components/styles/GameView.module.css */
+
+/* ----------------------- Game View ----------------------- */
 .gameCard {
-  background-color: #a7d0fb; /* Fundo verde claro da fazenda */
+  background-color: #a7d0fb;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  position: relative; /* Para posicionar elementos filhos com absolute */
-  overflow: hidden; /* Garante que elementos não transbordem as bordas */
+  position: relative;
+  overflow: hidden;
   display: flex;
-  justify-content: center; /* Centraliza o conteúdo horizontalmente */
-  align-items: flex-end; /* Alinha a base dos elementos com o fundo */
-}
-
-.sun {
-  position: absolute;
-  top: 25px;
-  right: 180px;
-  width: 180px; /* Ajuste o tamanho conforme necessário */
-  height: auto;
-}
-
-.farm {
-  position: absolute;
-  bottom: 10px; /* Ajuste para que a base da fazenda fique no fundo do card */
-  left: 50%;
-  transform: translateX(-50%); /* Centraliza horizontalmente */
-  width: 250px; /* Ajuste o tamanho conforme necessário */
-  height: auto;
-  z-index: 2; /* Garante que a fazenda fique na frente da grama de fundo */
-}
-
-.chicken {
-  position: absolute;
-  bottom: 10px; /* Ajuste para que a base da galinha fique no fundo do card */
-  right: -10%; /* Posição da galinha */
-  width: 1000px; /* Ajuste o tamanho conforme necessário */
-  height: auto;
-  z-index: 3; /* Galinha à frente da fazenda */
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .speechBubble {
-  background-color: #ffffff; /* Laranja do balão de fala */
+  background-color: #ffffff;
   color: rgb(0, 0, 0);
   padding: 10px 15px;
   border-radius: 20px;
   position: absolute;
-  top: 80px; /* Posição vertical do balão */
-  right: 15%; /* Posição horizontal do balão */
+  top: 50px;
+  right: 5%;
   font-size: 1em;
   font-weight: bold;
-  z-index: 4; /* Balão de fala à frente de tudo */
-  /* Propriedades para criar a "ponta" do balão */
-  /* Você pode usar CSS para desenhar o triângulo ou uma imagem */
+  z-index: 4;
 }
 
-/* Exemplo de como fazer a ponta do balão com CSS */
 .speechBubble::after {
   content: '';
   position: absolute;
-  bottom: -10px; /* Ajuste para a ponta ficar abaixo do balão */
-  left: 50%; /* Centraliza a ponta */
+  bottom: -10px;
+  left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 10px solid #ffffff; /* Cor da ponta igual ao balão */
+  border-top: 10px solid #ffffff;
 }

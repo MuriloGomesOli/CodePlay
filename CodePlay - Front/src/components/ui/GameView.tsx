@@ -2,20 +2,20 @@
 import React from 'react';
 import styles from '../../styles/jogo.module.css';
 
-// Importe as imagens existentes no projeto
-import farmImage from '../../assets/fazenda.png';
-import chickenImage from '../../assets/Lola.png';
-import sunImage from '../../assets/sol.png';
+interface GameViewProps {
+  falaPersonagem: string;        // Texto da fala do personagem
+  fundo: string;                 // Imagem de fundo (cenário)
+  personagem: string;            // Imagem do personagem principal
+  extra?: string;                // Elemento extra opcional (sol, árvore, etc.)
+}
 
-const GameView: React.FC = () => {
+const GameView: React.FC<GameViewProps> = ({ falaPersonagem, fundo, personagem, extra }) => {
   return (
     <div className={styles.gameCard}>
-      <img src={sunImage} alt="Sol" className={styles.sun} />
-      <img src={farmImage} alt="Fazenda" className={styles.farm} />
-      <img src={chickenImage} alt="Galinha Lola" className={styles.chicken} />
-      <div className={styles.speechBubble}>
-        Olá! Sou a Galinha Lola. Vamos montar minha fazenda juntos?
-      </div>
+      {extra && <img src={extra} alt="Extra" className={styles.extraImage} />}
+      <img src={fundo} alt="Cenário" className={styles.farm} />
+      <img src={personagem} alt="Personagem" className={styles.chicken} />
+      <div className={styles.speechBubble}>{falaPersonagem}</div>
     </div>
   );
 };
