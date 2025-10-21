@@ -190,7 +190,7 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
           <TabsContent value="backend">
             <div className="exercise-grid">
               {backendExercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} />
+                <ExerciseCard key={exercise.id} exercise={exercise}  onStart={onStartExercise}/>
               ))}
             </div>
           </TabsContent>
@@ -198,7 +198,7 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
           <TabsContent value="database">
             <div className="exercise-grid">
               {databaseExercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} />
+                <ExerciseCard key={exercise.id} exercise={exercise} onStart={onStartExercise} />
               ))}
             </div>
           </TabsContent>

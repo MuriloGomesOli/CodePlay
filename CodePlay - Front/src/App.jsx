@@ -2,11 +2,19 @@ import { useState } from 'react';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { Dashboard } from './components/Dashboard';
+
 import Jogo from './components/games/front-game/jogoBase';
 import JogoFront2 from './components/games/front-game/jogoFront2';
 import JogoFront3 from './components/games/front-game/jogoFront3';
 
+import BackGame1 from './components/games/back-game/backgame1';
+import BackGame2 from './components/games/back-game/backgame2';
+import BackGame3 from './components/games/back-game/backgame3';
 
+import BcdGame1 from './components/games/bcd-game/bcdgame';
+import BcdGame2 from './components/games/bcd-game/bcdgame2';
+import BcdGame3 from './components/games/bcd-game/bcdgame3';
+//----------------------------------------------------------------------------------------
 
 
 export default function App() {
@@ -39,26 +47,49 @@ export default function App() {
     setAppState('login');
   };
 
-  // Quando um exercício for iniciado, abrir a tela do jogo
   const handleStartExercise = (exercise) => {
   console.log('[App] iniciar exercício', exercise?.id ?? exercise);
 
-  // Abre o jogo correspondente com base no ID do exercício
   switch (exercise.id) {
+    // FRONT-END
     case 1:
-      setAppState('jogo1'); // A fazenda da Galinha
+      setAppState('jogoFront1');
       break;
     case 2:
-      setAppState('jogo2'); // Todo List com React
+      setAppState('jogoFront2');
       break;
     case 3:
-      setAppState('jogo3'); // Dashboard Avançado
+      setAppState('jogoFront3');
       break;
+
+    // BACK-END
+    case 4:
+      setAppState('jogoBack1');
+      break;
+    case 5:
+      setAppState('jogoBack2');
+      break;
+    case 6:
+      setAppState('jogoBack3');
+      break;
+
+    // BANCO DE DADOS
+    case 7:
+      setAppState('jogoBcd1');
+      break;
+    case 8:
+      setAppState('jogoBcd2');
+      break;
+    case 9:
+      setAppState('jogoBcd3');
+      break;
+
     default:
       console.warn('Nenhum jogo vinculado a este exercício:', exercise);
       break;
   }
 };
+
 
   const switchToRegister = () => setAppState('register');
   const switchToLogin = () => setAppState('login');
@@ -92,9 +123,20 @@ export default function App() {
   }
 
   const games = {
-  jogo1: <Jogo />,
-  jogo2: <JogoFront2 />,
-  jogo3: <JogoFront3 />,
+  // FRONT-END
+  jogoFront1: <Jogo />,
+  jogoFront2: <JogoFront2 />,
+  jogoFront3: <JogoFront3 />,
+
+  // BACK-END
+  jogoBack1: <BackGame1 />,
+  jogoBack2: <BackGame2 />,
+  jogoBack3: <BackGame3 />,
+
+  // BANCO DE DADOS
+  jogoBcd1: <BcdGame1 />,
+  jogoBcd2: <BcdGame2 />,
+  jogoBcd3: <BcdGame3 />,
 };
 
 if (user && games[appState]) {
