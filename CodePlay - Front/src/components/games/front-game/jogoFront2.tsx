@@ -5,6 +5,8 @@ import GameView from '../../ui/GameView';
 import '../../../index.css'
 import '../../../global.d.ts'
 import Fazenda from '../../../assets/fazenda.png'
+import Fazendeiro from '../../../assets/fazendeiro.png'
+import Trator from '../../../assets/trator.png'
 // Usando CSS Modules para evitar conflitos de estilo
 import styles from '../../../styles/jogo.module.css';
 

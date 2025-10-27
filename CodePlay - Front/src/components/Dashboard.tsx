@@ -29,17 +29,17 @@ interface Exercise {
 const frontendExercises: Exercise[] = [
   {
     id: 1,
-    title: 'A fazenda da Galinha',
+    title: '🐔 A Fazenda da Galinha',
     description: 'Ajude a Galinha Lola a montar sua fazenda.',
     difficulty: 'Fácil',
     technologies: [ 'CSS'],
   },
   {
     id: 2,
-    title: 'Todo List com React',
-    description: 'Desenvolva uma aplicação de lista de tarefas usando React e hooks.',
-    difficulty: 'Médio',
-    technologies: ['React', 'TypeScript', 'CSS'],
+    title: '🐮 Anime a Fazenda',
+    description: 'Desenvolva animações para os elementos da fazenda.',
+    difficulty: 'Fácil',
+    technologies: ['CSS'],
   },
   {
     id: 3,
@@ -157,9 +157,10 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
 
       <main className="page-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl text-primary mb-2">Desafios de Programação</h2>
+          <p></p>
+          <h2 className="dashboard-title">Desafios de Programação</h2>
           <p className="text-muted-foreground">
-            Escolha uma categoria e comece a praticar suas habilidades
+            Escolha uma categoria de qual deseja ingressar e comece a praticar suas habilidades!
           </p>
         </div>
 
@@ -167,15 +168,15 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
           <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="frontend" className="flex items-center space-x-2">
               <Palette className="h-4 w-4" />
-              <span>Front-End</span>
+              <span>Front-End </span>
             </TabsTrigger>
             <TabsTrigger value="backend" className="flex items-center space-x-2">
               <Monitor className="h-4 w-4" />
-              <span>Back-End</span>
+              <span>Back-End </span>
             </TabsTrigger>
             <TabsTrigger value="database" className="flex items-center space-x-2">
               <Database className="h-4 w-4" />
-              <span>Banco de Dados</span>
+              <span>Banco de Dados </span>
             </TabsTrigger>
           </TabsList>
 

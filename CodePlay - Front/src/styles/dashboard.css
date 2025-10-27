@@ -174,3 +174,29 @@
   transform: translateY(0);
   box-shadow: none;
 }
+
+
+/* ==============================
+   TÍTULOS PRINCIPAIS (LARANJA PREMIUM)
+   ============================== */
+
+.dashboard-title {
+  font-size: 2.75rem; /* ~44px */
+  font-weight: 800;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 3rem 0 2rem 0;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, #932b05);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Compatível com dark mode */
+@media (prefers-color-scheme: dark) {
+  .dashboard-title {
+    text-shadow: 0 0 18px rgba(255, 127, 80, 0.5);
+  }
+}
+
