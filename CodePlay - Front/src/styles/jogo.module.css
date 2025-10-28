@@ -1,135 +1,65 @@
 /* src/styles/jogo.module.css */
+/* ----------------------- Layout geral ----------------------- */
 .appContainer {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
-  gap: 20px;
-  padding: 20px;
-  min-height: 100vh;
-  background-color: #FAE4DA;
-  box-sizing: border-box;
+  grid-template-columns: 3fr 4fr 3fr; /* 3 áreas: info | editor | game */
+  padding: 10px;
+  background-color: rgba(242, 232, 144, 0.58);
 }
 
-@media (max-width: 1024px) {
-  .appContainer {
-    grid-template-columns: 1fr;
-    gap: 15px;
-    padding: 15px;
-  }
-}
-
-.profileCard {
-  background-color: #FFF7F3;
+/* ----------------------- Exercise Info (à esquerda) ----------------------- */
+.exerciseInfoCard {
+  background-color: #fffbea;
+  border: 2px solid #ffe58f;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.profileHeader {
-  background-color: #FF7F50;
-  color: white;
-  padding: 15px 0;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.1em;
-}
-
-.profileContent {
-  padding: 20px;
-  text-align: center;
-  display: flex;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   flex-direction: column;
-  align-items: center; /* Centraliza horizontalmente */
-  justify-content: center; /* Centraliza verticalmente, se necessário */
+  justify-content: space-between;
 }
 
-.avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 15px;
-  border: 3px solid #FF7F50;
-  left: auto;
-}
-
-.userName {
-  font-size: 1.3em;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-.userTitle {
-  font-size: 0.9em;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.statusBadges {
+.infoHeader {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 25px;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
 }
 
-.statusBadges span {
-  background-color: #A6D7B4;
-  color: #640000;
-  padding: 5px 10px;
-  border-radius: 20px;
+.infoTitle {
+  font-size: 2em;
+  font-weight: bold;
+  color: #444;
+  text-align: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  padding: 10px;
+}
+
+.infoModule {
   font-size: 0.8em;
-  font-weight: 500;
-}
-
-/* Botões de menu */
-.navButtons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 25px;
-}
-
-.navButton {
-  background-color: white;
-  border: 1px solid #FF7F50;
-  color: #FF7F50;
-  padding: 10px 100px;
+  color: #662f00;
+  background-color: #fff3cd;
   border-radius: 8px;
-  cursor: pointer;
+  padding: 4px 8px;
+  text-align: center;
+
+}
+
+
+.infoDescription,
+.infoContext,
+.infoObjective {
   font-size: 1em;
-  font-weight: bold;
-  transition: all 0.2s ease-in-out;
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.6;
 }
 
-.navButton:hover {
-  background-color: #bf3300;
-  color: white;
+/* Opcional: deixar o texto mais suave */
+.infoDescription strong,
+.infoContext strong,
+.infoObjective strong {
+  color: #222;
 }
 
-/* Botão sair */
-.logoutButton {
-  background-color: #F8D7DA;
-  border-color: #ff0000;
-  color: #DC3545;
-}
-
-.logoutButton:hover {
-  background-color: #DC3545;
-  color: white;
-}
-
-.socialIcons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.socialIcons img {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
 
 /* ----------------------- Code Editor ----------------------- */
 .codeCard {
@@ -307,6 +237,26 @@
 
 .codePlayButton:hover {
   background-color: #45a049;
+}
+
+/* Botão amarelo */
+.explanationButton {
+  flex: 1; /* Mesma largura dos outros botões */
+  text-align: center;
+  padding: 15px 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #FFD700; /* amarelo */
+  color: #333; /* texto escuro */
+  border: none;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease;
+}
+
+.explanationButton:hover {
+  background-color: #FFC107; /* amarelo mais forte ao passar o mouse */
 }
 
 

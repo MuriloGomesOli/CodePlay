@@ -1,64 +1,42 @@
-// src/components/UserProfile.tsx
+// src/components/ui/ExerciseInfo.tsx
 import React from 'react';
 import styles from '../../styles/jogo.module.css';
 
-interface UserProfileProps {
-  userName: string;
-  userTitle: string;
-  avatarSrc?: string;
-  skills?: string[];      // Ex: ['CSS', 'JavaScript']
-  module?: number;
-  level?: number;
-  extraInfo?: Record<string, string | number>; // Para quaisquer informações extras
-  onProfileClick?: () => void;
-  onMenuClick?: () => void;
-  onLogoutClick?: () => void;
+interface ExerciseInfoProps {
+  title: string; // Ex: "Desafio: Montando a Fazenda com CSS"
+  description: string; // Explica o objetivo do exercício
+  context: string; // Ex: "Você vai aprender sobre position: absolute e relative."
+  objective: string; // Ex: "Seu objetivo é mover os elementos da fazenda para o lugar certo!"
+  module: string; // Ex: "Front-end", "Back-end", "Banco de Dados"
+  level: number; // Ex: 1, 2, 3...
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({
-  userName,
-  userTitle,
-  avatarSrc = '/path/to/user-avatar.png',
-  skills = [],
-  module = 1,
-  level = 1,
-  extraInfo = {},
-  onProfileClick,
-  onMenuClick,
-  onLogoutClick,
+const ExerciseInfo: React.FC<ExerciseInfoProps> = ({
+  title,
+  description,
+  context,
+  objective,
+  module,
+  level,
 }) => {
   return (
-    <div className={styles.profileCard}>
-      <div className={styles.profileHeader}>Perfil de Usuário</div>
-      <div className={styles.profileContent}>
-        <img src={avatarSrc} alt="Avatar do Usuário" className={styles.avatar} />
-        <h2 className={styles.userName}>{userName}</h2>
-        <p className={styles.userTitle}>{userTitle}</p>
-
-        <div className={styles.statusBadges}>
-          {skills.map((skill) => (
-            <span key={skill} className={styles.badgePython}>{skill}</span>
-          ))}
-
-          <span className={styles.badgeModule}>Módulo: {module}</span>
-          <span className={styles.badgeLevel}>Nível: {level}</span>
-
-          {/* Renderizar informações extras dinamicamente */}
-          {Object.entries(extraInfo).map(([key, value]) => (
-            <span key={key} className={styles.badgeExtra}>
-              {key}: {value}
-            </span>
-          ))}
+    <div className={styles.exerciseInfoCard}>
+      <div className={styles.infoHeader}>
+        <div>
+          <h2 className={styles.infoTitle}>{title}</h2>
+          <p className={styles.infoModule}>
+            {module} • Nível {level}
+          </p>
         </div>
+      </div>
 
-        <div className={styles.navButtons}>
-          <button className={styles.navButton} onClick={onProfileClick}>Perfil</button>
-          <button className={styles.navButton} onClick={onMenuClick}>Menu</button>
-          <button className={`${styles.navButton} ${styles.logoutButton}`} onClick={onLogoutClick}>Sair</button>
-        </div>
+      <div className={styles.infoBody}>
+        <p className={styles.infoDescription}>{description}</p>
+        <p className={styles.infoContext}><strong>Contexto:</strong> {context}</p>
+        <p className={styles.infoObjective}><strong>Objetivo:</strong> {objective}</p>
       </div>
     </div>
   );
 };
 
-export default UserProfile;
+export default ExerciseInfo;

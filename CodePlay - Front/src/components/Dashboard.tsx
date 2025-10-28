@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs.js';
 import { Badge } from './ui/badge.js';
 import { LogOut, Database, Palette, Monitor } from 'lucide-react';
+import React from 'react';
+
 
 interface DashboardProps {
   user: {
@@ -29,73 +31,74 @@ interface Exercise {
 const frontendExercises: Exercise[] = [
   {
     id: 1,
-    title: '🐔 A Fazenda da Galinha',
+    title: 'A Fazenda da Galinha',
     description: 'Ajude a Galinha Lola a montar sua fazenda.',
     difficulty: 'Fácil',
     technologies: [ 'CSS'],
   },
   {
     id: 2,
-    title: '🐮 Anime a Fazenda',
+    title: 'Anime a Fazenda',
     description: 'Desenvolva animações para os elementos da fazenda.',
     difficulty: 'Fácil',
     technologies: ['CSS'],
   },
   {
     id: 3,
-    title: 'Dashboard Avançado',
-    description: 'Construa um dashboard complexo com gráficos e animações.',
+    title: 'Monte o Celeiro Responsivo',
+    description: 'Criar layout adaptável',
     difficulty: 'Difícil',
     technologies: ['React', 'Tailwind'],
   },
 ];
 
 const backendExercises: Exercise[] = [
-  {
-    id: 4,
-    title: 'API REST com Node.js',
-    description: 'Crie uma API REST simples para gerenciar usuários.',
-    difficulty: 'Fácil',
-    technologies: ['Node.js', 'JavaScript'],
-  },
-  {
-    id: 5,
-    title: 'Sistema de Autenticação',
-    description: 'Implemente autenticação JWT em uma aplicação Node.js.',
-    difficulty: 'Médio',
-    technologies: ['Node.js', 'bcrypt'],
-  },
-  {
-    id: 6,
-    title: 'Microserviços',
-    description: 'Desenvolva uma arquitetura de microserviços completa.',
-    difficulty: 'Difícil',
-    technologies: ['Node.js'],
-  },
+{
+  id: 4,
+  title: 'Rota dos Animais',
+  description: 'Crie uma rota GET que retorne uma lista de animais.',
+  difficulty: 'Fácil',
+  technologies: ['Node.js', 'JavaScript'],
+},
+{
+  id: 5,
+  title: 'Cadastro de Produtos',
+  description: 'Implemente uma rota POST que receba um produto no corpo da requisição e retorne uma confirmação.',
+  difficulty: 'Médio',
+  technologies: ['Node.js', 'JavaScript', 'Express'],
+},
+{
+  id: 6,
+  title: 'Proteja o Celeiro (JWT)',
+  description: 'Crie uma rota POST /login que gere um token JWT para autenticação.',
+  difficulty: 'Difícil',
+  technologies: ['Node.js', 'JavaScript', 'jsonwebtoken'],
+}
 ];
 
 const databaseExercises: Exercise[] = [
   {
-    id: 7,
-    title: 'Modelagem de Dados',
-    description: 'Projete um esquema de banco de dados para um e-commerce.',
-    difficulty: 'Fácil',
-    technologies: ['MySQL', 'SQL'],
-  },
-  {
-    id: 8,
-    title: 'Consultas Complexas',
-    description: 'Escreva consultas SQL avançadas com JOINs e subconsultas.',
-    difficulty: 'Médio',
-    technologies: [ 'SQL', 'Índices'],
-  },
-  {
-    id: 9,
-    title: 'Otimização de Performance',
-    description: 'Otimize queries e configure índices para melhor performance.',
-    difficulty: 'Difícil',
-    technologies: ['MySQL'],
-  },
+  id: 7,
+  title: 'Criar Tabela',
+  description: 'Montar tabela de animais da fazenda com colunas id, nome e tipo.',
+  difficulty: 'Fácil',
+  technologies: ['MySQL', 'SQL'],
+},
+{
+  id: 8,
+  title: 'Atualizar Estoque',
+  description: 'Atualizar a quantidade de produtos usando comando UPDATE.',
+  difficulty: 'Médio',
+  technologies: ['SQL', 'Índices'],
+},
+{
+  id: 9,
+  title: 'Integração (Prisma)',
+  description: 'Buscar dados de animais usando ORM Prisma para otimizar consultas.',
+  difficulty: 'Difícil',
+  technologies: ['MySQL', 'Prisma'],
+}
+
 ];
 
 function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex: Exercise) => void }) {

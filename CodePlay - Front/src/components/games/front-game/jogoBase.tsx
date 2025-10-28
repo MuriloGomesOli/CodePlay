@@ -1,5 +1,5 @@
 import React from 'react';
-import UserProfile from '../../ui/UserProfile';
+import ExerciseInfo from '../../ui/UserProfile';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
 import '../../../index.css';
@@ -12,17 +12,14 @@ import styles from '../../../styles/jogo.module.css';
 
 const App: React.FC = () => {
   return (
-    <div className={styles.appContainer}>
-      <UserProfile
-        userName="Lola"
-        userTitle="Programadora Iniciante"
-        avatarSrc="/assets/Lola.png"
-        skills={['CSS', 'Flexbox']}
-        module={1}
+   <div className={styles.appContainer}>
+      <ExerciseInfo
+        title="Desafio: Montando a Fazenda com CSS"
+        description="Neste desafio, você vai aprender a controlar o posicionamento de elementos usando CSS."
+        context="Os elementos da fazenda estão desorganizados. Você precisa posicioná-los corretamente na tela."
+        objective="Use propriedades como top, left, bottom e right para ajustar o layout."
+        module="Front-end"
         level={1}
-        onProfileClick={() => console.log('Abrir perfil')}
-        onMenuClick={() => console.log('Abrir menu')}
-        onLogoutClick={() => console.log('Sair do jogo')}
       />
       <CodeEditor
         welcomeText="Bem-vindo ao Code Play! Use comandos de CSS para montar a fazenda."

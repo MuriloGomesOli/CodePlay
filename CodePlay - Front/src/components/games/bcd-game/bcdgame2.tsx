@@ -1,5 +1,5 @@
 import React from 'react';
-import UserProfile from '../../ui/UserProfile';
+import ExerciseInfo from '../../ui/UserProfile';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
 import '../../../index.css'
@@ -13,22 +13,22 @@ import styles from '../../../styles/jogo.module.css';
 const App: React.FC = () => {
   return (
     <div className={styles.appContainer}>
-      <UserProfile
-        userName="Lola"
-        userTitle="Programadora Iniciante"
-        avatarSrc="/assets/Lola.png"
-        skills={['CSS', 'Flexbox']}
-        module={1}
-        level={1}
-        onProfileClick={() => console.log('Abrir perfil')}
-        onMenuClick={() => console.log('Abrir menu')}
-        onLogoutClick={() => console.log('Sair do jogo')}
-/>
+      <ExerciseInfo
+        title="Desafio: Montando a Fazenda com CSS"
+        description="Neste desafio, você vai aprender a controlar o posicionamento de elementos usando CSS."
+        context="Os elementos da fazenda estão desorganizados. Você precisa posicioná-los corretamente na tela."
+        objective="Use propriedades como top, left, bottom e right para ajustar o layout."
+        module="Banco de Dados"
+        level={2}
+      />
+ 
       <CodeEditor
-        welcomeText="Bem-vindo ao Code Play! Use comandos de CSS para montar a fazenda."
-        instructionText="Escreva um comando para aprender sobre movimentos e montar a fazenda. Use <code>position</code> diferente de <code>static</code>."
-        codeExample="/* Exemplo de comando CSS */"
-        hintText="top: 10px;<br/>left: 5px;<br/>bottom: 20px;<br/>right: 5px;"
+        welcomeText="Muito bem! Você passou do nível anterior. Agora é hora de atualizar informações no banco de dados!"
+        instructionText="Escreva um comando SQL para atualizar a quantidade de um produto no estoque. Lembre-se de usar UPDATE, SET e WHERE."
+        codeExample="UPDATE produtos
+SET quantidade = 10
+WHERE nome = 'Leite';"
+        hintText="Dica: Use SET para alterar o valor e WHERE para escolher qual produto mudar."
         mainButtonText="CONFRIMAR"
         onNext={() => console.log('Próximo passo!')}
 />
