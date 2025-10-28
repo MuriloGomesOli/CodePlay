@@ -1,0 +1,40 @@
+/* ==============================
+   AVATARES DE PERFIL (COM IMAGENS)
+   ============================== */
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+  justify-items: center;
+}
+
+.avatar-option {
+  border: 3px solid transparent;
+  border-radius: 50%;
+  overflow: hidden;
+  background: none;
+  padding: 0;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+}
+
+.avatar-option:hover {
+  transform: scale(1.08);
+  border-color: rgba(255, 127, 80, 0.5);
+}
+
+.avatar-option.selected {
+  border-color: #ff7f50;
+  box-shadow: 0 0 15px rgba(255, 127, 80, 0.5);
+  transform: scale(1.12);
+}
+
+.avatar-img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}

@@ -6,9 +6,10 @@ interface UserProfileProps {
   userName: string;
   userTitle: string;
   avatarSrc?: string;
-  skills?: string[];       // Ex: ['CSS', 'JavaScript']
+  skills?: string[];      // Ex: ['CSS', 'JavaScript']
   module?: number;
   level?: number;
+  extraInfo?: Record<string, string | number>; // Para quaisquer informações extras
   onProfileClick?: () => void;
   onMenuClick?: () => void;
   onLogoutClick?: () => void;
@@ -21,6 +22,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   skills = [],
   module = 1,
   level = 1,
+  extraInfo = {},
   onProfileClick,
   onMenuClick,
   onLogoutClick,
@@ -37,8 +39,16 @@ const UserProfile: React.FC<UserProfileProps> = ({
           {skills.map((skill) => (
             <span key={skill} className={styles.badgePython}>{skill}</span>
           ))}
+
           <span className={styles.badgeModule}>Módulo: {module}</span>
           <span className={styles.badgeLevel}>Nível: {level}</span>
+
+          {/* Renderizar informações extras dinamicamente */}
+          {Object.entries(extraInfo).map(([key, value]) => (
+            <span key={key} className={styles.badgeExtra}>
+              {key}: {value}
+            </span>
+          ))}
         </div>
 
         <div className={styles.navButtons}>

@@ -1,7 +1,11 @@
-import { createRoot } from "react-dom/client";
-import App from "./App";
-import "./styles/global.css"; /* importa index.css via global.css */
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './index.css'; 
 
-
-console.log('[main] starting app');
-createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);

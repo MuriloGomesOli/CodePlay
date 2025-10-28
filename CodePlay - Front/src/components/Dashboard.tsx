@@ -159,7 +159,7 @@ export function Dashboard({ user, onLogout, onStartExercise }: DashboardProps) {
         <div className="mb-8">
           <p></p>
           <h2 className="dashboard-title">Desafios de Programação</h2>
-          <p className="text-muted-foreground">
+          <p className="dashboard-subtitle">
             Escolha uma categoria de qual deseja ingressar e comece a praticar suas habilidades!
           </p>
         </div>

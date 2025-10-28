@@ -2,6 +2,7 @@ import React from 'react';
 import UserProfile from '../../ui/UserProfile';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
+import Fazenda from '../../../assets/fazenda.png';
 import '../../../index.css'
 import '../../../global.d.ts'
 // Usando CSS Modules para evitar conflitos de estilo

@@ -1,153 +1,121 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useParams, useNavigate } from 'react-router-dom';
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { Dashboard } from './components/Dashboard';
 
-import Jogo from './components/games/front-game/jogoBase';
-import JogoFront2 from './components/games/front-game/jogoFront2';
-import JogoFront3 from './components/games/front-game/jogoFront3';
+// 🔹 Mapa de jogos (import dinâmico)
+const gamesMap = {
+  frontend: {
+    jogoBase: () => import('./components/games/front-game/jogoBase.tsx'),
+    jogoFront2: () => import('./components/games/front-game/jogoFront2.tsx'),
+    jogoFront3: () => import('./components/games/front-game/jogoFront3.tsx'),
+  },
+  backend: {
+    backgame1: () => import('./components/games/back-game/backgame1.tsx'),
+    backgame2: () => import('./components/games/back-game/backgame2.tsx'),
+    backgame3: () => import('./components/games/back-game/backgame3.tsx'),
+  },
+  bancodados: { // 👈 nome padronizado, sem hífen
+    bcdgame: () => import('./components/games/bcd-game/bcdgame.tsx'),
+    bcdgame2: () => import('./components/games/bcd-game/bcdgame2.tsx'),
+    bcdgame3: () => import('./components/games/bcd-game/bcdgame3.tsx'),
+  },
+};
 
-import BackGame1 from './components/games/back-game/backgame1';
-import BackGame2 from './components/games/back-game/backgame2';
-import BackGame3 from './components/games/back-game/backgame3';
+// 🔹 Componente que carrega o jogo dinamicamente
+function GameLoader() {
+  const { modulo, nivel } = useParams();
+  const [GameComponent, setGameComponent] = useState(null);
+  const [error, setError] = useState('');
 
-import BcdGame1 from './components/games/bcd-game/bcdgame';
-import BcdGame2 from './components/games/bcd-game/bcdgame2';
-import BcdGame3 from './components/games/bcd-game/bcdgame3';
-//----------------------------------------------------------------------------------------
+  useEffect(() => {
+    if (!gamesMap[modulo] || !gamesMap[modulo][nivel]) {
+      setError('❌ Módulo ou jogo inválido');
+      return;
+    }
 
+    gamesMap[modulo][nivel]()
+      .then((mod) => setGameComponent(() => mod.default))
+      .catch((err) => {
+        console.error(err);
+        setError('🚫 Erro ao carregar o jogo');
+      });
+  }, [modulo, nivel]);
 
+  if (error) return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>{error}</h2>;
+  if (!GameComponent) return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>⏳ Carregando jogo...</h2>;
+
+  return <GameComponent />;
+}
+
+// 🔹 App principal
 export default function App() {
-  console.log('[App] render start');
-  // Em ambiente de desenvolvimento (Vite) abrir direto no dashboard com um usuário mock
   const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV;
-  const [appState, setAppState] = useState(isDev ? 'dashboard' : 'login');
   const [user, setUser] = useState(isDev ? { name: 'Programador', email: 'dev@example.com' } : null);
+  const navigate = useNavigate();
 
   const handleLogin = (email, password) => {
-    const mockUser = {
-      name: 'Desenvolvedor',
-      email: email,
-    };
-    setUser(mockUser);
-    setAppState('dashboard');
+    setUser({ name: 'Desenvolvedor', email });
+    navigate('/');
   };
 
   const handleRegister = (name, email, password) => {
-    const newUser = {
-      name: name,
-      email: email,
-    };
-    setUser(newUser);
-    setAppState('dashboard');
+    setUser({ name, email });
+    navigate('/');
   };
 
   const handleLogout = () => {
     setUser(null);
-    setAppState('login');
+    navigate('/');
   };
 
   const handleStartExercise = (exercise) => {
-  console.log('[App] iniciar exercício', exercise?.id ?? exercise);
+    // mapeia ID do exercício para módulo/nivel
+    const maps = {
+      1: '/games/frontend/jogoBase',
+      2: '/games/frontend/jogoFront2',
+      3: '/games/frontend/jogoFront3',
+      4: '/games/backend/backgame1',
+      5: '/games/backend/backgame2',
+      6: '/games/backend/backgame3',
+      7: '/games/bancodados/bcdgame',
+      8: '/games/bancodados/bcdgame2',
+      9: '/games/bancodados/bcdgame3',
+    };
 
-  switch (exercise.id) {
-    // FRONT-END
-    case 1:
-      setAppState('jogoFront1');
-      break;
-    case 2:
-      setAppState('jogoFront2');
-      break;
-    case 3:
-      setAppState('jogoFront3');
-      break;
+    const path = maps[exercise.id];
+    if (path) navigate(path);
+    else alert('Desafio não encontrado!');
+  };
 
-    // BACK-END
-    case 4:
-      setAppState('jogoBack1');
-      break;
-    case 5:
-      setAppState('jogoBack2');
-      break;
-    case 6:
-      setAppState('jogoBack3');
-      break;
-
-    // BANCO DE DADOS
-    case 7:
-      setAppState('jogoBcd1');
-      break;
-    case 8:
-      setAppState('jogoBcd2');
-      break;
-    case 9:
-      setAppState('jogoBcd3');
-      break;
-
-    default:
-      console.warn('Nenhum jogo vinculado a este exercício:', exercise);
-      break;
-  }
-};
-
-
-  const switchToRegister = () => setAppState('register');
-  const switchToLogin = () => setAppState('login');
-
-  if (appState === 'login') {
-    return (
-      <LoginForm
-        onLogin={handleLogin}
-        onSwitchToRegister={switchToRegister}
-      />
-    );
-  }
-
-  if (appState === 'register') {
-    return (
-      <RegisterForm
-        onRegister={handleRegister}
-        onSwitchToLogin={switchToLogin}
-      />
-    );
-  }
-
-  if (appState === 'dashboard' && user) {
-    return (
-      <Dashboard
-        user={user}
-  onLogout={handleLogout}
-  onStartExercise={handleStartExercise}
-      />
-    );
-  }
-
-  const games = {
-  // FRONT-END
-  jogoFront1: <Jogo />,
-  jogoFront2: <JogoFront2 />,
-  jogoFront3: <JogoFront3 />,
-
-  // BACK-END
-  jogoBack1: <BackGame1 />,
-  jogoBack2: <BackGame2 />,
-  jogoBack3: <BackGame3 />,
-
-  // BANCO DE DADOS
-  jogoBcd1: <BcdGame1 />,
-  jogoBcd2: <BcdGame2 />,
-  jogoBcd3: <BcdGame3 />,
-};
-
-if (user && games[appState]) {
-  return games[appState];
-}
-
-
-  // Fallback - nunca deve chegar aqui
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <p>Carregando...</p>
-    </div>
+    <Routes>
+      {/* Login e registro */}
+      {!user ? (
+        <>
+          <Route
+            path="/"
+            element={<LoginForm onLogin={handleLogin} onSwitchToRegister={() => navigate('/register')} />}
+          />
+          <Route
+            path="/register"
+            element={<RegisterForm onRegister={handleRegister} onSwitchToLogin={() => navigate('/')} />}
+          />
+        </>
+      ) : (
+        <>
+          {/* Dashboard e jogos */}
+          <Route
+            path="/"
+            element={<Dashboard user={user} onLogout={handleLogout} onStartExercise={handleStartExercise} />}
+          />
+          <Route path="/games/:modulo/:nivel" element={<GameLoader />} />
+        </>
+      )}
+
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 }

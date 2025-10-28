@@ -26,9 +26,9 @@ const App: React.FC = () => {
 />
       <CodeEditor
         welcomeText="Bem-vindo ao Code Play! Use comandos de CSS para montar a fazenda."
-        instructionText="Escreva um comando para aprender sobre movimentos e montar a fazenda. Use <code>position</code> diferente de <code>static</code>."
-        codeExample="/* Exemplo de comando CSS */"
-        hintText="top: 10px;<br/>left: 5px;<br/>bottom: 20px;<br/>right: 5px;"
+        instructionText="Escreva um comando SQL para criar a tabela de animais. Certifique-se de definir as colunas corretamente."
+        codeExample="CREATE TABLE animais ("
+        hintText="Lembre: id, nome e tipo precisam estar na tabela."
         mainButtonText="CONFRIMAR"
         onNext={() => console.log('Próximo passo!')}
 />

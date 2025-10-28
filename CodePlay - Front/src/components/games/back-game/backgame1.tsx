@@ -25,10 +25,10 @@ const App: React.FC = () => {
         onLogoutClick={() => console.log('Sair do jogo')}
 />
       <CodeEditor
-        welcomeText="Bem-vindo ao Code Play! Use comandos de CSS para montar a fazenda."
-        instructionText="Escreva um comando para aprender sobre movimentos e montar a fazenda. Use <code>position</code> diferente de <code>static</code>."
-        codeExample="/* Exemplo de comando CSS */"
-        hintText="top: 10px;<br/>left: 5px;<br/>bottom: 20px;<br/>right: 5px;"
+        welcomeText="Bem-vindo ao Desafio de Banco de Dados: Criação da Tabela de Animais!"
+        instructionText="Escreva um comando para explorar a lista de animais. Use a rota <code>/animais</code> com <code>app.get</code> para receber os nomes."
+        codeExample="/* Exemplo de rota GET para listar animais */"
+        hintText="app.get('/animais', ...)<br/>res.json([...]);"
         mainButtonText="CONFRIMAR"
         onNext={() => console.log('Próximo passo!')}
 />
