@@ -3,7 +3,9 @@
 .appContainer {
   display: grid;
   grid-template-columns: 3fr 4fr 3fr; /* 3 áreas: info | editor | game */
+  gap: 10px;
   padding: 10px;
+  min-height: 100vh;
   background-color: rgba(242, 232, 144, 0.58);
 }
 
@@ -12,9 +14,11 @@
   background-color: #fffbea;
   border: 2px solid #ffe58f;
   border-radius: 15px;
+  padding: 30px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   flex-direction: column;
   justify-content: space-between;
+  gap: 15px;
 }
 
 .infoHeader {
