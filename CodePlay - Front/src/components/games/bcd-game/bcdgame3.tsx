@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ExerciseInfo from '../../ui/UserProfile';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
 import '../../../index.css'
 import '../../../global.d.ts'
+import GameHeader from '../../ui/GameHeader.tsx';
 import Fazenda from '../../../assets/fazenda.png'
 import Personagem from '../../../assets/lola.png'
 import Extra from '../../../assets/sol.png'
-// Usando CSS Modules para evitar conflitos de estilo
 import styles from '../../../styles/jogo.module.css';
 
 const App: React.FC = () => {
+  const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('database');
+
   return (
+  <>
+    {/* Cabeçalho fixo no topo */}
+    <GameHeader
+      userName="Programador(a)"
+      onLogout={() => console.log('Usuário saiu')}
+      currentModule={currentModule}
+      level="3"
+      onModuleChange={setCurrentModule}
+    />
     <div className={styles.appContainer}>
       <ExerciseInfo
         title="Desafio: Montando a Fazenda com CSS"
@@ -40,7 +51,9 @@ onNext={() => console.log('Próximo passo!')}
         extra={Extra}
       />
     </div>
-  );
+  </>
+);
 };
+
 
 export default App;

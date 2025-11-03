@@ -1,44 +1,74 @@
-import React from 'react';
-import UserProfile from '../../ui/UserProfile';
+import React, { useState } from 'react';
+import ExerciseInfo from '../../ui/UserProfile';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
-import '../../../index.css'
-import '../../../global.d.ts'
-import Fazenda from '../../../assets/fazenda.png'
-import Personagem from '../../../assets/lola.png'
-import Extra from '../../../assets/sol.png'
-// Usando CSS Modules para evitar conflitos de estilo
+import GameHeader from '../../ui/GameHeader';
+import '../../../index.css';
+import '../../../global.d.ts';
+import Fazenda from '../../../assets/fazenda.png';
+import Personagem from '../../../assets/Lola.png';
+import Extra from '../../../assets/sol.png';
 import styles from '../../../styles/jogo.module.css';
 
 const App: React.FC = () => {
+  const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('backend');
+  const [userCode, setUserCode] = useState(''); // guarda o código digitado pelo usuário
+
+  // Função de validação do código
+  const handleCheckCode = (input: string) => {
+    const hasAppPost = /app\.post/.test(input);
+    const hasReqBody = /req\.body/.test(input);
+    const hasResJson = /res\.json/.test(input);
+
+    if (hasAppPost && hasReqBody && hasResJson) {
+      alert("✅ Rota criada com sucesso! Produto cadastrado corretamente.");
+    } else {
+      alert("⚠️ Verifique se você usou app.post, req.body e res.json corretamente.");
+    }
+  };
+
   return (
-    <div className={styles.appContainer}>
-      <UserProfile
-        userName="Lola"
-        userTitle="Programadora Iniciante"
-        avatarSrc="/assets/Lola.png"
-        skills={['CSS', 'Flexbox']}
-        module={1}
-        level={1}
-        onProfileClick={() => console.log('Abrir perfil')}
-        onMenuClick={() => console.log('Abrir menu')}
-        onLogoutClick={() => console.log('Sair do jogo')}
-/>
-      <CodeEditor
-        welcomeText="Bem-vindo ao Code Play! Use comandos de CSS para montar a fazenda."
-        instructionText="Escreva um comando para aprender sobre movimentos e montar a fazenda. Use <code>position</code> diferente de <code>static</code>."
-        codeExample="/* Exemplo de comando CSS */"
-        hintText="top: 10px;<br/>left: 5px;<br/>bottom: 20px;<br/>right: 5px;"
-        mainButtonText="CONFRIMAR"
-        onNext={() => console.log('Próximo passo!')}
-/>
-      <GameView 
-        falaPersonagem="Olá! Vamos montar minha fazenda juntos?"
-        fundo= {Fazenda}
-        personagem={Personagem}
-        extra={Extra}
+    <>
+      <GameHeader
+        userName="Programador(a)"
+        onLogout={() => console.log('Usuário saiu')}
+        currentModule={currentModule}
+        level="2"
+        onModuleChange={setCurrentModule}
       />
-    </div>
+
+      <div className={styles.appContainer}>
+        <ExerciseInfo
+          title="🧩 Nível 2 — Cadastro de Produtos"
+          description="Neste desafio, você vai criar uma rota POST para cadastrar produtos."
+          context="O usuário enviará informações de um produto, e seu servidor deve armazená-las e responder com uma mensagem de confirmação."
+          objective={`
+      <>
+      - Use app.post para criar a rota
+      - Utilize req.body para receber os dados do produto<br/>
+      - Retorne uma resposta usando res.json com uma mensagem de confirmação e o produto cadastrado          `}
+          module="Back-end"
+          level={2}
+        />
+
+        <CodeEditor
+          welcomeText="💻 Vamos criar a rota POST para cadastrar produtos."
+          instructionText="Escreva a rota usando <code>app.post('/produtos', ...)</code> e retorne o produto com uma mensagem de confirmação."
+          codeExample={`app.post('/produtos', (req: Request, res: Response) => {\n  const produto = req.body;\n  res.json({ mensagem: 'Produto adicionado!', produto });\n});`}
+          hintText="Lembre-se de tipar req e res: (req: Request, res: Response)."
+          mainButtonText="CONFIRMAR"
+          onNext={() => handleCheckCode(userCode)}
+          onCodeChange={(code) => setUserCode(code)}
+        />
+
+        <GameView
+          falaPersonagem="Vamos cadastrar os produtos da fazenda!"
+          fundo={Fazenda}
+          personagem={Personagem}
+          extra={Extra}
+        />
+      </div>
+    </>
   );
 };
 

@@ -5,8 +5,8 @@
   grid-template-columns: 3fr 4fr 3fr; /* 3 áreas: info | editor | game */
   gap: 10px;
   padding: 10px;
-  min-height: 100vh;
-  background-color: rgba(242, 232, 144, 0.58);
+  min-height: 90vh;
+  background-color: rgba(234, 145, 67, 0.674);
 }
 
 /* ----------------------- Exercise Info (à esquerda) ----------------------- */
@@ -301,4 +301,132 @@
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 10px solid #ffffff;
+
+  .gameCard {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+
+.farm {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.galinha {
+  position: absolute;
+  width: 100px;
+  bottom: 40px;
+  left: 50px;
+  transition: all 0.4s ease;
+}
+
+.sol {
+  position: absolute;
+  width: 80px;
+  top: 30px;
+  right: 50px;
+  transition: all 0.4s ease;
+}
+
+.speechBubble {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+}
+/* ----------------------- Layout (à esquerda) ----------------------- */
+/* ----------------------- GameHeader ----------------------- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  background: linear-gradient(to right, #fff7f3, #ffecec);
+  border-bottom: 1px solid #f0d0d0;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  position: sticky; /* Fixa no topo */
+  top: 0;
+  z-index: 50;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userAvatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffd700;
+}
+
+.userName {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.centerSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.badgeModule {
+  font-size: 1em;
+  padding: 5px 12px;
+  border-radius: 12px;
+  background-color: #db6627;
+  color: white;
+  font-weight: bold;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.levelBadge {
+  background-color: #ff5252;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid #ff5252;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #ff5252;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: #ff5252;
+  color: white;
+}
+

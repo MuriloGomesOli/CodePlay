@@ -1,4 +1,3 @@
-// src/components/CodeEditor.tsx
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import styles from '../../styles/jogo.module.css';
 import codeLogo from '../../assets/logo.png';
@@ -10,6 +9,7 @@ interface CodeEditorProps {
   hintText?: string;
   mainButtonText?: string;
   onNext?: () => void;
+  onCodeChange?: (code: string) => void; // prop para enviar código digitado ao App
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
@@ -19,6 +19,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   hintText,
   mainButtonText = 'CODEPLAY',
   onNext,
+  onCodeChange, // ✅ Incluído na desestruturação
 }) => {
   const [showHint, setShowHint] = useState(false);
   const [code, setCode] = useState(codeExample);
@@ -35,15 +36,22 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     }
   };
 
+  // Atualiza altura sempre que o código muda
   useEffect(() => {
     adjustHeight();
   }, [code]);
 
-  // Números de linha
+  // Calcula número de linhas
   const lineNumbers = useMemo(() => {
     const lineCount = code.split('\n').length;
     return Array.from({ length: lineCount }, (_, i) => i + 1);
   }, [code]);
+
+  // Lida com a mudança de código
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCode(e.target.value);
+    onCodeChange?.(e.target.value); // envia para o App
+  };
 
   return (
     <div className={styles.codeCard}>
@@ -53,6 +61,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         <p className={styles.welcomeText}>{welcomeText}</p>
       </div>
 
+      {/* Instruções */}
       <div className={styles.instruction} dangerouslySetInnerHTML={{ __html: instructionText }} />
 
       {/* Editor de código */}
@@ -70,10 +79,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           ref={textareaRef}
           className={styles.codeTextarea}
           value={code}
-          onChange={(e) => setCode(e.target.value)}
+          onChange={handleChange} // chama handleChange que envia para o App
           onInput={adjustHeight}
           style={{ height: textHeight }}
-        ></textarea>
+        />
       </div>
 
       {/* Dica + botões */}
@@ -84,7 +93,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             <div className={styles.arrow}></div>
           </>
         )}
-        <div className={styles.buttonLine} style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+        <div
+          className={styles.buttonLine}
+          style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}
+        >
           {hintText && (
             <button
               className={`${styles.actionButton} ${styles.hintButton}`}

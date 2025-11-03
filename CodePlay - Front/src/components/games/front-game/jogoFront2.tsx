@@ -1,29 +1,38 @@
-import React from 'react';
-import UserProfile from '../../ui/UserProfile';
+import React, {useState} from 'react';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
+import GameHeader from '../../ui/GameHeader';
 import '../../../index.css'
 import '../../../global.d.ts'
 import Fazenda from '../../../assets/fazenda.png'
 import Fazendeiro from '../../../assets/fazendeiro.png'
 import Trator from '../../../assets/trator.png'
-// Usando CSS Modules para evitar conflitos de estilo
 import styles from '../../../styles/jogo.module.css';
+import ExerciseInfo from '../../ui/UserProfile';
 
 const App: React.FC = () => {
+  const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('frontend');
+
   return (
+  <>
+    {/* Cabeçalho fixo no topo */}
+    <GameHeader
+      userName="Programador(a)"
+      onLogout={() => console.log('Usuário saiu')}
+      currentModule={currentModule}
+      level="1"
+      onModuleChange={setCurrentModule}
+    />
+
     <div className={styles.appContainer}>
-      <UserProfile
-        userName="Lola"
-        userTitle="Programadora Iniciante"
-        avatarSrc="/assets/Lola.png"
-        skills={['CSS', 'Flexbox']}
-        module={1}
-        level={1}
-        onProfileClick={() => console.log('Abrir perfil')}
-        onMenuClick={() => console.log('Abrir menu')}
-        onLogoutClick={() => console.log('Sair do jogo')}
-/>
+      <ExerciseInfo
+        title="Desafio: Montando a Fazenda com CSS"
+        description="Neste desafio, você vai aprender a controlar o posicionamento de elementos usando CSS."
+        context="Os elementos da fazenda estão desorganizados. Você precisa posicioná-los corretamente na tela."
+        objective="Use propriedades como top, left, bottom e right para ajustar o layout."
+        module="Front-end"
+        level={2}
+      />
       <CodeEditor
         welcomeText="🐮 Bem-vindo ao Nível 2 do Code Play! Hora de dar vida à fazenda com movimento e estilo."
         instructionText="Escreva um comando para aprender sobre movimentos e montar a fazenda. Use <code>position</code> diferente de <code>static</code>."
@@ -39,7 +48,8 @@ const App: React.FC = () => {
         extra={Trator}
       />
     </div>
-  );
-};
+  </>
+);
+} 
 
 export default App;
