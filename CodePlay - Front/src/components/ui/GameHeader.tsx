@@ -4,12 +4,16 @@ import { LogOut } from 'lucide-react';
 import { Badge } from './badge';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/jogo.module.css';
+import vacaDefault from '../../assets/avatars/vaca.png';
 
 interface GameHeaderProps {
   userName: string;
   userAvatar?: string;
   currentModule: 'frontend' | 'backend' | 'database';
   level: string;
+  onLogout?: () => void;
+  activeModules?: { frontend?: boolean; backend?: boolean; database?: boolean };
+  onModuleChange?: (module: 'frontend' | 'backend' | 'database') => void;
 }
 
 const GameHeader: React.FC<GameHeaderProps> = ({
@@ -29,20 +33,32 @@ const GameHeader: React.FC<GameHeaderProps> = ({
 
   return (
     <header className={styles.header}>
+      {/* 🧍 Seção esquerda: avatar + nome */}
       <div className={styles.leftSection}>
-        {userAvatar && <img src={userAvatar} alt="Avatar" style={{ width: 40, height: 40, borderRadius: '50%' }} />}
+        <img
+          src={userAvatar || vacaDefault}
+          alt="Avatar do usuário"
+          className={styles.userAvatar}
+        />
         <span className={styles.userName}>{userName}</span>
       </div>
 
+      {/* 🎯 Seção central: módulo ativo */}
       <div className={styles.centerSection}>
         <Badge variant="secondary" className={styles.badgeModule}>
           {moduleLabels[currentModule]}
         </Badge>
       </div>
 
+      {/* ⚙️ Seção direita: nível + botão de sair */}
       <div className={styles.rightSection}>
         <Badge variant="destructive">Nível {level}</Badge>
-        <Button variant="outline" size="sm" className={styles.logoutButton} onClick={handleLogout}>
+        <Button
+          variant="outline"
+          size="sm"
+          className={styles.logoutButton}
+          onClick={handleLogout}
+        >
           <LogOut className="h-4 w-4" />
           Sair
         </Button>

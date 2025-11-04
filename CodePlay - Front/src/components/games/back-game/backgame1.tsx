@@ -6,13 +6,12 @@ import GameHeader from '../../ui/GameHeader';
 import '../../../index.css';
 import '../../../global.d.ts';
 import Fazenda from '../../../assets/fazenda.png';
-import Personagem from '../../../assets/lola.png';
-import Extra from '../../../assets/sol.png';
 import styles from '../../../styles/jogo.module.css';
 
 const App: React.FC = () => {
   const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('backend');
-  const [userCode, setUserCode] = useState(''); // guarda o código do usuário
+  const [userCode, setUserCode] = useState(''); 
+  const [showJson, setShowJson] = useState(false); // controla exibição do JSON
 
   // Função de validação
   const handleCheckCode = (input: string) => {
@@ -22,8 +21,10 @@ const App: React.FC = () => {
 
     if (hasAppGet && hasRota && hasResJson) {
       alert("✅ Parabéns! Você criou a rota corretamente.");
+      setShowJson(true); // exibe o JSON
     } else {
       alert("👀 Verifique se você usou app.get, a rota '/animais' e res.json([...]).");
+      setShowJson(false); // esconde se estiver errado
     }
   };
 
@@ -46,12 +47,17 @@ const App: React.FC = () => {
             <>
               <strong>Exemplo de rota esperada:</strong><br/>
               <code>app.get('/animais', (req, res) =&gt; {"{"}</code><br/>
-              &nbsp;&nbsp;<code>res.json(['Vaca', 'Cavalo', 'Galo']);</code><br/>
+              &nbsp;&nbsp;<code>res.json(['Coloque', 'os', 'animais pedidos']);</code><br/>
               <code>{"}"});</code><br/><br/>
+
+              <strong>Explicação:</strong><br/>
+              Este desafio ensina como criar uma rota no <code>Express</code> que responde a uma requisição <code>GET</code>.  
+              Ao acessar <code>/animais</code>, o servidor retorna uma lista dos animais da fazenda no formato JSON.<br/><br/>
+
               <strong>Verificação:</strong><br/>
-              — app.get existe<br/>
-              — Rota /animais<br/>
-              — res.json é chamado
+              — A função <code>app.get</code> é usada<br/>
+              — A rota <code>/animais</code> foi criada<br/>
+              — A resposta usa <code>res.json()</code> para retornar os animais<br/>
             </>
           }
           module="Back-end"
@@ -60,24 +66,27 @@ const App: React.FC = () => {
 
         <CodeEditor
           welcomeText="💻 Hora de criar sua rota!"
-          instructionText="Escreva um comando usando <code>app.get</code> para retornar a lista de animais. A rota deve ser <code>/animais</code> e usar <code>res.json</code>."
-          codeExample={`app.get('/animais', (req, res) => {\n  res.json(['Vaca', 'Cavalo', 'Galo']);\n});`}
-          hintText="Dica: lembre-se de criar a função callback com (req, res) e usar res.json([...])."
+          instructionText="
+            Crie uma rota GET no Express que devolve uma lista de animais da fazenda. 🐮🐔🐴  
+            A rota deve ser <code>/animais</code> e usar <code>res.json</code> para enviar a resposta."
+          codeExample={`app.get('/', (req, res) => {\n  res.json(['', '', '']);\n});`}
+          hintText="
+            💡 <strong>Dica:</strong><br/>
+            — Use <code>(req, res)</code> como parâmetros.<br/>
+            — Use <code>res.json()</code> para enviar os dados.<br/>
+            — A rota deve ser <code>/animais</code>."
           mainButtonText="CONFIRMAR"
           onNext={() => handleCheckCode(userCode)}
           onCodeChange={(code) => setUserCode(code)}
         />
 
         <GameView
-          falaPersonagem="Olá! Vamos criar a rota dos animais juntos?"
-          fundo={Fazenda}
-          personagem={Personagem}
-          extra={Extra}
-          userStyle={userCode} // só para exibir o código digitado
+          falaPersonagem={showJson ? "Parabéns! Sua rota /animais funcionou!" : "Crie sua rota para ver o resultado!"}
+          apiResult={showJson ? ['Vaca', 'Cavalo', 'Galo'] : []} // mostra o JSON só se acertar
         />
       </div>
     </>
   );
-};
+}
 
 export default App;

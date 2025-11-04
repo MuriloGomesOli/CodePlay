@@ -64,7 +64,7 @@ const App: React.FC = () => {
         <CodeEditor
           welcomeText="🐮 Bem-vindo ao Code Play! Vamos organizar os elementos da fazenda."
           instructionText="Escreva comandos CSS para mover os elementos. Use seletores como <code>.galinha</code> e <code>.sol</code> com valores em <code>px</code>."
-          codeExample={".galinha { top: 200px; left: 200px; width:30%;}; "}
+          codeExample={".galinha { top: 200px; left: 200px;}; "}
           hintText="Lembre-se: use unidades em 'px' e seletores corretos para cada elemento."
           mainButtonText="CONFIRMAR"
           onNext={() => handleCheckCode(userCode)}

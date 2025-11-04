@@ -6,7 +6,7 @@
   gap: 10px;
   padding: 10px;
   min-height: 90vh;
-  background-color: rgba(234, 145, 67, 0.674);
+  background-color:#ffa95398;
 }
 
 /* ----------------------- Exercise Info (à esquerda) ----------------------- */
@@ -264,7 +264,7 @@
 }
 
 
-/* ----------------------- Game View ----------------------- */
+/* --- GAME CARD --- */
 .gameCard {
   background-color: #a7d0fb;
   border-radius: 15px;
@@ -273,23 +273,27 @@
   position: relative;
   overflow: hidden;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  flex-direction: column; /* empilha verticalmente */
+  align-items: center;
+  justify-content: flex-start; /* elementos começam do topo */
 }
 
+/* --- BALÃO DE FALA --- */
 .speechBubble {
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #222;
+  padding: 14px 20px;
   border-radius: 20px;
-  position: absolute;
-  top: 50px;
-  right: 5%;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: bold;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   z-index: 4;
+  max-width: 70%;
+  margin-top: 10px; /* distância do topo do GameView */
+  line-height: 1.4;
+  position: relative; /* deixa no fluxo, não absoluto */
 }
-
 .speechBubble::after {
   content: '';
   position: absolute;
@@ -301,65 +305,94 @@
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 10px solid #ffffff;
-
-  .gameCard {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
+/* --- BOTÃO MOSTRAR JSON --- */
+.showApiButton {
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 6px #a7d0fb;
+  margin-top: 20px; /* distância do balão */
+  z-index: 5;
+}
+
+.showApiButton:hover {
+  background-color: #346fad;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* --- BLOCO DE RESPOSTA DA API --- */
+.apiResponseBox {
+  flex-grow: 1; /* ocupa o máximo possível do GameView */
+  width: 95%; /* quase toda a largura */
+  background: #111;
+  color: #a7d0fb;
+  border: 2px solid #a7d0fb;
+  border-radius: 10px;
+  padding: 15px;
+  font-family: 'Fira Code', monospace;
+  text-align: left;
+  white-space: pre-wrap;
+  box-shadow: 0 0 12px rgba(0, 255, 0, 0.3);
+  margin-top: 12px; /* espaço do botão para o JSON */
+  overflow-y: auto; /* permite scroll se o conteúdo for grande */
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* --- CENÁRIO E ELEMENTOS --- */
 .farm {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 230px;
+  left: 0;
+  width: 110%;
+  height: 70%;
   object-fit: cover;
+  z-index: 1;
 }
 
 .galinha {
   position: absolute;
   width: 100px;
-  bottom: 40px;
-  left: 50px;
+  height: 100px;
+  top: 50%; 
+  left: 50%;
+  /* remove transform */
   transition: all 0.4s ease;
+  z-index: 3;
 }
 
 .sol {
   position: absolute;
   width: 80px;
-  top: 30px;
-  right: 50px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
   transition: all 0.4s ease;
+  z-index: 2;
 }
 
-.speechBubble {
-  position: absolute;
-  bottom: 10px;
-  left: 20px;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-weight: 500;
-  color: #333;
+
+/* --- ANIMAÇÃO SUAVE --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-}
+
 /* ----------------------- Layout (à esquerda) ----------------------- */
 /* ----------------------- GameHeader ----------------------- */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px;
-  background: linear-gradient(to right, #fff7f3, #ffecec);
-  border-bottom: 1px solid #f0d0d0;
-  border-radius: 0 0 10px 10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-  position: sticky; /* Fixa no topo */
-  top: 0;
-  z-index: 50;
-}
 
 .leftSection {
   display: flex;
@@ -429,4 +462,74 @@
   background-color: #ff5252;
   color: white;
 }
+
+/* =========================
+   🎮 HEADER DO GAME
+   ========================= */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffffcc;
+  padding: 8px 24px;
+  border-bottom: 2px solid rgba(234, 145, 67, 0.674);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+/* 🧍 Parte esquerda: avatar + nome */
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(234, 145, 67, 0.674);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.userAvatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(255, 200, 0, 0.6);
+}
+
+.userName {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+/* 🎯 Centro: módulo atual */
+.centerSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.badgeModule {
+  font-size: 0.95rem;
+  padding: 6px 12px;
+}
+
+/* ⚙️ Direita: nível + sair */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
 
