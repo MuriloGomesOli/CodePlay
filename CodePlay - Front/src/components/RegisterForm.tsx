@@ -19,7 +19,7 @@ const avatars = Object.keys(avatarFiles).map((path) => {
 });
 
 interface RegisterFormProps {
-  onRegister?: (name: string, email: string, password: string) => void;
+  onRegister?: (name: string, email: string, password: string, avatar: string) => void;
   onSwitchToLogin: () => void;
 }
 
@@ -32,8 +32,6 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
     age: '',
     gender: '',
     location: '',
-    reason: '',
-    referral: '',
     avatar: '',
   });
 
@@ -65,20 +63,20 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
       const data = await response.json();
 
       if (response.ok) {
-        alert('Conta criada com sucesso!');
-        onRegister?.(formData.name, formData.email, formData.password);
-        setFormData({
-          name: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-          age: '',
-          gender: '',
-          location: '',
-          reason: '',
-          referral: '',
-          avatar: '',
-        });
+          alert('Conta criada com sucesso!');
+          // Pega nome e avatar do backend
+          const { name, avatar } = data;
+          onRegister?.(name, avatar);
+          setFormData({
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            age: '',
+            gender: '',
+            location: '',
+            avatar: '',
+          });
       } else {
         alert(data.message || 'Erro ao criar conta');
       }
@@ -96,7 +94,6 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
     { id: 'confirmPassword', label: 'Confirmar Senha', type: 'password', placeholder: '••••••••', required: true, minLength: 6 },
     { id: 'age', label: 'Idade', type: 'number', placeholder: 'Sua idade', required: true, min: 1 },
     { id: 'location', label: 'Local onde mora', type: 'text', placeholder: 'Cidade/Estado', required: true },
-    { id: 'referral', label: 'Onde conheceu o site?', type: 'text', placeholder: 'Indicação, redes sociais, etc.', required: false },
   ];
 
   return (

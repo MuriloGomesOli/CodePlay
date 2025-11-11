@@ -1,0 +1,94 @@
+import express from 'express';
+import mysql from 'mysql2';
+import cors from 'cors';
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'admin',
+  database: 'codeplay',
+});
+
+// Função para conectar
+function conectarBanco() {
+  return new Promise((resolve, reject) => {
+    connection.connect(err => {
+      if (err) {
+        console.error('❌ Erro ao conectar ao banco de dados MySQL:', err);
+        reject(err);
+      } else {
+        console.log('✅ Conexão estabelecida com o banco de dados MySQL');
+        resolve();
+      }
+    });
+  });
+}
+
+// Rota de registro
+app.post('/api/register', (req, res) => {
+  const { name, email, password, age, gender, location, avatar } = req.body;
+
+  connection.query(
+    'INSERT INTO users (name, email, password, age, gender, location, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [name, email, password, age, gender, location, avatar],
+    (err, result) => {
+      if (err) {
+        console.error('❌ ERRO DETALHADO AO CADASTRAR:', err);
+        if (err.code === 'ER_DUP_ENTRY') {
+          return res.status(400).json({ message: 'Email já cadastrado' });
+        }
+        return res.status(500).json({ message: 'Erro ao cadastrar usuário' });
+      }
+
+      console.log('✅ Usuário cadastrado com sucesso, ID:', result.insertId);
+      // Retorna também o avatar escolhido
+      res.status(201).json({
+        message: 'Usuário cadastrado com sucesso',
+        name,
+        avatar
+      });
+    }
+  );
+});
+
+
+// Rota de login — agora também retorna o avatar
+app.post('/api/login', (req, res) => {
+  const { email, password } = req.body;
+  connection.query(
+    'SELECT id, name, avatar FROM users WHERE email = ? AND password = ?',
+    [email, password],
+    (err, results) => {
+      if (err) {
+        console.error('❌ Erro no login:', err);
+        return res.status(500).json({ message: 'Erro no servidor' });
+      }
+      if (results.length === 0) {
+        return res.status(401).json({ message: 'Email ou senha incorretos' });
+      }
+
+      // ✅ Envia nome + avatar
+      const user = results[0];
+      res.json({ id: user.id, name: user.name, avatar: user.avatar });
+    }
+  );
+});
+
+// Inicialização do servidor
+async function startServer() {
+  try {
+    await conectarBanco();
+    app.listen(3001, () => {
+      console.log('🚀 Servidor backend rodando na porta 3001');
+    });
+  } catch (error) {
+    console.error('❌ Falha ao iniciar o servidor. Tentando novamente em 5s...');
+    setTimeout(startServer, 5000);
+  }
+}
+
+startServer();

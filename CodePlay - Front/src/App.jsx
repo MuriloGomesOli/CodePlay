@@ -4,26 +4,26 @@ import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { Dashboard } from './components/Dashboard';
 
-// 🔹 Mapa de jogos (import dinâmico)
+// 🔹 Mapa dos jogos (imports dinâmicos)
 const gamesMap = {
   frontend: {
-    jogoBase: () => import('./components/games/front-game/jogoBase.tsx'),
-    jogoFront2: () => import('./components/games/front-game/jogoFront2.tsx'),
-    jogoFront3: () => import('./components/games/front-game/jogoFront3.tsx'),
+    jogoBase: () => import('./components/games/front-game/jogoBase'),
+    jogoFront2: () => import('./components/games/front-game/jogoFront2'),
+    jogoFront3: () => import('./components/games/front-game/jogoFront3'),
   },
   backend: {
-    backgame1: () => import('./components/games/back-game/backgame1.tsx'),
-    backgame2: () => import('./components/games/back-game/backgame2.tsx'),
-    backgame3: () => import('./components/games/back-game/backgame3.tsx'),
+    backgame1: () => import('./components/games/back-game/backgame1'),
+    backgame2: () => import('./components/games/back-game/backgame2'),
+    backgame3: () => import('./components/games/back-game/backgame3'),
   },
-  bancodados: { // 👈 nome padronizado, sem hífen
-    bcdgame: () => import('./components/games/bcd-game/bcdgame.tsx'),
-    bcdgame2: () => import('./components/games/bcd-game/bcdgame2.tsx'),
-    bcdgame3: () => import('./components/games/bcd-game/bcdgame3.tsx'),
+  bancodados: {
+    bcdgame: () => import('./components/games/bcd-game/bcdgame'),
+    bcdgame2: () => import('./components/games/bcd-game/bcdgame2'),
+    bcdgame3: () => import('./components/games/bcd-game/bcdgame3'),
   },
 };
 
-// 🔹 Componente que carrega o jogo dinamicamente
+// 🔹 Carregador de jogo dinâmico
 function GameLoader() {
   const { modulo, nivel } = useParams();
   const [GameComponent, setGameComponent] = useState(null);
@@ -44,34 +44,37 @@ function GameLoader() {
   }, [modulo, nivel]);
 
   if (error) return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>{error}</h2>;
-  if (!GameComponent) return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>⏳ Carregando jogo...</h2>;
+  if (!GameComponent)
+    return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>⏳ Carregando jogo...</h2>;
 
   return <GameComponent />;
 }
 
 // 🔹 App principal
 export default function App() {
-  const isDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV;
-  const [user, setUser] = useState(isDev ? { name: 'Programador', email: 'dev@example.com' } : null);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const handleLogin = (email, password) => {
-    setUser({ name: 'Desenvolvedor', email });
-    navigate('/');
+  // ✅ Login — agora recebe o objeto completo vindo do banco
+  const handleLogin = (userData) => {
+    setUser(userData);
+    navigate('/'); // volta pro Dashboard
   };
 
-  const handleRegister = (name, email, password) => {
-    setUser({ name, email });
-    navigate('/');
+  // ✅ Registro
+  const handleRegister = (userData) => {
+    setUser(userData);
+    navigate('/'); // volta pro Dashboard após cadastro
   };
 
+  // ✅ Logout
   const handleLogout = () => {
     setUser(null);
     navigate('/');
   };
 
+  // ✅ Abrir jogo
   const handleStartExercise = (exercise) => {
-    // mapeia ID do exercício para módulo/nivel
     const maps = {
       1: '/games/frontend/jogoBase',
       2: '/games/frontend/jogoFront2',
@@ -91,30 +94,45 @@ export default function App() {
 
   return (
     <Routes>
-      {/* Login e registro */}
-      {!user ? (
-        <>
-          <Route
-            path="/"
-            element={<LoginForm onLogin={handleLogin} onSwitchToRegister={() => navigate('/register')} />}
+      {/* ✅ Dashboard como tela inicial */}
+      <Route
+        path="/"
+        element={
+          <Dashboard
+            user={user}
+            onLogout={handleLogout}
+            onLoginClick={() => navigate('/login')}
+            onStartExercise={handleStartExercise}
           />
-          <Route
-            path="/register"
-            element={<RegisterForm onRegister={handleRegister} onSwitchToLogin={() => navigate('/')} />}
-          />
-        </>
-      ) : (
-        <>
-          {/* Dashboard e jogos */}
-          <Route
-            path="/"
-            element={<Dashboard user={user} onLogout={handleLogout} onStartExercise={handleStartExercise} />}
-          />
-          <Route path="/games/:modulo/:nivel" element={<GameLoader />} />
-        </>
-      )}
+        }
+      />
 
-      {/* Fallback */}
+      {/* ✅ Login */}
+      <Route
+        path="/login"
+        element={
+          <LoginForm
+            onLogin={handleLogin}
+            onSwitchToRegister={() => navigate('/register')}
+          />
+        }
+      />
+
+      {/* ✅ Registro */}
+      <Route
+        path="/register"
+        element={
+          <RegisterForm
+            onRegister={handleRegister}
+            onSwitchToLogin={() => navigate('/login')}
+          />
+        }
+      />
+
+      {/* ✅ Jogos */}
+      <Route path="/games/:modulo/:nivel" element={<GameLoader />} />
+
+      {/* Redirecionamento padrão */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
