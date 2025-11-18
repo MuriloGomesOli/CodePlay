@@ -13,9 +13,11 @@ import styles from '../../../styles/jogo.module.css';
 
 const App: React.FC = () => {
   const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('frontend');
-  const [userCode, setUserCode] = useState(''); // Guarda o CSS digitado pelo usuário
+  const [userCode, setUserCode] = useState('');
 
-  // Função de validação (opcional)
+  // ---------------------------
+  //  Função de validação básica
+  // ---------------------------
   const handleCheckCode = (input: string) => {
     const hasGalinha = /\.galinha/.test(input);
     const hasSol = /\.sol/.test(input);
@@ -24,60 +26,79 @@ const App: React.FC = () => {
     if (hasGalinha && hasSol && hasPxValues) {
       alert("🐥 A fazenda está ficando linda! Você moveu tudo com precisão.");
     } else {
-      alert("👀 Lembre-se de usar '.galinha', '.sol' e valores em px (ex: 20px).");
+      alert("👀 Use '.galinha', '.sol' e valores em px (ex: 20px).");
     }
   };
 
   return (
     <>
+      {/* -----------------------------------------
+          Header do Game
+      ------------------------------------------ */}
       <GameHeader
         userName="Programador(a)"
         onLogout={() => console.log('Usuário saiu')}
         currentModule={currentModule}
         level="1"
-        onModuleChange={setCurrentModule}
       />
 
+      {/* -----------------------------------------
+          Layout principal
+      ------------------------------------------ */}
       <div className={styles.appContainer}>
+
+        {/* -------- Coluna da esquerda: info -------- */}
         <ExerciseInfo
           title="Desafio: Montando a Fazenda com CSS"
-          description="Neste desafio, você vai aprender a controlar o posicionamento de elementos usando CSS."
-          context="Os elementos da fazenda estão desorganizados. Você precisa posicioná-los corretamente na tela."
+          description="Aprenda a posicionar elementos usando CSS."
+          context="A fazenda está bagunçada, organize os elementos!"
           objective={
             <>
-              <strong>Seletores:</strong><br/>
-              <code>.galinha</code> - move a galinha na fazenda<br/>
-              <code>.sol</code> - move o sol no céu<br/><br/>
-              <strong>Propriedades:</strong><br/>
-              <code>top</code> - distância do topo do container<br/>
-              <code>left</code> - distância da esquerda do container<br/>
-              <code>right</code> - distância da direita do container<br/>
-              <code>bottom</code> - distância da base do container<br/><br/>
-              <strong>Objetivo:</strong><br/>
-              Use as propriedades acima para posicionar cada elemento corretamente. Utilize valores em <code>px</code> e não esqueça do ponto no seletor.
+              <strong>Seletores:</strong><br />
+              <code>.galinha</code> — controla a galinha<br />
+              <code>.sol</code> — controla o sol<br /><br />
+
+              <strong>Propriedades:</strong><br />
+              <code>top</code>, <code>left</code>, <code>right</code>, <code>bottom</code><br /><br />
+
+              <strong>Objetivo:</strong><br />
+              Use valores em <code>px</code> e seletores corretos.
             </>
           }
           module="Front-end"
           level={1}
         />
 
+        {/* -------- Coluna do meio: Editor -------- */}
         <CodeEditor
-          welcomeText="🐮 Bem-vindo ao Code Play! Vamos organizar os elementos da fazenda."
-          instructionText="Escreva comandos CSS para mover os elementos. Use seletores como <code>.galinha</code> e <code>.sol</code> com valores em <code>px</code>."
-          codeExample={".galinha { top: 200px; left: 200px;}; "}
-          hintText="Lembre-se: use unidades em 'px' e seletores corretos para cada elemento."
+          welcomeText="🐮 Bem-vindo ao Code Play!"
+          instructionText="Use seletores CSS como .galinha e .sol."
+          codeExample={
+            ".galinha {\n" +
+            "  position: absolute;\n" +
+            "  top: 200px;\n" +
+            "  left: 100px;\n" +
+            "  width: 180px;\n" +
+            "  height: auto;\n" +
+            "}\n\n"
+          }
+          hintText="Sempre use px."
           mainButtonText="CONFIRMAR"
           onNext={() => handleCheckCode(userCode)}
-          onCodeChange={(code) => setUserCode(code)} // Atualiza userCode em tempo real
+          onCodeChange={(code) => setUserCode(code)}
         />
 
+        {/* -------- Coluna da direita: GameView -------- */}
         <GameView
-          falaPersonagem="Olá! Vamos montar minha fazenda juntos?"
-          fundo={Fazenda}
-          personagem={Personagem}
-          extra={Extra}
-          userStyle={userCode} // Aplica o CSS digitado pelo usuário
+          title="Tabela de Animais"
+          description="Use SQL para criar a tabela e adicionar registros."
+          tableData={[
+            { id: 1, nome: "Galinha", tipo: "Ave" },
+            { id: 2, nome: "Vaca", tipo: "Mamífero" }
+          ]}
+          feedback="✔ Tabela criada com sucesso!"
         />
+
       </div>
     </>
   );

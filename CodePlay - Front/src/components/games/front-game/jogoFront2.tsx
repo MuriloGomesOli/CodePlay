@@ -17,10 +17,9 @@ const App: React.FC = () => {
   <>
     {/* Cabeçalho fixo no topo */}
     <GameHeader
-      userName="Programador(a)"
       onLogout={() => console.log('Usuário saiu')}
       currentModule={currentModule}
-      level="1"
+      level="2"
       onModuleChange={setCurrentModule}
     />
 

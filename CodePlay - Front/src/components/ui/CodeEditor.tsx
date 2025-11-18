@@ -9,7 +9,8 @@ interface CodeEditorProps {
   hintText?: string;
   mainButtonText?: string;
   onNext?: () => void;
-  onCodeChange?: (code: string) => void; // prop para enviar código digitado ao App
+  onCodeChange?: (code: string) => void;
+  onSaveProgress?: () => void; // ✅ opcional (salvar progresso)
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
@@ -19,7 +20,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   hintText,
   mainButtonText = 'CODEPLAY',
   onNext,
-  onCodeChange, // ✅ Incluído na desestruturação
+  onCodeChange,
+  onTableCreate?: (data: { tableName: string; columns: string[] }) => void;
+  onInsertRow?: (data: { tableName: string; row: any }) => void;
+  onSaveProgress, // ✅ recebido aqui também
 }) => {
   const [showHint, setShowHint] = useState(false);
   const [code, setCode] = useState(codeExample);
@@ -50,7 +54,71 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   // Lida com a mudança de código
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCode(e.target.value);
-    onCodeChange?.(e.target.value); // envia para o App
+    onCodeChange?.(e.target.value);
+  };
+
+ handleMainButtonconst handleMainButton = () => {
+  const sql = code.trim();
+
+  /* ============================
+      1. CAPTURAR CREATE TABLE
+  ============================ */
+  const createRegex = /CREATE\s+TABLE\s+([a-zA-Z0-9_]+)\s*\(([\s\S]+?)\);?/i;
+  const createMatch = sql.match(createRegex);
+
+  if (createMatch) {
+    const tableName = createMatch[1];
+
+    const columnsRaw = createMatch[2]
+      .split(',')
+      .map((col) => col.trim().split(/\s+/)[0])
+      .filter((c) => c.length > 0);
+
+    onTableCreate?.({
+      tableName,
+      columns: columnsRaw,
+    });
+
+    alert(`Tabela "${tableName}" criada com sucesso!`);
+    return;
+  }
+
+  /* ============================
+      2. CAPTURAR INSERT INTO
+  ============================ */
+  const insertRegex =
+    /INSERT\s+INTO\s+([a-zA-Z0-9_]+)\s*\(([\s\S]+?)\)\s*VALUES\s*\(([\s\S]+?)\);?/i;
+
+  const insertMatch = sql.match(insertRegex);
+
+  if (insertMatch) {
+    const tableName = insertMatch[1];
+    const colNames = insertMatch[2].split(',').map((c) => c.trim());
+    const rawValues = insertMatch[3]
+      .split(',')
+      .map((v) => v.trim().replace(/^'|'$/g, "")); // remove aspas
+
+    const row: any = {};
+    colNames.forEach((col, i) => {
+      row[col] = rawValues[i] ?? "";
+    });
+
+    onInsertRow?.({
+      tableName,
+      row,
+    });
+
+    alert("Linha inserida com sucesso!");
+    return;
+  }
+
+  alert("Nenhum comando SQL válido foi detectado.");
+};
+
+    // Se quiser salvar progresso toda vez que apertar CODEPLAY:
+    // onSaveProgress?.();
+
+    onNext?.();
   };
 
   return (
@@ -62,7 +130,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       </div>
 
       {/* Instruções */}
-      <div className={styles.instruction} dangerouslySetInnerHTML={{ __html: instructionText }} />
+      <div
+        className={styles.instruction}
+        dangerouslySetInnerHTML={{ __html: instructionText }}
+      />
 
       {/* Editor de código */}
       <div className={styles.editorArea} style={{ alignItems: 'flex-start' }}>
@@ -79,7 +150,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           ref={textareaRef}
           className={styles.codeTextarea}
           value={code}
-          onChange={handleChange} // chama handleChange que envia para o App
+          onChange={handleChange}
           onInput={adjustHeight}
           style={{ height: textHeight }}
         />
@@ -89,10 +160,14 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       <div className={styles.hintSection}>
         {showHint && hintText && (
           <>
-            <div className={styles.hintBox} dangerouslySetInnerHTML={{ __html: hintText }} />
+            <div
+              className={styles.hintBox}
+              dangerouslySetInnerHTML={{ __html: hintText }}
+            />
             <div className={styles.arrow}></div>
           </>
         )}
+
         <div
           className={styles.buttonLine}
           style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}
@@ -105,9 +180,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
               {showHint ? 'OCULTAR' : 'DICA'}
             </button>
           )}
+
           <button
             className={`${styles.actionButton} ${styles.codePlayButton}`}
-            onClick={onNext}
+            onClick={handleMainButton, onSqlExecute}
           >
             {mainButtonText}
           </button>

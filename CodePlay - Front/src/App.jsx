@@ -4,7 +4,7 @@ import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { Dashboard } from './components/Dashboard';
 
-// 🔹 Mapa dos jogos (imports dinâmicos)
+// Mapa dos jogos
 const gamesMap = {
   frontend: {
     jogoBase: () => import('./components/games/front-game/jogoBase'),
@@ -23,11 +23,25 @@ const gamesMap = {
   },
 };
 
-// 🔹 Carregador de jogo dinâmico
-function GameLoader() {
+// Loader de jogo
+function GameLoader({ user }) {
   const { modulo, nivel } = useParams();
   const [GameComponent, setGameComponent] = useState(null);
   const [error, setError] = useState('');
+
+  const gameDbIds = {
+    jogoBase: 1,
+    jogoFront2: 2,
+    jogoFront3: 3,
+    backgame1: 4,
+    backgame2: 5,
+    backgame3: 6,
+    bcdgame: 7,
+    bcdgame2: 8,
+    bcdgame3: 9,
+  };
+
+  const gameId = gameDbIds[nivel];
 
   useEffect(() => {
     if (!gamesMap[modulo] || !gamesMap[modulo][nivel]) {
@@ -36,45 +50,63 @@ function GameLoader() {
     }
 
     gamesMap[modulo][nivel]()
-      .then((mod) => setGameComponent(() => mod.default))
-      .catch((err) => {
-        console.error(err);
+      .then((mod) => {
+        setGameComponent(() => mod.default);
+      })
+      .catch(() => {
         setError('🚫 Erro ao carregar o jogo');
       });
+
   }, [modulo, nivel]);
 
   if (error) return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>{error}</h2>;
   if (!GameComponent)
     return <h2 style={{ textAlign: 'center', marginTop: '3rem' }}>⏳ Carregando jogo...</h2>;
 
-  return <GameComponent />;
+  return <GameComponent user={user} gameId={gameId} />;
 }
 
-// 🔹 App principal
 export default function App() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // ✅ Login — agora recebe o objeto completo vindo do banco
+  // Carregar usuário salvo
+  useEffect(() => {
+    const saved = localStorage.getItem('user');
+    if (saved) {
+      setUser(JSON.parse(saved));
+    }
+  }, []);
+
+  // Login
   const handleLogin = (userData) => {
+    localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
-    navigate('/'); // volta pro Dashboard
+    navigate('/');
   };
 
-  // ✅ Registro
+  // Registro
   const handleRegister = (userData) => {
+    localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
-    navigate('/'); // volta pro Dashboard após cadastro
+    navigate('/');
   };
 
-  // ✅ Logout
+  // Logout
   const handleLogout = () => {
+    localStorage.removeItem('user');
     setUser(null);
     navigate('/');
   };
 
-  // ✅ Abrir jogo
+  // Abrir jogo
   const handleStartExercise = (exercise) => {
+    if (!user) {
+      alert("Você precisa estar logado para jogar!");
+      navigate("/login");
+      return;
+    }
+
     const maps = {
       1: '/games/frontend/jogoBase',
       2: '/games/frontend/jogoFront2',
@@ -94,7 +126,7 @@ export default function App() {
 
   return (
     <Routes>
-      {/* ✅ Dashboard como tela inicial */}
+      {/* Dashboard */}
       <Route
         path="/"
         element={
@@ -107,7 +139,7 @@ export default function App() {
         }
       />
 
-      {/* ✅ Login */}
+      {/* Login */}
       <Route
         path="/login"
         element={
@@ -118,7 +150,7 @@ export default function App() {
         }
       />
 
-      {/* ✅ Registro */}
+      {/* Registro */}
       <Route
         path="/register"
         element={
@@ -129,10 +161,13 @@ export default function App() {
         }
       />
 
-      {/* ✅ Jogos */}
-      <Route path="/games/:modulo/:nivel" element={<GameLoader />} />
+      {/* Jogos */}
+      <Route
+        path="/games/:modulo/:nivel"
+        element={<GameLoader user={user} />}
+      />
 
-      {/* Redirecionamento padrão */}
+      {/* Padrão */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

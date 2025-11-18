@@ -1,13 +1,26 @@
+// src/components/ui/GameView.tsx
 import React, { useState } from 'react';
 import styles from '../../styles/jogo.module.css';
+
+interface TableRow {
+  [key: string]: string | number;
+}
 
 interface GameViewProps {
   falaPersonagem: string;
   fundo?: string;
-  personagem?: string;   // agora opcional
-  extra?: string;        // opcional
+  personagem?: string;
+  extra?: string;
   userStyle?: string;
-  apiResult?: string[];
+
+  apiResult?: any[];
+  tableData?: TableRow[];
+
+  /* GAME DE BANCO */
+  title?: string;
+  description?: string;
+  feedback?: string;
+  module?: "frontend" | "backend" | "database";  // ← ADICIONADO!
 }
 
 const GameView: React.FC<GameViewProps> = ({
@@ -16,39 +29,111 @@ const GameView: React.FC<GameViewProps> = ({
   personagem,
   extra,
   userStyle,
+
   apiResult,
+  tableData,
+
+  title,
+  description,
+  feedback,
+  module, // ← RECEBIDO AQUI!
 }) => {
+
   const [showApi, setShowApi] = useState(false);
 
   return (
-   <div className={styles.gameCard} style={{ position: 'relative', minHeight: '100px' }}>
+    <div className={styles.gameCard} style={{ position: "relative" }}>
+
+      {/* CSS DO ALUNO */}
       {userStyle && <style>{userStyle}</style>}
 
-      {/* Fundo e elementos visuais */}
-      <img src={fundo} alt="Cenário" className={styles.farm} />
-      {extra && <img src={extra} alt="Extra" className={styles.sol} />}
-      {personagem && <img src={personagem} alt="Personagem" className={styles.galinha} />}
+      {fundo && (
+        <img
+          src={fundo}
+          alt="Cenário"
+          className={styles.farm}
+          style={{ position: "absolute", zIndex: 1 }}
+        />
+      )}
 
-      {/* Fala do personagem */}
+      {extra && (
+        <img
+          src={extra}
+          alt="Extra"
+          className="sol"
+          style={{ position: "absolute", zIndex: 2 }}
+        />
+      )}
+
+      {personagem && (
+        <img
+          src={personagem}
+          alt="Personagem"
+          className="galinha"
+          style={{ position: "absolute", zIndex: 3 }}
+        />
+      )}
+
       <div className={styles.speechBubble}>{falaPersonagem}</div>
 
-      {/* Botão para mostrar ou ocultar JSON */}
       {apiResult && (
-        <button
-          className={styles.showApiButton}
-          onClick={() => setShowApi(!showApi)}
-        >
-          {showApi ? ' Ocultar JSON' : 'JSON'}
-        </button>
+        <>
+          <button className={styles.showApiButton} onClick={() => setShowApi(!showApi)}>
+            {showApi ? 'Ocultar JSON' : 'JSON'}
+          </button>
+
+          {showApi && (
+            <div className={styles.apiResponseBox}>
+              <h5>localhost:3000/docs</h5>
+              <h4>Resposta da Rota</h4>
+              <pre>{JSON.stringify(apiResult, null, 2)}</pre>
+            </div>
+          )}
+        </>
       )}
 
-      {/* Caixa com o resultado da rota */}
-      {showApi && apiResult && (
-        <div className={styles.apiResponseBox}>
-          <h4> Resposta da Rota /animais</h4>
-          <pre>{JSON.stringify(apiResult, null, 2)}</pre>
+      {/* ----------------- GAME DE BANCO DE DADOS ----------------- */}
+      {module === "database" && (
+        <div className={styles.dbGameCard}>
+
+          <h2 className={styles.dbTitle}>{title}</h2>
+          <p className={styles.dbDescription}>{description}</p>
+
+          {feedback && <div className={styles.dbFeedback}>{feedback}</div>}
+
+          {tableData && tableData.length > 0 ? (
+            <div className={styles.apiResponseBox}>
+              <h3>Resultado da sua tabela:</h3>
+
+              <table className={styles.dbTable}>
+                <thead>
+                  <tr>
+                    {Object.keys(tableData[0]).map((col) => (
+                      <th key={col}>{col}</th>
+                    ))}
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {tableData.map((row, i) => (
+                    <tr key={i}>
+                      {Object.values(row).map((value, j) => (
+                        <td key={j}>{value}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+          ) : (
+            <p className={styles.dbHint}>
+              📌 Digite um comando SQL no editor para gerar sua tabela!
+            </p>
+          )}
         </div>
       )}
+
     </div>
   );
 };
