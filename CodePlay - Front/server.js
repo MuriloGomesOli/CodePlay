@@ -44,13 +44,28 @@ app.post('/api/register', (req, res) => {
         return res.status(500).json({ message: 'Erro ao cadastrar usuário' });
       }
 
-      console.log('✅ Usuário cadastrado com sucesso, ID:', result.insertId);
-      // Retorna também o avatar escolhido
-      res.status(201).json({
-        message: 'Usuário cadastrado com sucesso',
-        name,
-        avatar
-      });
+      const userId = result.insertId;
+
+      // Após cadastrar, buscamos o usuário completo para retornar igual o login
+      connection.query(
+        'SELECT id, name, email, avatar FROM users WHERE id = ?',
+        [userId],
+        (err2, results) => {
+          if (err2) {
+            console.error('❌ Erro ao buscar usuário após cadastro:', err2);
+            return res.status(500).json({ message: 'Erro ao buscar usuário' });
+          }
+
+          const user = results[0];
+
+          res.status(201).json({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            avatar: user.avatar
+          });
+        }
+      );
     }
   );
 });
@@ -77,6 +92,30 @@ app.post('/api/login', (req, res) => {
     }
   );
 });
+
+// Rota de Progresso
+app.post("/progress", (req, res) => {
+  const { user_id, game_id } = req.body;
+
+  if (!user_id || !game_id) {
+    return res.status(400).json({ error: "user_id e game_id são obrigatórios" });
+  }
+
+  const sql = "INSERT INTO user_progress (user_id, game_id) VALUES (?, ?)";
+
+  connection.query(sql, [user_id, game_id], (err, result) => {
+    if (err) {
+      console.error("Erro ao salvar progresso:", err);
+      return res.status(500).json({ error: "Erro no servidor" });
+    }
+
+    res.json({
+      message: "Progresso salvo com sucesso!",
+      progressId: result.insertId
+    });
+  });
+});
+
 
 // Inicialização do servidor
 async function startServer() {

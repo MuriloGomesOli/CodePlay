@@ -90,14 +90,13 @@ const App: React.FC = () => {
 
         {/* -------- Coluna da direita: GameView -------- */}
         <GameView
-          title="Tabela de Animais"
-          description="Use SQL para criar a tabela e adicionar registros."
-          tableData={[
-            { id: 1, nome: "Galinha", tipo: "Ave" },
-            { id: 2, nome: "Vaca", tipo: "Mamífero" }
-          ]}
-          feedback="✔ Tabela criada com sucesso!"
+          falaPersonagem="Organize os elementos na fazenda!"
+          fundo={Fazenda}
+          personagem={Personagem}
+          extra={Extra}
+          userStyle={userCode} // CSS aplicado no cenário
         />
+
 
       </div>
     </>

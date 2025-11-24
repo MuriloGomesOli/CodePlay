@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ExerciseInfo from '../../ui/UserProfile';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
-import '../../../index.css'
-import '../../../global.d.ts'
+import '../../../index.css';
+import '../../../global.d.ts';
 import GameHeader from '../../ui/GameHeader.tsx';
 import styles from '../../../styles/jogo.module.css';
 
@@ -16,13 +16,15 @@ const App: React.FC = () => {
   const [rows, setRows] = useState<any[]>([]);
   const [feedback, setFeedback] = useState<string>("");
 
-  // 🔥 NOVOS estados para enviar ao GameView
+  // NOVOS estados para enviar ao GameView
   const [tableColumns, setTableColumns] = useState<string[]>([]);
   const [tableData, setTableData] = useState<any[]>([]);
 
+  // Armazena o SQL digitado
+  const [pendingSQL, setPendingSQL] = useState<string>("");
+
   // ------------------ PARSER SQL ------------------
   const handleSQL = (code: string) => {
-    setPendingSQL(code); 
     try {
       // ------------------ CREATE TABLE ------------------
       const createMatch = code.match(/create table\s+(\w+)\s*\(([\s\S]*?)\)/i);
@@ -58,7 +60,7 @@ const App: React.FC = () => {
           .split(',')
           .map((v) => v.trim().replace(/['"]/g, ''));
 
-        if (!tableName || insertTable !== tableName) continue;
+        if (!tableName || insertTable.toLowerCase() !== tableName.toLowerCase()) continue;
 
         let row: any = {};
         insertCols.forEach((col, i) => {
@@ -81,9 +83,12 @@ const App: React.FC = () => {
         setTableData(updatedRows);
 
         setFeedback(`Foram inseridas ${newRows.length} novas linhas.`);
+      } else {
+        setFeedback("Nenhum INSERT válido encontrado.");
       }
 
     } catch (error) {
+      console.error(error);
       setFeedback("Erro ao interpretar SQL.");
     }
   };
@@ -99,7 +104,7 @@ const App: React.FC = () => {
       />
 
       <div className={styles.appContainer}>
-        
+
         {/* Info inicial */}
         <ExerciseInfo
           title="Desafio: Criar a tabela de animais"
@@ -118,7 +123,7 @@ const App: React.FC = () => {
               🔥 <b>Dica importante:</b><br />
               O campo <code>id</code> deve usar <code>AUTO_INCREMENT</code> para gerar números automaticamente.<br />
               Exemplo:<br />
-              <code>CREATE TABLE animais (</code>
+              <code>CREATE TABLE animais (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(50), tipo VARCHAR(50));</code>
             </>
           }
           module="Banco de Dados"
@@ -129,17 +134,12 @@ const App: React.FC = () => {
         <CodeEditor
           welcomeText="Bem-vindo ao Code Play! Escreva seus comandos SQL abaixo."
           instructionText="Crie uma tabela usando CREATE TABLE. Depois, insira dados usando INSERT INTO."
-          codeExample="CREATE TABLE animais ("
+          codeExample={`CREATE TABLE animais (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  nome VARCHAR(50),\n  tipo VARCHAR(50)\n);`}
           hintText="Lembre: id, nome e tipo precisam estar na tabela."
           mainButtonText="CONFIRMAR"
           onNext={() => console.log('Próximo passo!')}
-          onCodeChange={handleSQL}
-          onSqlExecute={() => {
-            executeSQL(); 
-            // Quando clicar em confirmar → apenas mostrar tabela atual
-            setTableColumns(columns);
-            setTableData(rows);
-          }}
+          onCodeChange={(code) => setPendingSQL(code)} // salva SQL digitado
+          onSqlExecute={() => handleSQL(pendingSQL)} // executa SQL ao clicar CONFIRMAR
         />
 
         {/* Game View */}

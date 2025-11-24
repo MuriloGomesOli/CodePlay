@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ExerciseInfo from '../../ui/UserProfile';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
 import GameHeader from '../../ui/GameHeader';
 import '../../../index.css';
 import '../../../global.d.ts';
-import Fazenda from '../../../assets/fazenda.png';
 import styles from '../../../styles/jogo.module.css';
 
-const App: React.FC = () => {
-  const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('backend');
-  const [userCode, setUserCode] = useState(''); 
-  const [showJson, setShowJson] = useState(false); // controla exibição do JSON
+interface JogoBaseProps {
+  user: { id: string };
+  gameId: string;
+}
 
-  // Função de validação
+export default function JogoBase({ user, gameId }: JogoBaseProps) {
+  const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('backend');
+  const [userCode, setUserCode] = useState('');
+  const [showJson, setShowJson] = useState(false);
+
+  useEffect(() => {
+    window.salvarProgresso = async () => {
+      await fetch("http://localhost:5000/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: user.id,
+          game_id: gameId,
+        }),
+      });
+    };
+  }, [user.id, gameId]);
+
   const handleCheckCode = (input: string) => {
     const hasAppGet = /app\.get/.test(input);
     const hasRota = /['"]\/animais['"]/.test(input);
@@ -21,10 +37,10 @@ const App: React.FC = () => {
 
     if (hasAppGet && hasRota && hasResJson) {
       alert("✅ Parabéns! Você criou a rota corretamente.");
-      setShowJson(true); // exibe o JSON
+      setShowJson(true);
     } else {
       alert("👀 Verifique se você usou app.get, a rota '/animais' e res.json([...]).");
-      setShowJson(false); // esconde se estiver errado
+      setShowJson(false);
     }
   };
 
@@ -46,14 +62,12 @@ const App: React.FC = () => {
           objective={
             <>
               <strong>Exemplo de rota esperada:</strong><br/>
-              <code>app.get('/animais', (req, res) =&gt; {"{"}</code><br/>
+              <code>app.get('/animais', (req, res) {"=>"} {"{"}</code><br/>
               &nbsp;&nbsp;<code>res.json(['Coloque', 'os', 'animais pedidos']);</code><br/>
               <code>{"}"});</code><br/><br/>
-
               <strong>Explicação:</strong><br/>
-              Este desafio ensina como criar uma rota no <code>Express</code> que responde a uma requisição <code>GET</code>.  
+              Este desafio ensina como criar uma rota no <code>Express</code> que responde a uma requisição <code>GET</code>.<br/>
               Ao acessar <code>/animais</code>, o servidor retorna uma lista dos animais da fazenda no formato JSON.<br/><br/>
-
               <strong>Verificação:</strong><br/>
               — A função <code>app.get</code> é usada<br/>
               — A rota <code>/animais</code> foi criada<br/>
@@ -66,15 +80,9 @@ const App: React.FC = () => {
 
         <CodeEditor
           welcomeText="💻 Hora de criar sua rota!"
-          instructionText="
-            Crie uma rota GET no Express que devolve uma lista de animais da fazenda. 🐮🐔🐴  
-            A rota deve ser <code>/animais</code> e usar <code>res.json</code> para enviar a resposta."
+          instructionText="Crie uma rota GET no Express que devolve uma lista de animais da fazenda. 🐮🐔🐴"
           codeExample={`app.get('/', (req, res) => {\n  res.json(['', '', '']);\n});`}
-          hintText="
-            💡 <strong>Dica:</strong><br/>
-            — Use <code>(req, res)</code> como parâmetros.<br/>
-            — Use <code>res.json()</code> para enviar os dados.<br/>
-            — A rota deve ser <code>/animais</code>."
+          hintText="💡 Use (req, res) como parâmetros e res.json() para enviar os dados. A rota deve ser /animais."
           mainButtonText="CONFIRMAR"
           onNext={() => handleCheckCode(userCode)}
           onCodeChange={(code) => setUserCode(code)}
@@ -82,11 +90,9 @@ const App: React.FC = () => {
 
         <GameView
           falaPersonagem={showJson ? "Parabéns! Sua rota /animais funcionou!" : "Crie sua rota para ver o resultado!"}
-          apiResult={showJson ? ['Vaca', 'Cavalo', 'Galo'] : []} // mostra o JSON só se acertar
+          apiResult={showJson ? ['Vaca', 'Galinha', 'Cavalo'] : []}
         />
       </div>
     </>
   );
 }
-
-export default App;

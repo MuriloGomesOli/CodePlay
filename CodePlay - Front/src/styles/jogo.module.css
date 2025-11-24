@@ -265,6 +265,11 @@
 
 
 /* --- GAME CARD --- */
+.casa-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
 .gameCard {
   background-color: #a7d0fb;
   border-radius: 15px;

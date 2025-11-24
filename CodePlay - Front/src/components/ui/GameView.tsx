@@ -44,7 +44,7 @@ const GameView: React.FC<GameViewProps> = ({
   return (
     <div className={styles.gameCard} style={{ position: "relative" }}>
 
-      {/* CSS DO ALUNO */}
+      {/* ----------------- GAME DE FRONTEND ----------------- */}
       {userStyle && <style>{userStyle}</style>}
 
       {fundo && (
@@ -66,15 +66,19 @@ const GameView: React.FC<GameViewProps> = ({
       )}
 
       {personagem && (
+
         <img
           src={personagem}
           alt="Personagem"
-          className="galinha"
-          style={{ position: "absolute", zIndex: 3 }}
+          className="galinha casa"
+          style={{ zIndex: 3 }}
         />
       )}
 
       <div className={styles.speechBubble}>{falaPersonagem}</div>
+
+      {/* ----------------- GAME DE BACKEND ----------------- */}
+
 
       {apiResult && (
         <>

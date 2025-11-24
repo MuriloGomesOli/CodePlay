@@ -1,54 +1,93 @@
-import React, {useState} from 'react';
+// src/components/App.tsx
+import React, { useState } from 'react';
+import ExerciseInfo from '../../ui/UserProfile';
 import CodeEditor from '../../ui/CodeEditor';
 import GameView from '../../ui/GameView';
 import GameHeader from '../../ui/GameHeader';
-import '../../../index.css'
-import '../../../global.d.ts'
-import Fazenda from '../../../assets/fazenda.png'
-import Fazendeiro from '../../../assets/fazendeiro.png'
-import Trator from '../../../assets/trator.png'
+import '../../../index.css';
+import '../../../global.d.ts';
+import Casa from '../../../assets/casa.png';
 import styles from '../../../styles/jogo.module.css';
-import ExerciseInfo from '../../ui/UserProfile';
 
 const App: React.FC = () => {
   const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('frontend');
+  const [userCode, setUserCode] = useState('');
+
+    const handleCheckCode = (input: string) => {
+      const hasContainer = /\.casa\s*\{/.test(input);
+      const hasDisplayFlex = /display\s*:\s*flex/.test(input);
+      const hasJustify = /justify-content\s*:\s*center/.test(input);
+      const hasAlign = /align-items\s*:\s*center/.test(input);
+
+      if (hasContainer && hasDisplayFlex && hasJustify && hasAlign) {
+        alert("🏡✨ Perfeito! A casa foi centralizada com Flexbox!");
+      } else {
+        alert("❗ Centralize a .casa usando display:flex, justify-content:center e align-items:center");
+      }
+    };
+
 
   return (
-  <>
-    {/* Cabeçalho fixo no topo */}
-    <GameHeader
-      onLogout={() => console.log('Usuário saiu')}
-      currentModule={currentModule}
-      level="2"
-      onModuleChange={setCurrentModule}
-    />
+    <>
+      <GameHeader
+        userName="Programador(a)"
+        onLogout={() => console.log('Usuário saiu')}
+        currentModule={currentModule}
+        level="2"
+      />
 
-    <div className={styles.appContainer}>
-      <ExerciseInfo
-        title="Desafio: Montando a Fazenda com CSS"
-        description="Neste desafio, você vai aprender a controlar o posicionamento de elementos usando CSS."
-        context="Os elementos da fazenda estão desorganizados. Você precisa posicioná-los corretamente na tela."
-        objective="Use propriedades como top, left, bottom e right para ajustar o layout."
-        module="Front-end"
-        level={2}
-      />
-      <CodeEditor
-        welcomeText="🐮 Bem-vindo ao Nível 2 do Code Play! Hora de dar vida à fazenda com movimento e estilo."
-        instructionText="Escreva um comando para aprender sobre movimentos e montar a fazenda. Use <code>position</code> diferente de <code>static</code>."
-        codeExample="/* Exemplo de comando CSS */"
-        hintText="top: 10px;<br/>left: 5px;<br/>bottom: 20px;<br/>right: 5px;"
-        mainButtonText="CONFRIMAR"
-        onNext={() => console.log('Próximo passo!')}
-/>
-      <GameView 
-        falaPersonagem="Olá! Vamos montar minha fazenda juntos?"
-        fundo= {Fazenda}
-        personagem={Fazendeiro}
-        extra={Trator}
-      />
-    </div>
-  </>
-);
-} 
+      <div className={styles.appContainer}>
+        <ExerciseInfo
+          title="🧩 Nível 2 — Centralize a Casa"
+          description="Agora você vai aprender o Flexbox básico!"
+          context="A casa está fora do centro — e para piorar, é uma casa de cachorro completamente torta e deslocada, desafiando sua dignidade como dev. Centralizá-la é um ato de humanidade e de CSS."
+          objective={
+            <>
+              <strong>Objetivo:</strong><br />
+              Centralizar a <code>.casa</code> exatamente no meio da área do jogo.<br /><br />
+
+              <strong>Use dentro de .fazenda:</strong><br />
+              <code>display: flex;</code><br />
+              <code>justify-content: center;</code><br />
+              <code>align-items: center;</code><br /><br />
+
+              <strong>Aprendizado:</strong><br />
+              Flexbox = alinhamento fácil, rápido e salvador de layouts perdidos. 🎯
+            </>
+          }
+          module="Front-end"
+          level={2}
+        />
+
+        <CodeEditor
+          welcomeText="🏡 Centralize a Casa do cachorro!"
+          instructionText="Use Flexbox para centralizar qualquer elemento. Inclusive casas de cachorro revoltadas."
+          codeExample={
+            ".casa {\n" +
+            "\n" +
+            "\n" +
+            "}\n" +
+            ".casa-img {\n" +
+            "  width: 200px;\n" +
+            "  height: auto;\n" +
+            "}\n"
+          }
+          hintText="DICA: justify-content e align-items trabalham juntos — tipo uma dupla sertaneja do CSS."
+          mainButtonText="CONFIRMAR"
+          onNext={() => handleCheckCode(userCode)}
+          onCodeChange={(code) => setUserCode(code)}
+        />
+
+        <GameView
+          falaPersonagem="Coloque a casa bem no centro!"
+          fundo={null}
+          personagem={Casa}
+          extra={undefined}
+          userStyle={userCode}
+        />
+      </div>
+    </>
+  );
+};
 
 export default App;

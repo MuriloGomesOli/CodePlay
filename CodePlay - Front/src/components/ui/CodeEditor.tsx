@@ -8,9 +8,16 @@ interface CodeEditorProps {
   codeExample: string;
   hintText?: string;
   mainButtonText?: string;
+
   onNext?: () => void;
   onCodeChange?: (code: string) => void;
-  onSaveProgress?: () => void; // ✅ opcional (salvar progresso)
+
+  // SQL opcional — só funcionam no jogo de banco de dados
+  onTableCreate?: (data: { tableName: string; columns: string[] }) => void;
+  onInsertRow?: (data: { tableName: string; row: any }) => void;
+  onSqlExecute?: () => void;
+
+  onSaveProgress?: () => void;
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
@@ -21,142 +28,118 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   mainButtonText = 'CODEPLAY',
   onNext,
   onCodeChange,
-  onTableCreate?: (data: { tableName: string; columns: string[] }) => void;
-  onInsertRow?: (data: { tableName: string; row: any }) => void;
-  onSaveProgress, // ✅ recebido aqui também
+  onTableCreate,
+  onInsertRow,
+  onSqlExecute,
 }) => {
   const [showHint, setShowHint] = useState(false);
   const [code, setCode] = useState(codeExample);
-  const [textHeight, setTextHeight] = useState<number | undefined>(undefined);
-
+  const [textHeight, setTextHeight] = useState<number | undefined>();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Ajusta altura do textarea conforme digita
+  /* ===== altura dinâmica ===== */
   const adjustHeight = () => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-      setTextHeight(textareaRef.current.scrollHeight);
-    }
+    if (!textareaRef.current) return;
+    textareaRef.current.style.height = 'auto';
+    textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+    setTextHeight(textareaRef.current.scrollHeight);
   };
 
-  // Atualiza altura sempre que o código muda
-  useEffect(() => {
-    adjustHeight();
-  }, [code]);
+  useEffect(() => adjustHeight(), [code]);
 
-  // Calcula número de linhas
+  /* ===== números das linhas ===== */
   const lineNumbers = useMemo(() => {
-    const lineCount = code.split('\n').length;
-    return Array.from({ length: lineCount }, (_, i) => i + 1);
+    return Array.from({ length: code.split('\n').length }, (_, i) => i + 1);
   }, [code]);
 
-  // Lida com a mudança de código
+  /* ===== atualizar código digitado ===== */
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCode(e.target.value);
     onCodeChange?.(e.target.value);
   };
 
- handleMainButtonconst handleMainButton = () => {
-  const sql = code.trim();
+  /* ===========================================================
+     BOTÃO PRINCIPAL → detecta SQL OU apenas chama onNext
+  ============================================================ */
+  const handleMainButton = () => {
+    const sql = code.trim();
 
-  /* ============================
-      1. CAPTURAR CREATE TABLE
-  ============================ */
-  const createRegex = /CREATE\s+TABLE\s+([a-zA-Z0-9_]+)\s*\(([\s\S]+?)\);?/i;
-  const createMatch = sql.match(createRegex);
+    /* ------ CREATE TABLE ------ */
+    const createRegex = /CREATE\s+TABLE\s+([a-zA-Z0-9_]+)\s*\(([\s\S]+?)\);?/i;
+    const c = sql.match(createRegex);
 
-  if (createMatch) {
-    const tableName = createMatch[1];
+    if (c) {
+      const tableName = c[1];
+      const columns = c[2]
+        .split(',')
+        .map((x) => x.trim().split(/\s+/)[0])
+        .filter(Boolean);
 
-    const columnsRaw = createMatch[2]
-      .split(',')
-      .map((col) => col.trim().split(/\s+/)[0])
-      .filter((c) => c.length > 0);
+      onTableCreate?.({ tableName, columns });
+      onSqlExecute?.();
 
-    onTableCreate?.({
-      tableName,
-      columns: columnsRaw,
-    });
+      alert(`Tabela "${tableName}" criada!`);
+      return;
+    }
 
-    alert(`Tabela "${tableName}" criada com sucesso!`);
-    return;
-  }
+    /* ------ INSERT INTO ------ */
+    const insertRegex =
+      /INSERT\s+INTO\s+([a-zA-Z0-9_]+)\s*\(([\s\S]+?)\)\s*VALUES\s*\(([\s\S]+?)\);?/i;
+    const i = sql.match(insertRegex);
 
-  /* ============================
-      2. CAPTURAR INSERT INTO
-  ============================ */
-  const insertRegex =
-    /INSERT\s+INTO\s+([a-zA-Z0-9_]+)\s*\(([\s\S]+?)\)\s*VALUES\s*\(([\s\S]+?)\);?/i;
+    if (i) {
+      const tableName = i[1];
+      const cols = i[2].split(',').map((t) => t.trim());
+      const vals = i[3]
+        .split(',')
+        .map((v) => v.trim().replace(/^'|'$/g, ''));
 
-  const insertMatch = sql.match(insertRegex);
+      const row: any = {};
+      cols.forEach((c, index) => (row[c] = vals[index] ?? ''));
 
-  if (insertMatch) {
-    const tableName = insertMatch[1];
-    const colNames = insertMatch[2].split(',').map((c) => c.trim());
-    const rawValues = insertMatch[3]
-      .split(',')
-      .map((v) => v.trim().replace(/^'|'$/g, "")); // remove aspas
+      onInsertRow?.({ tableName, row });
+      onSqlExecute?.();
 
-    const row: any = {};
-    colNames.forEach((col, i) => {
-      row[col] = rawValues[i] ?? "";
-    });
+      alert('Linha inserida!');
+      return;
+    }
 
-    onInsertRow?.({
-      tableName,
-      row,
-    });
-
-    alert("Linha inserida com sucesso!");
-    return;
-  }
-
-  alert("Nenhum comando SQL válido foi detectado.");
-};
-
-    // Se quiser salvar progresso toda vez que apertar CODEPLAY:
-    // onSaveProgress?.();
-
+    /* ------ não é SQL → fluxo normal ------ */
     onNext?.();
   };
 
   return (
     <div className={styles.codeCard}>
-      {/* Seção de boas-vindas */}
+      
       <div className={styles.welcomeSection}>
-        <img src={codeLogo} alt="Code Play Logo" className={styles.codeLogo} />
+        <img src={codeLogo} className={styles.codeLogo} />
         <p className={styles.welcomeText}>{welcomeText}</p>
       </div>
 
-      {/* Instruções */}
       <div
         className={styles.instruction}
         dangerouslySetInnerHTML={{ __html: instructionText }}
       />
 
-      {/* Editor de código */}
-      <div className={styles.editorArea} style={{ alignItems: 'flex-start' }}>
-        {/* Números de linha */}
+      <div className={styles.editorArea}>
         <div className={styles.lineNumbersContainer} style={{ height: textHeight }}>
-          {lineNumbers.map((number) => (
-            <span key={number} className={styles.lineNumber}>
-              {number}
+          {lineNumbers.map((n) => (
+            <span key={n} className={styles.lineNumber}>
+              {n}
             </span>
           ))}
         </div>
 
         <textarea
           ref={textareaRef}
-          className={styles.codeTextarea}
           value={code}
+          className={styles.codeTextarea}
           onChange={handleChange}
           onInput={adjustHeight}
           style={{ height: textHeight }}
         />
       </div>
 
-      {/* Dica + botões */}
       <div className={styles.hintSection}>
         {showHint && hintText && (
           <>
@@ -164,18 +147,15 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
               className={styles.hintBox}
               dangerouslySetInnerHTML={{ __html: hintText }}
             />
-            <div className={styles.arrow}></div>
+            <div className={styles.arrow} />
           </>
         )}
 
-        <div
-          className={styles.buttonLine}
-          style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}
-        >
+        <div className={styles.buttonLine}>
           {hintText && (
             <button
               className={`${styles.actionButton} ${styles.hintButton}`}
-              onClick={() => setShowHint(!showHint)}
+              onClick={() => setShowHint((s) => !s)}
             >
               {showHint ? 'OCULTAR' : 'DICA'}
             </button>
@@ -183,12 +163,13 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
           <button
             className={`${styles.actionButton} ${styles.codePlayButton}`}
-            onClick={handleMainButton, onSqlExecute}
+            onClick={handleMainButton}
           >
             {mainButtonText}
           </button>
         </div>
       </div>
+
     </div>
   );
 };
