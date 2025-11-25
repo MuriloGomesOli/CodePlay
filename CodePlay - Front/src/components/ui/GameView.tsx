@@ -12,6 +12,7 @@ interface GameViewProps {
   personagem?: string;
   extra?: string;
   userStyle?: string;
+  containerClass?: string; // Nova prop para wrapper container
 
   apiResult?: any[];
   tableData?: TableRow[];
@@ -29,6 +30,7 @@ const GameView: React.FC<GameViewProps> = ({
   personagem,
   extra,
   userStyle,
+  containerClass, // Nova prop
 
   apiResult,
   tableData,
@@ -66,13 +68,22 @@ const GameView: React.FC<GameViewProps> = ({
       )}
 
       {personagem && (
-
-        <img
-          src={personagem}
-          alt="Personagem"
-          className="galinha casa"
-          style={{ zIndex: 3 }}
-        />
+        containerClass ? (
+          <div className={containerClass} style={{ position: "absolute", width: "100%", height: "100%", zIndex: 3 }}>
+            <img
+              src={personagem}
+              alt="Personagem"
+              className="casa-img"
+            />
+          </div>
+        ) : (
+          <img
+            src={personagem}
+            alt="Personagem"
+            className="galinha casa"
+            style={{ zIndex: 3 }}
+          />
+        )
       )}
 
       <div className={styles.speechBubble}>{falaPersonagem}</div>

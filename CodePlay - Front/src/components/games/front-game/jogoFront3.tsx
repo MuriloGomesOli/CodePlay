@@ -18,15 +18,17 @@ const App: React.FC = () => {
 
   // ✅ Função de verificação do código CSS do aluno
   const handleCheckCode = (input: string) => {
-    const hasFlexWrap = /flex-wrap:\s*wrap/.test(input);
-    const hasGap = /gap:\s*\d+px/.test(input);
-    const hasAlignContent = /align-content:\s*space-between/.test(input);
+    const hasCeleiro = /\.celeiro\s*\{/.test(input);
+    const hasDisplayFlex = /display\s*:\s*flex/.test(input);
+    const hasFlexWrap = /flex-wrap\s*:\s*wrap/.test(input);
+    const hasGap = /gap\s*:\s*\d+px/.test(input);
+    const hasAlignContent = /align-content\s*:\s*space-between/.test(input);
 
-    if (hasFlexWrap && hasGap && hasAlignContent) {
+    if (hasCeleiro && hasDisplayFlex && hasFlexWrap && hasGap && hasAlignContent) {
       alert("✅ Celeiro montado com sucesso! O layout agora é responsivo!");
       setShowResult(true);
     } else {
-      alert("👀 Lembre-se de usar flex-wrap: wrap;, gap: (algum valor em px) e align-content: space-between;");
+      alert("👀 Lembre-se de usar .celeiro com display: flex;, flex-wrap: wrap;, gap: (algum valor em px) e align-content: space-between;");
       setShowResult(false);
     }
   };
@@ -77,7 +79,7 @@ const App: React.FC = () => {
           instructionText="
             Crie uma classe <code>.celeiro</code> que utilize <code>display: flex</code>,  
             <code>flex-wrap: wrap</code>, <code>gap</code> e <code>align-content</code> para um layout adaptável."
-          codeExample={".celeiro {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 10px;\n  align-content: space-between;\n}"}
+          codeExample={".celeiro {\n\n\n\n\n}"}
           hintText="
             💡 <strong>Dica:</strong><br/>
             — Use <code>display: flex;</code><br/>

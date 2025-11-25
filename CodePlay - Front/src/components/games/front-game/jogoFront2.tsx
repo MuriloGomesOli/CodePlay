@@ -13,18 +13,18 @@ const App: React.FC = () => {
   const [currentModule, setCurrentModule] = useState<'frontend' | 'backend' | 'database'>('frontend');
   const [userCode, setUserCode] = useState('');
 
-    const handleCheckCode = (input: string) => {
-      const hasContainer = /\.casa\s*\{/.test(input);
-      const hasDisplayFlex = /display\s*:\s*flex/.test(input);
-      const hasJustify = /justify-content\s*:\s*center/.test(input);
-      const hasAlign = /align-items\s*:\s*center/.test(input);
+  const handleCheckCode = (input: string) => {
+    const hasContainer = /\.casa\s*\{/.test(input);
+    const hasDisplayFlex = /display\s*:\s*flex/.test(input);
+    const hasJustify = /justify-content\s*:\s*center/.test(input);
+    const hasAlign = /align-items\s*:\s*center/.test(input);
 
-      if (hasContainer && hasDisplayFlex && hasJustify && hasAlign) {
-        alert("🏡✨ Perfeito! A casa foi centralizada com Flexbox!");
-      } else {
-        alert("❗ Centralize a .casa usando display:flex, justify-content:center e align-items:center");
-      }
-    };
+    if (hasContainer && hasDisplayFlex && hasJustify && hasAlign) {
+      alert("🏡✨ Perfeito! A casa foi centralizada com Flexbox!");
+    } else {
+      alert("❗ Centralize a .casa usando display:flex, justify-content:center e align-items:center");
+    }
+  };
 
 
   return (
@@ -46,10 +46,12 @@ const App: React.FC = () => {
               <strong>Objetivo:</strong><br />
               Centralizar a <code>.casa</code> exatamente no meio da área do jogo.<br /><br />
 
-              <strong>Use dentro de .fazenda:</strong><br />
-              <code>display: flex;</code><br />
-              <code>justify-content: center;</code><br />
-              <code>align-items: center;</code><br /><br />
+              <strong>O aluno deve escrever:</strong><br />
+              <code>.casa {"{"}</code><br />
+              &nbsp;&nbsp;<code>display: flex;</code><br />
+              &nbsp;&nbsp;<code>justify-content: center;</code><br />
+              &nbsp;&nbsp;<code>align-items: center;</code><br />
+              <code>{"}"}</code><br /><br />
 
               <strong>Aprendizado:</strong><br />
               Flexbox = alinhamento fácil, rápido e salvador de layouts perdidos. 🎯
@@ -84,6 +86,7 @@ const App: React.FC = () => {
           personagem={Casa}
           extra={undefined}
           userStyle={userCode}
+          containerClass="casa"
         />
       </div>
     </>
