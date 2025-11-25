@@ -1,265 +1,161 @@
-/* ==============================
-   LAYOUT GERAL
-   ============================== */
-.minScreen {
-  min-height: 100vh;
-  background: #fdf6f1; /* bege suave */
-  display: flex;
-  flex-direction: column;
-}
-
-.pageContainer {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  width: 100%;
-}
-
-/* ==============================
-   HEADER
-   ============================== */
+/* ===========================
+    HEADER
+=========================== */
 .dashboardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff8f2; /* marrom claro */
-  border-bottom: 1px solid #e5e1dc;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   position: sticky;
   top: 0;
-  z-index: 50;
-  padding: 0.5rem 1rem;
+  background: #fff;
+  padding: 10px 0;
+  z-index: 10;
+  border-bottom: 1px solid #eee;
 }
-
-/* ==============================
-   USUÁRIO (CANTO ESQUERDO)
-   ============================== */
-.userInfo {
+ 
+.headerContainer {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  /* Removida a linha justify-content: space-between para permitir o alinhamento via margin-left: auto */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
 }
-
-.userAvatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid #e5e1dc;
-  object-fit: cover;
-  transition: transform 0.2s ease;
-}
-
-.userAvatar:hover {
-  transform: scale(1.1);
-}
-
-.userName {
-  color: #7c6a57; /* marrom suave */
-  font-weight: 600;
-}
-
-/* ==============================
-   LOGO CENTRALIZADA
-   ============================== */
-.logoContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 100px;
-  background: #ffffff;
-  border: 2px solid #6b4226; /* marrom escuro */
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.logoContainer img {
-  width: 80%;
-  height: 80%;
-  object-fit: cover;
-}
-
-/* ==============================
-   AÇÕES / BOTÕES HEADER (CANTO DIREITO)
-   ============================== */
-.actions {
+ 
+/* Usuário à esquerda */
+.headerUser {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 10px;
 }
-
+ 
+/* LOGO - Agora no fluxo normal à esquerda */
+.headerLogo {
+  /* Propriedades de centralização removidas: */
+  /* position: absolute; */
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
+ 
+  /* Adicionado margem para separar da saudação (.headerUser) */
+  margin-right: 20px;
+}
+ 
+/* Botões à direita */
+.headerActions {
+  display: flex;
+  align-items: center;
+  /* ESSENCIAL: Empurra o elemento para a extrema direita */
+  margin-left: auto;
+}
+ 
 .headerBtn {
-  background: #c1622b;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.35rem 0.75rem;
-  font-weight: 600;
-  font-size: 0.875rem;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  transition: all 0.2s ease;
+  gap: 6px;
+  font-size: 14px;
+  padding: 6px 12px;
 }
-
-.headerBtn:hover {
-  background: #a14f2a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(193,98,43,0.25);
-}
-
-.headerBtn:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-/* ==============================
-   TÍTULOS
-   ============================== */
-.panelHeading {
-  margin-bottom: 2rem;
-}
-
-.dashboardTitle {
-  font-size: 2.25rem;
-  font-weight: 800;
-  text-align: center;
-  margin: 2rem 0 1rem 0;
-  background: linear-gradient(90deg, #c1622b, #a14f2a, #6b4226);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  transition: all 0.3s ease;
-}
-
-.dashboardSubtitle {
-  font-size: 1.25rem;
-  text-align: center;
-  color: #7c6a57;
-  margin-bottom: 2rem;
-}
-
-/* ==============================
-   GRID DE EXERCÍCIOS
-   ============================== */
-.exerciseGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-bottom: 4rem;
-}
-
-@media (max-width: 1024px) {
-  .exerciseGrid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 640px) {
-  .exerciseGrid { grid-template-columns: 1fr; }
-}
-
-/* ==============================
-   CARD
-   ============================== */
-.dashboardCard {
-  background: #fff5ef; /* marrom muito claro */
-  border-radius: 16px;
-  padding: 1.25rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dashboardCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-
-.cardTitle {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #4b3a2f; /* marrom escuro */
-}
-
-.cardDesc {
-  font-size: 0.95rem;
-  color: #7c6a57; /* marrom médio */
-  margin-top: 0.25rem;
-}
-
-/* ==============================
-   BADGES DE DIFICULDADE
-   ============================== */
-.badgeDifficulty {
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: transform 0.2s ease;
-}
-
-.easy   { background: #fff2e6; color: #b45309; }
-.medium { background: #ffe6d0; color: #c1622b; }
-.hard   { background: #f3d7c4; color: #9a3412; }
-
-.badgeDifficulty:hover { transform: scale(1.05); }
-
-/* ==============================
-   BOTÕES
-   ============================== */
-.dashboardBtn {
-  background: #c1622b;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.2s ease;
-}
-
-.dashboardBtn:hover {
-  background: #a14f2a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(193,98,43,0.25);
-}
-
-.dashboardBtn:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-/* ==============================
-   RODAPÉ
-   ============================== */
-.dashboardFooter {
-  text-align: center;
-  padding: 1.5rem 0;
-  color: #9c8c7a;
-  font-size: 0.875rem;
-}
-.dashboardLogoMain {
+ 
+/* ===========================
+    GRID DE NAVEGAÇÃO (Front/Back/DB)
+=========================== */
+.categoryTabs {
   display: flex;
   justify-content: center;
+  gap: 16px;
+  margin: 30px 0;
+}
+ 
+.categoryTab {
+  display: flex;
   align-items: center;
-  width: 160px;
-  height: 160px;
-  margin: 2rem auto;
-  background: #ffffff;
-  border: 3px solid #6b4226; /* marrom escuro */
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+  background: #f5f5f5;
+  font-size: 15px;
 }
-
-.dashboardLogoMain img {
-  width: 80%;
-  height: 80%;
-  object-fit: cover;
+ 
+.categoryTab.active {
+  background: #d67a41;
+  color: white;
 }
-
-.dashboardLogoMain:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(107,66,38,0.3);
+ 
+/* ===========================
+    GRID DE EXERCÍCIOS
+=========================== */
+.exerciseGrid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+}
+ 
+/* ===========================
+    CARD DO DESAFIO
+=========================== */
+.exerciseCard {
+  background: #fff8f3;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+ 
+.exerciseTitle {
+  font-size: 20px;
+  font-weight: 700;
+}
+ 
+.exerciseDescription {
+  color: #666;
+  font-size: 15px;
+}
+ 
+/* Tags */
+.tagList {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+ 
+.tag {
+  background: #eee;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+ 
+/* Botão do Card */
+.cardBtn {
+  margin-top: 10px;
+  width: 100%;
+  background: #cb6227;
+  color: white;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+ 
+.cardBtn:hover {
+  background: #a95123;
+}
+ 
+/* ===========================
+    RESPONSIVIDADE
+=========================== */
+@media (max-width: 768px) {
+  /* A logo agora está no fluxo, então ajustamos seu transform para funcionar com as novas regras */
+  .headerLogo {
+    transform: scale(0.85); /* Removido o translateX(-50%) */
+  }
+ 
+  .exerciseGrid {
+    grid-template-columns: 1fr;
+  }
 }
