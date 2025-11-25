@@ -105,12 +105,18 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     }
 
     /* ------ não é SQL → fluxo normal ------ */
+    // Se tiver onSqlExecute, tenta executar como SQL genérico (UPDATE, DELETE, SELECT etc.)
+    if (onSqlExecute) {
+      onSqlExecute();
+      return;
+    }
+
     onNext?.();
   };
 
   return (
     <div className={styles.codeCard}>
-      
+
       <div className={styles.welcomeSection}>
         <img src={codeLogo} className={styles.codeLogo} />
         <p className={styles.welcomeText}>{welcomeText}</p>

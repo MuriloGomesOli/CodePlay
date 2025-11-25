@@ -58,13 +58,12 @@ function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex
         <div className="flex justify-between items-start">
           <CardTitle className="cardTitle">{exercise.title}</CardTitle>
           <Badge
-            className={`badgeDifficulty ${
-              exercise.difficulty === 'Fácil'
+            className={`badgeDifficulty ${exercise.difficulty === 'Fácil'
                 ? 'easy'
                 : exercise.difficulty === 'Médio'
-                ? 'medium'
-                : 'hard'
-            }`}
+                  ? 'medium'
+                  : 'hard'
+              }`}
           >
             {exercise.difficulty}
           </Badge>
@@ -93,7 +92,7 @@ function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex
 export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: DashboardProps) {
   return (
     <div className="minScreen">
-      
+
       {/* HEADER */}
       <header className="dashboardHeader">
         <div className="pageContainer headerContainer justify-between">

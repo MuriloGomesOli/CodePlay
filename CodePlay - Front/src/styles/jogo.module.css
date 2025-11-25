@@ -2,11 +2,12 @@
 /* ----------------------- Layout geral ----------------------- */
 .appContainer {
   display: grid;
-  grid-template-columns: 3fr 4fr 3fr; /* 3 áreas: info | editor | game */
+  grid-template-columns: 3fr 4fr 3fr;
+  /* 3 áreas: info | editor | game */
   gap: 10px;
   padding: 10px;
   min-height: 90vh;
-  background-color:#ffa95398;
+  background-color: #ffa95398;
 }
 
 /* ----------------------- Exercise Info (à esquerda) ----------------------- */
@@ -15,7 +16,7 @@
   border: 2px solid #ffe58f;
   border-radius: 15px;
   padding: 30px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   flex-direction: column;
   justify-content: space-between;
   gap: 15px;
@@ -115,14 +116,16 @@
   font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
   color: white;
   min-height: 100px;
-  align-items: flex-start; /* alinhamento no topo */
+  align-items: flex-start;
+  /* alinhamento no topo */
 }
 
 
 .lineNumber {
   font-family: monospace;
   font-size: 1em;
-  line-height: 1.5; /* MESMO que o textarea */
+  line-height: 1.5;
+  /* MESMO que o textarea */
   color: #888;
 }
 
@@ -131,7 +134,8 @@
   flex-direction: column;
   flex-shrink: 0;
   padding: 0px 10px;
-  background-color: #111; /* cor do fundo da linha */
+  background-color: #111;
+  /* cor do fundo da linha */
   border-right: 1px solid #333;
   text-align: right;
   user-select: none;
@@ -146,16 +150,19 @@
   outline: none;
   font-family: 'Fira Code', monospace;
   font-size: 1em;
-  line-height: 1,5; /* MESMO que os números */
+  line-height: 1, 5;
+  /* MESMO que os números */
   padding: 0 10px;
-  white-space: pre-wrap; /* respeita quebras de linha */
+  white-space: pre-wrap;
+  /* respeita quebras de linha */
   overflow-wrap: break-word;
 }
 
 /* Hint + Botões */
 .hintSection {
   display: flex;
-  flex-direction: column; /* Coloca a dica acima dos botões */
+  flex-direction: column;
+  /* Coloca a dica acima dos botões */
   gap: 10px;
   margin-top: 10px;
 }
@@ -205,17 +212,22 @@
 
 .buttonLine {
   display: flex;
-  justify-content: space-between; /* DICA à esquerda, CODEPLAY à direita */
-  gap: 10px; /* Espaço entre os botões */
+  justify-content: space-between;
+  /* DICA à esquerda, CODEPLAY à direita */
+  gap: 10px;
+  /* Espaço entre os botões */
   margin-top: 10px;
 }
 
 .hintButton,
 .codePlayButton {
-  flex: 1; /* Faz ambos os botões ocuparem o mesmo espaço */
+  flex: 1;
+  /* Faz ambos os botões ocuparem o mesmo espaço */
   text-align: center;
-  padding: 15px 0; /* Altura uniforme */
-  font-size: 1.2em; /* Mesma fonte */
+  padding: 15px 0;
+  /* Altura uniforme */
+  font-size: 1.2em;
+  /* Mesma fonte */
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
@@ -245,22 +257,26 @@
 
 /* Botão amarelo */
 .explanationButton {
-  flex: 1; /* Mesma largura dos outros botões */
+  flex: 1;
+  /* Mesma largura dos outros botões */
   text-align: center;
   padding: 15px 0;
   font-size: 1.2em;
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
-  background-color: #FFD700; /* amarelo */
-  color: #333; /* texto escuro */
+  background-color: #FFD700;
+  /* amarelo */
+  color: #333;
+  /* texto escuro */
   border: none;
   text-transform: uppercase;
   transition: background-color 0.2s ease;
 }
 
 .explanationButton:hover {
-  background-color: #FFC107; /* amarelo mais forte ao passar o mouse */
+  background-color: #FFC107;
+  /* amarelo mais forte ao passar o mouse */
 }
 
 
@@ -278,9 +294,11 @@
   position: relative;
   overflow: hidden;
   display: flex;
-  flex-direction: column; /* empilha verticalmente */
+  flex-direction: column;
+  /* empilha verticalmente */
   align-items: center;
-  justify-content: flex-start; /* elementos começam do topo */
+  justify-content: flex-start;
+  /* elementos começam do topo */
 }
 
 /* --- BALÃO DE FALA --- */
@@ -295,10 +313,13 @@
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   z-index: 4;
   max-width: 70%;
-  margin-top: 10px; /* distância do topo do GameView */
+  margin-top: 10px;
+  /* distância do topo do GameView */
   line-height: 1.4;
-  position: relative; /* deixa no fluxo, não absoluto */
+  position: relative;
+  /* deixa no fluxo, não absoluto */
 }
+
 .speechBubble::after {
   content: '';
   position: absolute;
@@ -322,7 +343,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 0 6px #a7d0fb;
-  margin-top: 20px; /* distância do balão */
+  margin-top: 20px;
+  /* distância do balão */
   z-index: 5;
 }
 
@@ -334,8 +356,10 @@
 
 /* --- BLOCO DE RESPOSTA DA API --- */
 .apiResponseBox {
-  flex-grow: 1; /* ocupa o máximo possível do GameView */
-  width: 95%; /* quase toda a largura */
+  flex-grow: 1;
+  /* ocupa o máximo possível do GameView */
+  width: 95%;
+  /* quase toda a largura */
   background: #111;
   color: #a7d0fb;
   border: 2px solid #a7d0fb;
@@ -345,8 +369,10 @@
   text-align: left;
   white-space: pre-wrap;
   box-shadow: 0 0 12px rgba(0, 255, 0, 0.3);
-  margin-top: 12px; /* espaço do botão para o JSON */
-  overflow-y: auto; /* permite scroll se o conteúdo for grande */
+  margin-top: 12px;
+  /* espaço do botão para o JSON */
+  overflow-y: auto;
+  /* permite scroll se o conteúdo for grande */
   animation: fadeIn 0.4s ease-in-out;
 }
 
@@ -387,18 +413,20 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 /* ----------------------- TABELA MYSQL ----------------------- */
 
 .dbGameCard {
   background: #ffffff;
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .dbTitle {
@@ -591,5 +619,3 @@
   gap: 6px;
   font-weight: 500;
 }
-
-

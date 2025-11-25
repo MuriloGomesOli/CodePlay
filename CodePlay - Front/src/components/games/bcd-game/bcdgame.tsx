@@ -49,7 +49,7 @@ const App: React.FC = () => {
       }
 
       // ------------------ INSERT INTO ------------------
-      const insertMatches = code.matchAll(/insert into\s+(\w+)\s*(\((.*?)\))?\s*values\s*\((.*?)\)/gi);
+      const insertMatches = [...code.matchAll(/insert into\s+(\w+)\s*(\(([\s\S]*?)\))?\s*values\s*\(([\s\S]*?)\)/gi)];
 
       let newRows: any[] = [];
 
@@ -124,6 +124,7 @@ const App: React.FC = () => {
               O campo <code>id</code> deve usar <code>AUTO_INCREMENT</code> para gerar números automaticamente.<br />
               Exemplo:<br />
               <code>CREATE TABLE animais (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(50), tipo VARCHAR(50));</code>
+              <code>Crie dados com INSERT INTO animais (nome, tipo) VALUES ('Galinha Lola', 'Ave');</code>
             </>
           }
           module="Banco de Dados"
@@ -134,7 +135,7 @@ const App: React.FC = () => {
         <CodeEditor
           welcomeText="Bem-vindo ao Code Play! Escreva seus comandos SQL abaixo."
           instructionText="Crie uma tabela usando CREATE TABLE. Depois, insira dados usando INSERT INTO."
-          codeExample={`CREATE TABLE animais (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  nome VARCHAR(50),\n  tipo VARCHAR(50)\n);`}
+          codeExample={`... TABLE animais (\n  ... INT AUTO_INCREMENT PRIMARY KEY,\n  ... VARCHAR(50),\n  ... VARCHAR(50)\n); \n`}
           hintText="Lembre: id, nome e tipo precisam estar na tabela."
           mainButtonText="CONFIRMAR"
           onNext={() => console.log('Próximo passo!')}
