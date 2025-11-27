@@ -137,6 +137,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         </div>
 
         <textarea
+          name="code-editor"
+          id="code-editor"
           ref={textareaRef}
           value={code}
           className={styles.codeTextarea}

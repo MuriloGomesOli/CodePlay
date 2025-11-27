@@ -54,15 +54,28 @@ const App: React.FC = () => {
           context="A fazenda está bagunçada, organize os elementos!"
           objective={
             <>
-              <strong>Seletores:</strong><br />
-              <code>.galinha</code> — controla a galinha<br />
-              <code>.sol</code> — controla o sol<br /><br />
+              <strong>O que você deve fazer:</strong><br />
+              Posicionar dois elementos da fazenda usando CSS:<br />
+              — <code>.galinha</code><br />
+              — <code>.sol</code><br /><br />
 
-              <strong>Propriedades:</strong><br />
-              <code>top</code>, <code>left</code>, <code>right</code>, <code>bottom</code><br /><br />
+              <strong>Como funciona:</strong><br />
+              Para mover qualquer elemento na tela, você precisa usar:<br />
+              — <code>position: absolute;</code><br />
+              — <code>top</code>, <code>left</code>, <code>right</code> ou <code>bottom</code><br />
+              — Sempre usando valores em <code>px</code><br /><br />
 
-              <strong>Objetivo:</strong><br />
-              Use valores em <code>px</code> e seletores corretos.
+              <strong>Dicas importantes:</strong><br />
+              — Sem <code>position: absolute;</code> o elemento NÃO se move.<br />
+              — Sempre use <code>px</code> (ex: <code>30px</code>).<br />
+              — Verifique se escreveu o seletor corretamente (<code>.galinha</code> e <code>.sol</code>).<br />
+              — Se algo sumir atrás do cenário, use <code>z-index</code>.<br /><br />
+
+              <strong>Checklist antes de confirmar:</strong><br />
+              ✔ Usei <code>.galinha</code> e <code>.sol</code><br />
+              ✔ Coloquei <code>position: absolute;</code><br />
+              ✔ Usei <code>top</code>/<code>left</code>/<code>right</code> em <code>px</code><br />
+              ✔ Não deixei erros de sintaxe
             </>
           }
           module="Front-end"

@@ -32,8 +32,9 @@ const App: React.FC = () => {
       // Regex genérico para UPDATE: captura QUANTIDADE e NOME
       // Ex: UPDATE produtos SET quantidade = 10 WHERE nome = 'Leite';
       const updateMatch = code.match(
-        /update\s+produtos\s+set\s+quantidade\s*=\s*(\d+)\s+where\s+nome\s*=\s*['"]?([^'"]+)['"]?/i
+        /update\s+produtos\s+set\s+quantidade\s*=\s*(\d+)\s*where\s+nome\s*=\s*["']([^"']+)["']/i
       );
+
 
       if (updateMatch) {
         const newQuantity = Number(updateMatch[1]);

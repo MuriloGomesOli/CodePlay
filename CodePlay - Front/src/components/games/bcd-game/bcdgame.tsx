@@ -112,20 +112,23 @@ const App: React.FC = () => {
           context="O sistema precisa armazenar informações sobre animais. Para isso, você deverá criar uma tabela chamada 'animais'."
           objective={
             <>
-              Escreva um comando SQL que:<br /><br />
+              <strong>O que você deve fazer:</strong><br />
+              Criar uma tabela chamada <code>animais</code> usando o comando <code>CREATE TABLE</code>.<br /><br />
 
-              • Crie a tabela <code>animais</code><br />
-              • Inclua as colunas:<br />
-              - <code>id</code> (inteiro <b>AUTO_INCREMENT</b>, chave primária)<br />
-              - <code>nome</code> (texto)<br />
-              - <code>tipo</code> (texto)<br /><br />
+              <strong>A tabela precisa ter:</strong><br />
+              • <code>id</code> — número inteiro, chave primária e Auto Increment<br />
+              • <code>nome</code> — texto até 50 caracteres<br />
+              • <code>tipo</code> — texto até 50 caracteres<br /><br />
 
-              🔥 <b>Dica importante:</b><br />
-              O campo <code>id</code> deve usar <code>AUTO_INCREMENT</code> para gerar números automaticamente.<br />
-              Exemplo:<br />
-              <code>CREATE TABLE animais (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(50), tipo VARCHAR(50));</code>
-              <code>Crie dados com INSERT INTO animais (nome, tipo) VALUES ('Galinha Lola', 'Ave');</code>
+              <strong>Explicação rápida:</strong><br />
+              — <code>PRIMARY KEY</code> garante que cada animal tenha um identificador único.<br />
+              — <code>AUTO_INCREMENT</code> faz o MySQL gerar os IDs automaticamente (1, 2, 3…).<br /><br />
+
+              Depois de criar a tabela, você poderá inserir animais com:<br />
+              <code>INSERT INTO animais (nome, tipo) VALUES ('Galinha Lola', 'Ave');</code><br />
+              (Mas o foco deste passo é apenas a criação da tabela.)
             </>
+
           }
           module="Banco de Dados"
           level={1}

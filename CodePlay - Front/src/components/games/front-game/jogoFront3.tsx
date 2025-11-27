@@ -7,8 +7,14 @@ import GameHeader from '../../ui/GameHeader';
 import '../../../index.css';
 import '../../../global.d.ts';
 import Fazenda from '../../../assets/fazenda.png';
-import Celeiro from '../../../assets/celeiro.png';
-import Personagem from '../../../assets/Lola.png';
+// Importando os animais
+import Vaca from '../../../assets/avatars/vaca.png';
+import Porco from '../../../assets/avatars/porco.png';
+import Ovelha from '../../../assets/avatars/ovelha.png';
+import Pinto from '../../../assets/avatars/pinto.png';
+import Bode from '../../../assets/avatars/bode.png';
+import Auau from '../../../assets/avatars/auau.png';
+
 import styles from '../../../styles/jogo.module.css';
 
 const App: React.FC = () => {
@@ -33,6 +39,9 @@ const App: React.FC = () => {
     }
   };
 
+  // Lista de animais para exibir no celeiro
+  const animais = [Vaca, Porco, Ovelha, Pinto, Bode, Auau];
+
   return (
     <>
       <GameHeader
@@ -47,7 +56,7 @@ const App: React.FC = () => {
         <ExerciseInfo
           title="🧩 Nível 3 — Monte o Celeiro Responsivo"
           description="Objetivo: criar um layout flexível que se adapte ao espaço do celeiro."
-          context="Os itens do celeiro precisam se ajustar automaticamente quando o espaço muda. Você vai usar propriedades do Flexbox para criar um layout responsivo."
+          context="Os animais precisam se ajustar automaticamente dentro do celeiro. Você vai usar propriedades do Flexbox para criar um layout responsivo."
           objective={
             <>
               <strong>Exemplo de código esperado:</strong><br />
@@ -59,10 +68,10 @@ const App: React.FC = () => {
               <code>{"}"}</code><br /><br />
 
               <strong>Explicação:</strong><br />
-              O <code>display: flex</code> organiza os itens lado a lado.<br />
-              O <code>flex-wrap: wrap</code> faz os elementos quebrarem linha quando o espaço acaba.<br />
+              O <code>display: flex</code> organiza os animais lado a lado.<br />
+              O <code>flex-wrap: wrap</code> faz os animais quebrarem linha quando o espaço acaba.<br />
               O <code>gap</code> define o espaçamento entre eles.<br />
-              O <code>align-content</code> controla a distribuição vertical quando há várias linhas.<br /><br />
+              O <code>align-content</code> controla a distribuição vertical.<br /><br />
 
               <strong>Verificação:</strong><br />
               — Usa <code>flex-wrap: wrap;</code><br />
@@ -75,10 +84,10 @@ const App: React.FC = () => {
         />
 
         <CodeEditor
-          welcomeText="🏗️ Hora de deixar o celeiro flexível!"
+          welcomeText="🏗️ Hora de organizar os animais!"
           instructionText="
             Crie uma classe <code>.celeiro</code> que utilize <code>display: flex</code>,  
-            <code>flex-wrap: wrap</code>, <code>gap</code> e <code>align-content</code> para um layout adaptável."
+            <code>flex-wrap: wrap</code>, <code>gap</code> e <code>align-content</code> para organizar os animais."
           codeExample={".celeiro {\n\n\n\n\n}"}
           hintText="
             💡 <strong>Dica:</strong><br/>
@@ -92,11 +101,17 @@ const App: React.FC = () => {
         />
 
         <GameView
-          falaPersonagem={showResult ? "Celeiro organizado! 🌾 Tudo se encaixa perfeitamente!" : "Monte o celeiro com Flexbox para deixá-lo responsivo!"}
+          falaPersonagem={showResult ? "Celeiro organizado! 🌾 Os animais estão felizes!" : "Use Flexbox para organizar os animais no celeiro!"}
           fundo={Fazenda}
-          personagem={Personagem}
-          extra={Celeiro}
+          personagem={Vaca}
           userStyle={userCode}
+          customContent={
+            <div className="celeiro" style={showResult ? { display: 'flex', flexWrap: 'wrap', gap: '10px', alignContent: 'space-between', width: '100%', height: '100%' } : {}}>
+              {animais.map((animal, index) => (
+                <img key={index} src={animal} alt="Animal" style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
+              ))}
+            </div>
+          }
         />
       </div>
     </>

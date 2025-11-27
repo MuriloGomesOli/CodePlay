@@ -44,17 +44,24 @@ const App: React.FC = () => {
           objective={
             <>
               <strong>Objetivo:</strong><br />
-              Centralizar a <code>.casa</code> exatamente no meio da área do jogo.<br /><br />
+              Centralizar a caixa <code>.casa</code> exatamente no meio da área do jogo usando Flexbox.<br /><br />
 
-              <strong>O aluno deve escrever:</strong><br />
-              <code>.casa {"{"}</code><br />
-              &nbsp;&nbsp;<code>display: flex;</code><br />
-              &nbsp;&nbsp;<code>justify-content: center;</code><br />
-              &nbsp;&nbsp;<code>align-items: center;</code><br />
-              <code>{"}"}</code><br /><br />
+              <strong>O que você precisa fazer:</strong><br />
+              Criar uma classe <code>.casa</code> com três propriedades essenciais:<br />
+              — <code>display: flex;</code><br />
+              — <code>justify-content: center;</code><br />
+              — <code>align-items: center;</code><br /><br />
 
-              <strong>Aprendizado:</strong><br />
-              Flexbox = alinhamento fácil, rápido e salvador de layouts perdidos. 🎯
+              <strong>Por que isso funciona?</strong><br />
+              — <code>display: flex</code> ativa o Flexbox.<br />
+              — <code>justify-content: center</code> centraliza na horizontal.<br />
+              — <code>align-items: center</code> centraliza na vertical.<br /><br />
+
+              <strong>Resumo técnico:</strong><br />
+              Flexbox é o jeito mais rápido e moderno de alinhar coisas no centro, sem gambiarra, sem ódio, sem usar <code>margin: auto</code> no desespero.<br /><br />
+
+              <strong>O que você estará aprendendo:</strong><br />
+              Como usar o Flexbox para resolver um problema clássico: posicionar elementos com precisão e sem sofrimento. 🎯
             </>
           }
           module="Front-end"

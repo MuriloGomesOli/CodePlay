@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs.js';
 import { Badge } from './ui/badge.js';
 import { LogOut, Database, Palette, Monitor, LogIn } from 'lucide-react';
 import '../styles/dashboard.css';
- 
+
 interface DashboardProps {
   user: {
     name: string;
@@ -17,7 +17,7 @@ interface DashboardProps {
   onLoginClick?: () => void;
   onStartExercise?: (exercise: Exercise) => void;
 }
- 
+
 interface Exercise {
   id: number;
   title: string;
@@ -26,7 +26,7 @@ interface Exercise {
   technologies: string[];
   completed?: boolean;
 }
- 
+
 // ==============================
 // EXERCÍCIOS
 // ==============================
@@ -35,19 +35,19 @@ const frontendExercises: Exercise[] = [
   { id: 2, title: 'Anime a Fazenda', description: 'Desenvolva animações para os elementos da fazenda.', difficulty: 'Fácil', technologies: ['CSS'] },
   { id: 3, title: 'Monte o Celeiro Responsivo', description: 'Criar layout adaptável', difficulty: 'Difícil', technologies: ['React', 'Tailwind'] },
 ];
- 
+
 const backendExercises: Exercise[] = [
   { id: 4, title: 'Rota dos Animais', description: 'Crie uma rota GET que retorne uma lista de animais.', difficulty: 'Fácil', technologies: ['Node.js', 'JavaScript'] },
   { id: 5, title: 'Cadastro de Produtos', description: 'Implemente uma rota POST que receba um produto e retorne uma confirmação.', difficulty: 'Médio', technologies: ['Node.js', 'Express'] },
   { id: 6, title: 'Proteja o Celeiro (JWT)', description: 'Crie uma rota POST /login que gere um token JWT para autenticação.', difficulty: 'Difícil', technologies: ['Node.js', 'jsonwebtoken'] },
 ];
- 
+
 const databaseExercises: Exercise[] = [
   { id: 7, title: 'Criar Tabela', description: 'Montar tabela de animais com colunas id, nome e tipo.', difficulty: 'Fácil', technologies: ['MySQL', 'SQL'] },
   { id: 8, title: 'Atualizar Estoque', description: 'Atualizar a quantidade de produtos usando UPDATE.', difficulty: 'Médio', technologies: ['SQL'] },
-  { id: 9, title: 'Integração (Prisma)', description: 'Buscar dados de animais usando ORM Prisma.', difficulty: 'Difícil', technologies: ['MySQL', 'Prisma'] },
+  { id: 9, title: 'Criar uma Database', description: 'Realizar o inicio de uma criação completa de um banco de dados', difficulty: 'Difícil', technologies: ['MySQL', 'Prisma'] },
 ];
- 
+
 // ==============================
 // COMPONENTE CARD
 // ==============================
@@ -58,13 +58,12 @@ function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex
         <div className="flex justify-between items-start">
           <CardTitle className="cardTitle">{exercise.title}</CardTitle>
           <Badge
-            className={`badgeDifficulty ${
-              exercise.difficulty === 'Fácil'
-                ? 'easy'
-                : exercise.difficulty === 'Médio'
+            className={`badgeDifficulty ${exercise.difficulty === 'Fácil'
+              ? 'easy'
+              : exercise.difficulty === 'Médio'
                 ? 'medium'
                 : 'hard'
-            }`}
+              }`}
           >
             {exercise.difficulty}
           </Badge>
@@ -86,18 +85,18 @@ function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex
     </Card>
   );
 }
- 
+
 // ==============================
 // COMPONENTE DASHBOARD
 // ==============================
 export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: DashboardProps) {
   return (
     <div className="minScreen">
- 
+
       {/* HEADER COM 3 COLUNAS (ESQ → LOGO → DIREITA) */}
       <header className="dashboardHeader">
         <div className="headerGrid">
- 
+
           {/* Coluna ESQUERDA — usuário */}
           <div className="headerUser">
             {user?.avatar && (
@@ -111,12 +110,12 @@ export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: Das
               {user ? `Olá, ${user.name}` : 'Olá, Programador'}
             </span>
           </div>
- 
+
           {/* Coluna CENTRAL — Logo */}
           <div className="headerLogo">
             <Logo />
           </div>
- 
+
           {/* Coluna DIREITA — botão */}
           <div className="headerActions">
             {!user && onLoginClick && (
@@ -130,10 +129,10 @@ export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: Das
               </Button>
             )}
           </div>
- 
+
         </div>
       </header>
- 
+
       {/* CONTEÚDO */}
       <main className="pageContainer py-8">
         <Tabs defaultValue="frontend">
@@ -151,7 +150,7 @@ export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: Das
               <span>Banco de Dados</span>
             </TabsTrigger>
           </TabsList>
- 
+
           <TabsContent value="frontend">
             <div className="exerciseGrid">
               {frontendExercises.map((exercise) => (
@@ -159,7 +158,7 @@ export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: Das
               ))}
             </div>
           </TabsContent>
- 
+
           <TabsContent value="backend">
             <div className="exerciseGrid">
               {backendExercises.map((exercise) => (
@@ -167,7 +166,7 @@ export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: Das
               ))}
             </div>
           </TabsContent>
- 
+
           <TabsContent value="database">
             <div className="exerciseGrid">
               {databaseExercises.map((exercise) => (
@@ -180,5 +179,5 @@ export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: Das
     </div>
   );
 }
- 
+
 export default Dashboard;
