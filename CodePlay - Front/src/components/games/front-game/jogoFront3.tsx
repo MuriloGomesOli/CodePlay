@@ -28,13 +28,13 @@ const App: React.FC = () => {
     const hasDisplayFlex = /display\s*:\s*flex/.test(input);
     const hasFlexWrap = /flex-wrap\s*:\s*wrap/.test(input);
     const hasGap = /gap\s*:\s*\d+px/.test(input);
-    const hasAlignContent = /align-content\s*:\s*space-between/.test(input);
+    const hasJustifyContent = /justify-content\s*:\s*center/.test(input);
 
-    if (hasCeleiro && hasDisplayFlex && hasFlexWrap && hasGap && hasAlignContent) {
-      alert("✅ Celeiro montado com sucesso! O layout agora é responsivo!");
+    if (hasCeleiro && hasDisplayFlex && hasFlexWrap && hasGap && hasJustifyContent) {
+      alert("✅ Celeiro montado com sucesso! Os animais estão organizados e centralizados!");
       setShowResult(true);
     } else {
-      alert("👀 Lembre-se de usar .celeiro com display: flex;, flex-wrap: wrap;, gap: (algum valor em px) e align-content: space-between;");
+      alert("👀 Lembre-se de usar .celeiro com display: flex;, flex-wrap: wrap;, gap: (valor px) e justify-content: center;");
       setShowResult(false);
     }
   };
@@ -55,8 +55,8 @@ const App: React.FC = () => {
       <div className={styles.appContainer}>
         <ExerciseInfo
           title="🧩 Nível 3 — Monte o Celeiro Responsivo"
-          description="Objetivo: criar um layout flexível que se adapte ao espaço do celeiro."
-          context="Os animais precisam se ajustar automaticamente dentro do celeiro. Você vai usar propriedades do Flexbox para criar um layout responsivo."
+          description="Objetivo: criar um layout flexível que organize os animais em 3 colunas e 2 linhas, centralizados."
+          context="Os animais precisam se ajustar automaticamente dentro do celeiro. Use Flexbox para organizar e centralizar os avatares."
           objective={
             <>
               <strong>Exemplo de código esperado:</strong><br />
@@ -64,19 +64,19 @@ const App: React.FC = () => {
               &nbsp;&nbsp;<code>display: flex;</code><br />
               &nbsp;&nbsp;<code>flex-wrap: wrap;</code><br />
               &nbsp;&nbsp;<code>gap: 10px;</code><br />
-              &nbsp;&nbsp;<code>align-content: space-between;</code><br />
+              &nbsp;&nbsp;<code>justify-content: center;</code><br />
               <code>{"}"}</code><br /><br />
 
               <strong>Explicação:</strong><br />
               O <code>display: flex</code> organiza os animais lado a lado.<br />
-              O <code>flex-wrap: wrap</code> faz os animais quebrarem linha quando o espaço acaba.<br />
-              O <code>gap</code> define o espaçamento entre eles.<br />
-              O <code>align-content</code> controla a distribuição vertical.<br /><br />
+              O <code>flex-wrap: wrap</code> permite que quebrem linha.<br />
+              O <code>gap</code> define o espaçamento.<br />
+              O <code>justify-content: center</code> centraliza os itens.<br /><br />
 
               <strong>Verificação:</strong><br />
               — Usa <code>flex-wrap: wrap;</code><br />
-              — Define <code>gap</code> com um valor em <code>px</code><br />
-              — Usa <code>align-content: space-between;</code><br />
+              — Define <code>gap</code><br />
+              — Usa <code>justify-content: center;</code><br />
             </>
           }
           module="Front-end"
@@ -86,30 +86,51 @@ const App: React.FC = () => {
         <CodeEditor
           welcomeText="🏗️ Hora de organizar os animais!"
           instructionText="
-            Crie uma classe <code>.celeiro</code> que utilize <code>display: flex</code>,  
-            <code>flex-wrap: wrap</code>, <code>gap</code> e <code>align-content</code> para organizar os animais."
+            Crie uma classe <code>.celeiro</code> com <code>display: flex</code>,  
+            <code>flex-wrap: wrap</code>, <code>gap</code> e <code>justify-content: center</code> para organizar os avatares."
           codeExample={".celeiro {\n\n\n\n\n}"}
           hintText="
             💡 <strong>Dica:</strong><br/>
             — Use <code>display: flex;</code><br/>
             — Adicione <code>flex-wrap: wrap;</code><br/>
-            — Use <code>gap</code> para o espaçamento<br/>
-            — Finalize com <code>align-content: space-between;</code>"
+            — Use <code>justify-content: center;</code> para alinhar ao centro<br/>
+            — Não esqueça do <code>gap</code>!"
           mainButtonText="CONFIRMAR"
           onNext={() => handleCheckCode(userCode)}
           onCodeChange={(code) => setUserCode(code)}
         />
 
         <GameView
-          falaPersonagem={showResult ? "Celeiro organizado! 🌾 Os animais estão felizes!" : "Use Flexbox para organizar os animais no celeiro!"}
+          falaPersonagem={showResult ? "Celeiro organizado! 🌾 Os animais estão felizes!" : "Use Flexbox para organizar e centralizar os animais!"}
           fundo={Fazenda}
           personagem={Vaca}
           userStyle={userCode}
           customContent={
-            <div className="celeiro" style={showResult ? { display: 'flex', flexWrap: 'wrap', gap: '10px', alignContent: 'space-between', width: '100%', height: '100%' } : {}}>
-              {animais.map((animal, index) => (
-                <img key={index} src={animal} alt="Animal" style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
-              ))}
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <div className="celeiro" style={showResult ? {
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '10px',
+                justifyContent: 'center',
+                width: '290px',
+                height: 'auto'
+              } : { width: '290px' }}>
+                {animais.map((animal, index) => (
+                  <img key={index} src={animal} alt="Animal" style={{
+                    width: '80px',
+                    height: '80px',
+                    objectFit: 'cover',
+                    borderRadius: '50%',
+                    border: '2px solid white'
+                  }} />
+                ))}
+              </div>
             </div>
           }
         />

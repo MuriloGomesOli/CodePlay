@@ -13,15 +13,17 @@ interface GameViewProps {
   extra?: string;
   userStyle?: string;
   containerClass?: string; // Nova prop para wrapper container
+  customContent?: React.ReactNode; // Nova prop para conteúdo customizado (ex: animais no celeiro)
 
   apiResult?: any[];
   tableData?: TableRow[];
+  tableColumns?: string[]; // Nova prop para colunas da tabela
 
   /* GAME DE BANCO */
   title?: string;
   description?: string;
   feedback?: string;
-  module?: "frontend" | "backend" | "database";  // ← ADICIONADO!
+  module?: "frontend" | "backend" | "database";
 }
 
 const GameView: React.FC<GameViewProps> = ({
@@ -30,15 +32,17 @@ const GameView: React.FC<GameViewProps> = ({
   personagem,
   extra,
   userStyle,
-  containerClass, // Nova prop
+  containerClass,
+  customContent,
 
   apiResult,
   tableData,
+  tableColumns,
 
   title,
   description,
   feedback,
-  module, // ← RECEBIDO AQUI!
+  module,
 }) => {
 
   const [showApi, setShowApi] = useState(false);
@@ -56,6 +60,13 @@ const GameView: React.FC<GameViewProps> = ({
           className={styles.farm}
           style={{ position: "absolute", zIndex: 1 }}
         />
+      )}
+
+      {/* Conteúdo customizado (ex: animais no celeiro) */}
+      {customContent && (
+        <div style={{ position: "absolute", zIndex: 2, width: '100%', height: '100%', top: 0, left: 0 }}>
+          {customContent}
+        </div>
       )}
 
       {extra && (
@@ -123,9 +134,11 @@ const GameView: React.FC<GameViewProps> = ({
               <table className={styles.dbTable}>
                 <thead>
                   <tr>
-                    {Object.keys(tableData[0]).map((col) => (
-                      <th key={col}>{col}</th>
-                    ))}
+                    {tableColumns ? (
+                      tableColumns.map((col) => <th key={col}>{col}</th>)
+                    ) : (
+                      Object.keys(tableData[0]).map((col) => <th key={col}>{col}</th>)
+                    )}
                   </tr>
                 </thead>
 

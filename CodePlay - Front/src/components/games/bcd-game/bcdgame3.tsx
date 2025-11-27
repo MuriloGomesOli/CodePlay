@@ -15,6 +15,10 @@ const App: React.FC = () => {
   const [fazendeirosData, setFazendeirosData] = useState<any[]>([]);
   const [plantacoesData, setPlantacoesData] = useState<any[]>([]);
 
+  // ---------------------------------------------------------
+  //                    PASSO A PASSO DO JOGO
+  // ---------------------------------------------------------
+
   const steps = [
     {
       step: 1,
@@ -38,31 +42,14 @@ const App: React.FC = () => {
       example: 'CREATE TABLE fazendeiros (\n    id INT PRIMARY KEY,\n    nome VARCHAR(50)\n);',
       hint: 'Use PRIMARY KEY para criar um identificador único.',
       validation: (code: string) => {
-        console.log('--- DEBUG PASSO 2 ---');
-        console.log('Código original:', code);
-
         const clean = code.toLowerCase().replace(/\s+/g, ' ').trim();
-        console.log('Código limpo:', clean);
-
-        const hasCreate = clean.includes('create');
-        const hasTable = clean.includes('table');
-        const hasFazendeiros = clean.includes('fazendeiros');
-        const hasId = clean.includes('id');
-        const hasPrimaryKey = clean.includes('primary') && clean.includes('key');
-        const hasNome = clean.includes('nome');
-
-        console.log('Checklist:');
-        console.log('- CREATE:', hasCreate);
-        console.log('- TABLE:', hasTable);
-        console.log('- FAZENDEIROS:', hasFazendeiros);
-        console.log('- ID:', hasId);
-        console.log('- PRIMARY KEY:', hasPrimaryKey);
-        console.log('- NOME:', hasNome);
-
-        const result = hasCreate && hasTable && hasFazendeiros && hasId && hasPrimaryKey && hasNome;
-        console.log('RESULTADO:', result);
-
-        return result;
+        return (
+          clean.includes('create table') &&
+          clean.includes('fazendeiros') &&
+          clean.includes('id') &&
+          clean.includes('primary key') &&
+          clean.includes('nome')
+        );
       },
       successMessage: '✅ Tabela de fazendeiros criada!',
       tableToShow: 'fazendeiros',
@@ -76,19 +63,21 @@ const App: React.FC = () => {
       step: 3,
       title: '3️⃣ Criar Tabela de Plantações',
       instruction: 'Crie a tabela "plantacoes" com id, cultura, area e fazendeiro_id (chave estrangeira).',
-      objective: 'Criar uma tabela com CHAVE ESTRANGEIRA (FOREIGN KEY). A coluna fazendeiro_id vai conectar cada plantação ao seu fazendeiro. Isso cria um relacionamento entre as tabelas!',
-      example: 'CREATE TABLE plantacoes (\n    id INT PRIMARY KEY,\n    cultura VARCHAR(50),\n    area VARCHAR(20),\n    fazendeiro_id INT,\n    FOREIGN KEY (fazendeiro_id) REFERENCES fazendeiros(id)\n);',
-      hint: 'Use FOREIGN KEY para criar o relacionamento com a tabela fazendeiros.',
+      objective:
+        'Criar uma tabela com CHAVE ESTRANGEIRA (FOREIGN KEY). A coluna fazendeiro_id conecta cada plantação ao seu fazendeiro.',
+      example:
+        'CREATE TABLE plantacoes (\n    id INT PRIMARY KEY,\n    cultura VARCHAR(50),\n    area VARCHAR(20),\n    fazendeiro_id INT,\n    FOREIGN KEY (fazendeiro_id) REFERENCES fazendeiros(id)\n);',
+      hint: 'Use FOREIGN KEY para criar o relacionamento.',
       validation: (code: string) => {
         const clean = code.toLowerCase().replace(/\s+/g, ' ');
-        return clean.includes('create') &&
-          clean.includes('table') &&
+        return (
+          clean.includes('create table') &&
           clean.includes('plantacoes') &&
           clean.includes('fazendeiro_id') &&
-          clean.includes('foreign') &&
-          clean.includes('key') &&
+          clean.includes('foreign key') &&
           clean.includes('references') &&
-          clean.includes('fazendeiros');
+          clean.includes('fazendeiros')
+        );
       },
       successMessage: '✅ Tabela com chave estrangeira criada!',
       tableToShow: 'plantacoes',
@@ -102,15 +91,19 @@ const App: React.FC = () => {
       step: 4,
       title: '4️⃣ Inserir Fazendeiros',
       instruction: 'Insira dois fazendeiros: João (id 1) e Maria (id 2).',
-      objective: 'Adicionar fazendeiros na tabela. Precisamos inserir os fazendeiros primeiro, antes de suas plantações.',
-      example: 'INSERT INTO fazendeiros (id, nome)\nVALUES\n(1, \'João\'),\n(2, \'Maria\');',
-      hint: 'Use INSERT INTO com os valores de id e nome.',
+      objective:
+        'Adicionar fazendeiros na tabela. Precisamos inseri-los antes de criar as plantações.',
+      example:
+        "INSERT INTO fazendeiros (id, nome)\nVALUES\n(1, 'João'),\n(2, 'Maria');",
+      hint: 'Use INSERT INTO com id e nome.',
       validation: (code: string) => {
         const clean = code.toLowerCase();
-        return clean.includes('insert') &&
+        return (
+          clean.includes('insert') &&
           clean.includes('fazendeiros') &&
           (clean.includes('joão') || clean.includes('joao')) &&
-          clean.includes('maria');
+          clean.includes('maria')
+        );
       },
       successMessage: '✅ Fazendeiros cadastrados!',
       tableToShow: 'fazendeiros',
@@ -124,18 +117,16 @@ const App: React.FC = () => {
     {
       step: 5,
       title: '5️⃣ Inserir Plantações',
-      instruction: 'Insira duas plantações: Milho do João (fazendeiro_id 1) e Soja da Maria (fazendeiro_id 2).',
-      objective: 'Adicionar plantações conectadas aos fazendeiros. A chave estrangeira garante que cada plantação pertence a um fazendeiro válido!',
-      example: 'INSERT INTO plantacoes (id, cultura, area, fazendeiro_id)\nVALUES\n(1, \'Milho\', \'10 hectares\', 1),\n(2, \'Soja\', \'15 hectares\', 2);',
-      hint: 'O fazendeiro_id deve corresponder ao id de um fazendeiro existente.',
+      instruction: 'Insira Milho (fazendeiro 1) e Soja (fazendeiro 2).',
+      objective: 'Adicionar plantações conectadas aos fazendeiros.',
+      example:
+        "INSERT INTO plantacoes (id, cultura, area, fazendeiro_id)\nVALUES\n(1, 'Milho', '10 hectares', 1),\n(2, 'Soja', '15 hectares', 2);",
+      hint: 'O fazendeiro_id deve existir na tabela fazendeiros.',
       validation: (code: string) => {
         const clean = code.toLowerCase();
-        return clean.includes('insert') &&
-          clean.includes('plantacoes') &&
-          clean.includes('milho') &&
-          clean.includes('soja');
+        return clean.includes('insert') && clean.includes('plantacoes') && clean.includes('milho') && clean.includes('soja');
       },
-      successMessage: '🎉 Parabéns! Você aprendeu sobre chaves estrangeiras!',
+      successMessage: '🌾 Plantações cadastradas!',
       tableToShow: 'plantacoes',
       onSuccess: () => {
         setPlantacoesData([
@@ -143,22 +134,36 @@ const App: React.FC = () => {
           { id: 2, cultura: 'Soja', area: '15 hectares', fazendeiro_id: 2 }
         ]);
       }
+    },
+
+    // ---------------------------------------------------------
+    //                     PASSO FINAL EXTRA
+    // ---------------------------------------------------------
+    {
+      step: 6,
+      title: '6️⃣ Visualização Final',
+      instruction: 'Veja o resultado completo das relações!',
+      objective:
+        'Agora você pode visualizar as tabelas "fazendeiros" e "plantacoes" juntas para confirmar o relacionamento.',
+      example: '',
+      hint: 'Observe como fazendeiro_id conecta uma plantação ao fazendeiro.',
+      validation: () => true, // passa automaticamente
+      successMessage: '',
+      tableToShow: 'final'
     }
   ];
 
   const currentStepData = steps[currentStep - 1];
 
-  const handleCheckCode = () => {
-    console.log('Botão clicado! Validando passo:', currentStep);
-    console.log('Código atual:', userCode);
+  // ---------------------------------------------------------
+  //                 LÓGICA DE VALIDAÇÃO
+  // ---------------------------------------------------------
 
+  const handleCheckCode = () => {
     if (currentStepData.validation(userCode)) {
-      console.log('Validação PASSOU!');
       setFeedback(currentStepData.successMessage);
 
-      if (currentStepData.onSuccess) {
-        currentStepData.onSuccess();
-      }
+      if (currentStepData.onSuccess) currentStepData.onSuccess();
 
       setTimeout(() => {
         if (currentStep < steps.length) {
@@ -168,10 +173,13 @@ const App: React.FC = () => {
         }
       }, 1500);
     } else {
-      console.log('Validação FALHOU!');
-      setFeedback('❌ Tente novamente. Veja o exemplo!');
+      setFeedback('❌ Tente novamente. Confira o exemplo do passo.');
     }
   };
+
+  // ---------------------------------------------------------
+  //            SISTEMA DE VISUALIZAÇÃO DE TABELAS
+  // ---------------------------------------------------------
 
   const getTableData = () => {
     if (currentStepData.tableToShow === 'fazendeiros') {
@@ -180,16 +188,39 @@ const App: React.FC = () => {
         data: fazendeirosData
       };
     }
+
     if (currentStepData.tableToShow === 'plantacoes') {
       return {
         columns: ['id', 'cultura', 'area', 'fazendeiro_id'],
         data: plantacoesData
       };
     }
+
+    // --------------- PASSO FINAL: VISUALIZAR TUDO ---------------
+    if (currentStepData.tableToShow === 'final') {
+      return {
+        columns: ['Tabela', 'Conteúdo'],
+        data: [
+          {
+            Tabela: 'fazendeiros',
+            Conteúdo: JSON.stringify(fazendeirosData, null, 2)
+          },
+          {
+            Tabela: 'plantacoes',
+            Conteúdo: JSON.stringify(plantacoesData, null, 2)
+          }
+        ]
+      };
+    }
+
     return { columns: [], data: [] };
   };
 
   const tableInfo = getTableData();
+
+  // ---------------------------------------------------------
+  //                     INTERFACE DO JOGO
+  // ---------------------------------------------------------
 
   return (
     <>
@@ -212,7 +243,7 @@ const App: React.FC = () => {
         />
 
         <CodeEditor
-          welcomeText={`${currentStepData.title}`}
+          welcomeText={currentStepData.title}
           instructionText={currentStepData.instruction}
           codeExample={currentStepData.example}
           hintText={`💡 ${currentStepData.hint}`}
@@ -224,17 +255,22 @@ const App: React.FC = () => {
 
         <GameView
           module="database"
-          title={currentStepData.tableToShow ? `Tabela: ${currentStepData.tableToShow}` : 'Banco de Dados'}
+          title={
+            currentStepData.tableToShow
+              ? `Tabela: ${currentStepData.tableToShow}`
+              : 'Banco de Dados'
+          }
           description={
             currentStepData.tableToShow
-              ? `Visualize a tabela "${currentStepData.tableToShow}"`
+              ? `Visualize a tabela "${currentStepData.tableToShow}".`
               : 'Complete os passos!'
           }
           feedback={feedback}
           tableData={tableInfo.data}
+          tableColumns={tableInfo.columns}
           falaPersonagem={
-            currentStep === steps.length && plantacoesData.length > 0 && plantacoesData[0].id !== '—'
-              ? "🎉 Você dominou chaves estrangeiras!"
+            currentStep === steps.length
+              ? "🎉 Parabéns! Você concluiu todas as etapas!"
               : `Passo ${currentStep}/${steps.length}`
           }
         />
