@@ -45,7 +45,7 @@ const backendExercises: Exercise[] = [
 const databaseExercises: Exercise[] = [
   { id: 7, title: 'Criar Tabela', description: 'Montar tabela de animais com colunas id, nome e tipo.', difficulty: 'Fácil', technologies: ['MySQL', 'SQL'] },
   { id: 8, title: 'Atualizar Estoque', description: 'Atualizar a quantidade de produtos usando UPDATE.', difficulty: 'Médio', technologies: ['SQL'] },
-  { id: 9, title: 'Criar uma Database', description: 'Realizar o inicio de uma criação completa de um banco de dados', difficulty: 'Difícil', technologies: ['MySQL', 'Prisma'] },
+  { id: 9, title: 'Criar uma Database', description: 'Realizar o inicio de uma criação completa de um banco de dados', difficulty: 'Difícil', technologies: ['MySQL'] },
 ];
 
 // ==============================
