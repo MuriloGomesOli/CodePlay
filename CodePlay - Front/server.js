@@ -9,7 +9,7 @@ app.use(express.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'admin',
+  password: '1234',
   database: 'codeplay',
 });
 
@@ -93,6 +93,28 @@ app.post('/api/login', (req, res) => {
   );
 });
 
+// Rota de atualização de perfil
+app.put('/api/update-profile', (req, res) => {
+  const { id, name, avatar } = req.body;
+
+  if (!id || !name || !avatar) {
+    return res.status(400).json({ message: 'Dados incompletos' });
+  }
+
+  connection.query(
+    'UPDATE users SET name = ?, avatar = ? WHERE id = ?',
+    [name, avatar, id],
+    (err, result) => {
+      if (err) {
+        console.error('❌ Erro ao atualizar perfil:', err);
+        return res.status(500).json({ message: 'Erro ao atualizar perfil' });
+      }
+
+      res.json({ message: 'Perfil atualizado com sucesso!', name, avatar });
+    }
+  );
+});
+
 // Rota de Progresso
 app.post("/progress", (req, res) => {
   const { user_id, game_id } = req.body;
@@ -121,13 +143,16 @@ app.post("/progress", (req, res) => {
 async function startServer() {
   try {
     await conectarBanco();
-    app.listen(3001, () => {
-      console.log('🚀 Servidor backend rodando na porta 3001');
-    });
   } catch (error) {
-    console.error('❌ Falha ao iniciar o servidor. Tentando novamente em 5s...');
-    setTimeout(startServer, 5000);
+    console.warn('⚠️ AVISO: Não foi possível conectar ao banco de dados.');
+    console.warn('⚠️ O servidor iniciará em modo LIMITADO (Login/Cadastro não funcionarão).');
+    console.warn(`⚠️ Erro: ${error.message}`);
   }
+
+  // Inicia o servidor Express de qualquer maneira
+  app.listen(3001, () => {
+    console.log('🚀 Servidor backend rodando na porta 3001');
+  });
 }
 
 startServer();

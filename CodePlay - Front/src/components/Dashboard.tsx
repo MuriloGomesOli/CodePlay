@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button.js';
 import Logo from './Logo.jsx';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card.js';
@@ -90,6 +91,8 @@ function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex
 // COMPONENTE DASHBOARD
 // ==============================
 export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: DashboardProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="minScreen">
 
@@ -98,7 +101,12 @@ export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: Das
         <div className="headerGrid">
 
           {/* Coluna ESQUERDA — usuário */}
-          <div className="headerUser">
+          <div
+            className="headerUser"
+            onClick={() => user && navigate('/profile')}
+            style={{ cursor: user ? 'pointer' : 'default' }}
+            title={user ? "Editar Perfil" : ""}
+          >
             {user?.avatar && (
               <img
                 src={new URL(`../assets/avatars/${user.avatar}.png`, import.meta.url).href}

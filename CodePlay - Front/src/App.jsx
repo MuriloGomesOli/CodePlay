@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useParams, useNavigate } from 'react-router-do
 import { LoginForm } from './components/LoginForm';
 import { RegisterForm } from './components/RegisterForm';
 import { Dashboard } from './components/Dashboard';
+import ProfilePage from './components/ProfilePage';
 
 // Mapa dos jogos
 const gamesMap = {
@@ -165,6 +166,14 @@ export default function App() {
       <Route
         path="/games/:modulo/:nivel"
         element={<GameLoader user={user} />}
+      />
+
+      {/* Perfil */}
+      <Route
+        path="/profile"
+        element={
+          user ? <ProfilePage /> : <Navigate to="/login" />
+        }
       />
 
       {/* Padrão */}

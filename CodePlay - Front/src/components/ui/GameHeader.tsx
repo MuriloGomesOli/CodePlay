@@ -47,7 +47,12 @@ const GameHeader: React.FC<GameHeaderProps> = ({ currentModule, level }) => {
   return (
     <header className={styles.header}>
       {/* 🧍 Seção esquerda: avatar + nome */}
-      <div className={styles.leftSection}>
+      <div
+        className={styles.leftSection}
+        onClick={() => navigate('/profile')}
+        style={{ cursor: 'pointer' }}
+        title="Editar Perfil"
+      >
         <img
           src={avatarUrl}
           alt="Avatar do usuário"
