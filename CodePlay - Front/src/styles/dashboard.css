@@ -1,161 +1,246 @@
+/* Importar fonte pixelada de videogame */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 /* ===========================
-    HEADER
+   HEADER DO DASHBOARD
 =========================== */
-.dashboardHeader {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  padding: 10px 0;
-  z-index: 10;
-  border-bottom: 1px solid #eee;
-}
- 
 .headerContainer {
-  display: flex;
-  align-items: center;
-  /* Removida a linha justify-content: space-between para permitir o alinhamento via margin-left: auto */
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
-  position: relative;
+  padding: 0 24px;
 }
- 
+
+/* Logo central CODEPLAY */
+.headerLogo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.8rem;
+  color: white;
+  text-shadow:
+    2px 2px 0px rgba(0, 0, 0, 0.3),
+    0 0 10px rgba(255, 255, 255, 0.3);
+  letter-spacing: 3px;
+  animation: pulse 4s ease-in-out infinite;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    text-shadow:
+      2px 2px 0px rgba(0, 0, 0, 0.3),
+      0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  50% {
+    transform: translateX(-50%) scale(1.02);
+    text-shadow:
+      2px 2px 0px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(255, 255, 255, 0.5),
+      0 0 30px rgba(255, 255, 255, 0.3);
+  }
+}
+
 /* Usuário à esquerda */
 .headerUser {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+  z-index: 1;
 }
- 
-/* LOGO - Agora no fluxo normal à esquerda */
-.headerLogo {
-  /* Propriedades de centralização removidas: */
-  /* position: absolute; */
-  /* left: 50%; */
-  /* transform: translateX(-50%); */
- 
-  /* Adicionado margem para separar da saudação (.headerUser) */
-  margin-right: 20px;
+
+.headerUser:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
- 
+
+.headerUser .avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  object-fit: cover;
+}
+
+.headerUser .textMuted {
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+}
+
 /* Botões à direita */
 .headerActions {
   display: flex;
   align-items: center;
-  /* ESSENCIAL: Empurra o elemento para a extrema direita */
-  margin-left: auto;
+  gap: 16px;
+  z-index: 1;
 }
- 
+
 .headerBtn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  padding: 6px 12px;
+  gap: 8px;
+  font-size: 0.95rem;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: white;
+  color: #db6627;
+  border: none;
+  cursor: pointer;
 }
- 
+
+.headerBtn:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.headerBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* ===========================
-    GRID DE NAVEGAÇÃO (Front/Back/DB)
+  GRID DE NAVEGAÇÃO (Front/Back/DB)
 =========================== */
 .categoryTabs {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin: 30px 0;
+  gap: 12px;
+  margin: 16px 0 24px;
 }
- 
+
 .categoryTab {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 20px;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
-  background: #f5f5f5;
-  font-size: 15px;
+  transition: all 0.2s ease;
+  background: white;
+  border: 1px solid #e0e0e0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #555;
 }
- 
+
+.categoryTab:hover {
+  background: #f9f9f9;
+  border-color: #d0d0d0;
+}
+
 .categoryTab.active {
-  background: #d67a41;
+  background: #db6627;
   color: white;
+  border-color: #db6627;
+  box-shadow: 0 4px 12px rgba(230, 81, 0, 0.2);
 }
- 
+
 /* ===========================
-    GRID DE EXERCÍCIOS
+  GRID DE EXERCÍCIOS
 =========================== */
 .exerciseGrid {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px 40px;
+  padding: 0 24px 40px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 24px;
 }
- 
+
 /* ===========================
-    CARD DO DESAFIO
+  CARD DO DESAFIO
 =========================== */
 .exerciseCard {
-  background: #fff8f3;
-  padding: 28px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  transition: all 0.3s ease;
 }
- 
+
+.exerciseCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: #db6627;
+}
+
 .exerciseTitle {
-  font-size: 20px;
+  font-size: 1.15rem;
   font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 4px;
 }
- 
+
 .exerciseDescription {
   color: #666;
-  font-size: 15px;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
- 
+
 /* Tags */
 .tagList {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
+  margin-top: auto;
 }
- 
+
 .tag {
-  background: #eee;
-  padding: 5px 12px;
-  border-radius: 12px;
-  font-size: 13px;
+  background: #dad9d9;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #393939;
+  font-weight: 500;
 }
- 
+
 /* Botão do Card */
 .cardBtn {
-  margin-top: 10px;
+  margin-top: 12px;
   width: 100%;
-  background: #cb6227;
+  background: #db6627;
   color: white;
   padding: 12px 0;
   border-radius: 8px;
   font-weight: 600;
-  transition: 0.2s;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
 }
- 
+
 .cardBtn:hover {
-  background: #a95123;
+  background: #BF360C;
+  box-shadow: 0 4px 12px rgba(230, 81, 0, 0.25);
 }
- 
+
 /* ===========================
-    RESPONSIVIDADE
+  RESPONSIVIDADE
 =========================== */
 @media (max-width: 768px) {
-  /* A logo agora está no fluxo, então ajustamos seu transform para funcionar com as novas regras */
-  .headerLogo {
-    transform: scale(0.85); /* Removido o translateX(-50%) */
-  }
- 
   .exerciseGrid {
     grid-template-columns: 1fr;
+  }
+
+  .headerLogo {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
   }
 }

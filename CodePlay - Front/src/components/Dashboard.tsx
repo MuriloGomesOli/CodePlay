@@ -1,191 +1,154 @@
-import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from './ui/button.js';
-import Logo from './Logo.jsx';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card.js';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs.js';
-import { Badge } from './ui/badge.js';
-import { LogOut, Database, Palette, Monitor, LogIn } from 'lucide-react';
 import '../styles/dashboard.css';
 
-interface DashboardProps {
-  user: {
-    name: string;
-    email: string;
-    avatar?: string;
-  } | null;
-  onLogout: () => void;
-  onLoginClick?: () => void;
-  onStartExercise?: (exercise: Exercise) => void;
+// Avatar padrão
+import vacaDefault from '../assets/avatars/vaca.png';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  avatar?: string;
 }
 
 interface Exercise {
   id: number;
   title: string;
   description: string;
-  difficulty: 'Fácil' | 'Médio' | 'Difícil';
-  technologies: string[];
-  completed?: boolean;
+  tags: string[];
+  category: 'frontend' | 'backend' | 'bancodados';
 }
 
-// ==============================
-// EXERCÍCIOS
-// ==============================
-const frontendExercises: Exercise[] = [
-  { id: 1, title: 'A Fazenda da Galinha', description: 'Ajude a Galinha Lola a montar sua fazenda.', difficulty: 'Fácil', technologies: ['CSS'] },
-  { id: 2, title: 'Anime a Fazenda', description: 'Desenvolva animações para os elementos da fazenda.', difficulty: 'Fácil', technologies: ['CSS'] },
-  { id: 3, title: 'Monte o Celeiro Responsivo', description: 'Criar layout adaptável', difficulty: 'Difícil', technologies: ['React', 'Tailwind'] },
-];
-
-const backendExercises: Exercise[] = [
-  { id: 4, title: 'Rota dos Animais', description: 'Crie uma rota GET que retorne uma lista de animais.', difficulty: 'Fácil', technologies: ['Node.js', 'JavaScript'] },
-  { id: 5, title: 'Cadastro de Produtos', description: 'Implemente uma rota POST que receba um produto e retorne uma confirmação.', difficulty: 'Médio', technologies: ['Node.js', 'Express'] },
-  { id: 6, title: 'Proteja o Celeiro (JWT)', description: 'Crie uma rota POST /login que gere um token JWT para autenticação.', difficulty: 'Difícil', technologies: ['Node.js', 'jsonwebtoken'] },
-];
-
-const databaseExercises: Exercise[] = [
-  { id: 7, title: 'Criar Tabela', description: 'Montar tabela de animais com colunas id, nome e tipo.', difficulty: 'Fácil', technologies: ['MySQL', 'SQL'] },
-  { id: 8, title: 'Atualizar Estoque', description: 'Atualizar a quantidade de produtos usando UPDATE.', difficulty: 'Médio', technologies: ['SQL'] },
-  { id: 9, title: 'Criar uma Database', description: 'Realizar o inicio de uma criação completa de um banco de dados', difficulty: 'Difícil', technologies: ['MySQL'] },
-];
-
-// ==============================
-// COMPONENTE CARD
-// ==============================
-function ExerciseCard({ exercise, onStart }: { exercise: Exercise; onStart?: (ex: Exercise) => void }) {
-  return (
-    <Card className="dashboardCard">
-      <CardHeader>
-        <div className="flex justify-between items-start">
-          <CardTitle className="cardTitle">{exercise.title}</CardTitle>
-          <Badge
-            className={`badgeDifficulty ${exercise.difficulty === 'Fácil'
-              ? 'easy'
-              : exercise.difficulty === 'Médio'
-                ? 'medium'
-                : 'hard'
-              }`}
-          >
-            {exercise.difficulty}
-          </Badge>
-        </div>
-        <CardDescription className="cardDesc">{exercise.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          <div className="flex flex-wrap gap-2">
-            {exercise.technologies.map((tech) => (
-              <Badge key={tech} variant="secondary">{tech}</Badge>
-            ))}
-          </div>
-          <Button className="dashboardBtn" onClick={() => onStart?.(exercise)}>
-            {exercise.completed ? 'Revisar' : 'Iniciar Desafio'}
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
+interface DashboardProps {
+  user: User | null;
+  onLogout: () => void;
+  onLoginClick: () => void;
+  onStartExercise: (exercise: Exercise) => void;
 }
 
-// ==============================
-// COMPONENTE DASHBOARD
-// ==============================
+const exercises: Exercise[] = [
+  { id: 1, title: 'Nível 1: Flexbox Básico', description: 'Aprenda os fundamentos do Flexbox organizando elementos na fazenda.', tags: ['HTML', 'CSS', 'Flexbox'], category: 'frontend' },
+  { id: 2, title: 'Nível 2: Flexbox Avançado', description: 'Domine propriedades avançadas do Flexbox com desafios complexos.', tags: ['CSS', 'Flexbox', 'Layout'], category: 'frontend' },
+  { id: 3, title: 'Nível 3: Grid de Animais', description: 'Crie layouts responsivos usando CSS Grid na fazenda.', tags: ['CSS', 'Grid', 'Responsive'], category: 'frontend' },
+  { id: 4, title: 'Nível 1: Rotas Express', description: 'Construa APIs RESTful com Express.js para gerenciar a fazenda.', tags: ['Node.js', 'Express', 'API'], category: 'backend' },
+  { id: 5, title: 'Nível 2: Cadastro de Animais', description: 'Implemente CRUD completo para gerenciar animais da fazenda.', tags: ['Express', 'CRUD', 'Validação'], category: 'backend' },
+  { id: 6, title: 'Nível 3: Proteja o Celeiro (JWT)', description: 'Aprenda autenticação e autorização com JWT.', tags: ['JWT', 'Auth', 'Security'], category: 'backend' },
+  { id: 7, title: 'Nível 1: SQL Básico', description: 'Aprenda comandos SQL fundamentais para consultar dados.', tags: ['SQL', 'SELECT', 'Database'], category: 'bancodados' },
+  { id: 8, title: 'Nível 2: Relacionamentos', description: 'Domine JOINs e relacionamentos entre tabelas.', tags: ['SQL', 'JOIN', 'Relations'], category: 'bancodados' },
+  { id: 9, title: 'Nível 3: Chaves Estrangeiras', description: 'Aprenda a criar e gerenciar relacionamentos com Foreign Keys.', tags: ['SQL', 'Foreign Key', 'Constraints'], category: 'bancodados' }
+];
+
+const categoryLabels = {
+  frontend: '🎨 Front-end',
+  backend: '⚙️ Back-end',
+  bancodados: '🗄️ Banco de Dados'
+};
+
 export function Dashboard({ user, onLogout, onLoginClick, onStartExercise }: DashboardProps) {
+  const [activeCategory, setActiveCategory] = useState<'frontend' | 'backend' | 'bancodados'>('frontend');
   const navigate = useNavigate();
 
+  const filteredExercises = exercises.filter(ex => ex.category === activeCategory);
+
+  const avatarUrl = user?.avatar ? new URL(`../assets/avatars/${user.avatar}.png`, import.meta.url).href : vacaDefault;
+
   return (
-    <div className="minScreen">
-
-      {/* HEADER COM 3 COLUNAS (ESQ → LOGO → DIREITA) */}
-      <header className="dashboardHeader">
-        <div className="headerGrid">
-
-          {/* Coluna ESQUERDA — usuário */}
-          <div
-            className="headerUser"
-            onClick={() => user && navigate('/profile')}
-            style={{ cursor: user ? 'pointer' : 'default' }}
-            title={user ? "Editar Perfil" : ""}
-          >
-            {user?.avatar && (
-              <img
-                src={new URL(`../assets/avatars/${user.avatar}.png`, import.meta.url).href}
-                alt="Avatar do usuário"
-                className="avatar"
-              />
-            )}
-            <span className="textMuted">
-              {user ? `Olá, ${user.name}` : 'Olá, Programador'}
-            </span>
-          </div>
-
-          {/* Coluna CENTRAL — Logo */}
-          <div className="headerLogo">
-            <Logo />
-          </div>
-
-          {/* Coluna DIREITA — botão */}
+    <div style={{ minHeight: '100vh', background: '#fff5f0', display: 'flex', flexDirection: 'column' }}>
+      <header style={{ background: '#db6627', padding: '12px 0', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative' }}>
+          {user ? (
+            <div className="headerUser" onClick={() => navigate('/profile')}>
+              <img src={avatarUrl} alt={user.name} className="avatar" />
+              <span className="textMuted">{user.name}</span>
+            </div>
+          ) : <div style={{ width: '200px' }}></div>}
+          <div className="headerLogo">CODEPLAY</div>
           <div className="headerActions">
-            {!user && onLoginClick && (
-              <Button className="headerBtn" variant="outline" size="sm" onClick={onLoginClick}>
-                <LogIn className="h-4 w-4" /> Faça login
-              </Button>
-            )}
-            {user && (
-              <Button className="headerBtn" variant="outline" size="sm" onClick={onLogout}>
-                <LogOut className="h-4 w-4" /> Sair
-              </Button>
+            {user ? (
+              <button className="headerBtn" onClick={onLogout}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                Sair
+              </button>
+            ) : (
+              <button className="headerBtn" onClick={onLoginClick}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>
+                Entrar
+              </button>
             )}
           </div>
-
         </div>
       </header>
 
-      {/* CONTEÚDO */}
-      <main className="pageContainer py-8">
-        <Tabs defaultValue="frontend">
-          <TabsList className="grid grid-cols-3 mb-8">
-            <TabsTrigger value="frontend" className="flex items-center gap-2">
-              <Palette className="h-4 w-4" />
-              <span>Front-End</span>
-            </TabsTrigger>
-            <TabsTrigger value="backend" className="flex items-center gap-2">
-              <Monitor className="h-4 w-4" />
-              <span>Back-End</span>
-            </TabsTrigger>
-            <TabsTrigger value="database" className="flex items-center gap-2">
-              <Database className="h-4 w-4" />
-              <span>Banco de Dados</span>
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="frontend">
-            <div className="exerciseGrid">
-              {frontendExercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} onStart={onStartExercise} />
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 16px 16px', flex: 1, width: '100%', minHeight: '85vh' }}>
+        <div style={{ marginBottom: '60px', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ background: 'white', padding: '16px', borderRadius: '12px', border: '1px solid #f0f0f0', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.02)', display: 'inline-flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h3 style={{ fontSize: '0.9rem', fontWeight: '600', color: '#1a1a1a', marginBottom: '12px' }}>📚 Escolha o Módulo:</h3>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              {(Object.keys(categoryLabels) as Array<keyof typeof categoryLabels>).map(cat => (
+                <button key={cat} onClick={() => setActiveCategory(cat)} style={{
+                  padding: '8px 16px', borderRadius: '8px',
+                  border: activeCategory === cat ? '2px solid #db6627' : '1px solid #e0e0e0',
+                  background: activeCategory === cat ? '#fff5f0' : 'white',
+                  color: activeCategory === cat ? '#db6627' : '#555',
+                  fontWeight: activeCategory === cat ? '600' : '500',
+                  fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s ease',
+                  display: 'flex', alignItems: 'center', gap: '8px'
+                }}>
+                  {categoryLabels[cat]}
+                </button>
               ))}
             </div>
-          </TabsContent>
+          </div>
+        </div>
 
-          <TabsContent value="backend">
-            <div className="exerciseGrid">
-              {backendExercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} onStart={onStartExercise} />
+        <div className="exerciseGrid">
+          {filteredExercises.map(exercise => (
+            <div key={exercise.id} className="exerciseCard">
+              <h3 className="exerciseTitle">{exercise.title}</h3>
+              <p className="exerciseDescription">{exercise.description}</p>
+              <div className="tagList">
+                {exercise.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}
+              </div>
+              <button className="cardBtn" onClick={() => onStartExercise(exercise)}>Iniciar Desafio</button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Rodapé */}
+      <footer style={{
+        background: '#fff',
+        borderTop: '1px solid #eee',
+        padding: '40px 24px',
+        marginTop: 'auto'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
+          <div>
+            <h4 style={{ color: '#db6627', fontSize: '1.1rem', fontWeight: '700', marginBottom: '16px', fontFamily: '"Press Start 2P", cursive', letterSpacing: '1px' }}>CODEPLAY</h4>
+            <p style={{ color: '#666', lineHeight: '1.6', fontSize: '0.9rem' }}>
+              Uma plataforma interativa desenvolvida para transformar o aprendizado de programação em uma jornada divertida e envolvente. Nossa missão é tornar o código acessível a todos através da gamificação.
+            </p>
+          </div>
+          <div>
+            <h4 style={{ color: '#1a1a1a', fontSize: '1rem', fontWeight: '600', marginBottom: '16px' }}>Sobre a Criação</h4>
+            <p style={{ color: '#666', lineHeight: '1.6', fontSize: '0.9rem' }}>
+              Desenvolvido com paixão por educação e tecnologia. Cada desafio foi cuidadosamente planejado para ensinar conceitos reais de desenvolvimento de software, do básico ao avançado, em um ambiente seguro e amigável.
+            </p>
+          </div>
+          <div>
+            <h4 style={{ color: '#1a1a1a', fontSize: '1rem', fontWeight: '600', marginBottom: '16px' }}>Tecnologias</h4>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {['React', 'TypeScript', 'Node.js', 'Gamification', 'Education'].map(tech => (
+                <span key={tech} style={{ background: '#f5f5f5', padding: '4px 12px', borderRadius: '4px', fontSize: '0.8rem', color: '#555' }}>{tech}</span>
               ))}
             </div>
-          </TabsContent>
-
-          <TabsContent value="database">
-            <div className="exerciseGrid">
-              {databaseExercises.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} onStart={onStartExercise} />
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
-      </main>
+          </div>
+        </div>
+        <div style={{ textAlign: 'center', marginTop: '40px', paddingTop: '20px', borderTop: '1px solid #f5f5f5', color: '#999', fontSize: '0.85rem' }}>
+          © 2024 CodePlay. Todos os direitos reservados. Feito com 🧡 para desenvolvedores.
+        </div>
+      </footer>
     </div>
   );
 }
-
-export default Dashboard;

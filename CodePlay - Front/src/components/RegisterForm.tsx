@@ -19,7 +19,7 @@ const avatars = Object.keys(avatarFiles).map((path) => {
 });
 
 interface RegisterFormProps {
-  onRegister?: (name: string, email: string, password: string, avatar: string) => void;
+  onRegister?: (userData: { id: number; name: string; email: string; avatar: string }) => void;
   onSwitchToLogin: () => void;
 }
 
@@ -63,20 +63,19 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
       const data = await response.json();
 
       if (response.ok) {
-          alert('Conta criada com sucesso!');
-          // Pega nome e avatar do backend
-          const { name, avatar } = data;
-          onRegister?.(name, avatar);
-          setFormData({
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            age: '',
-            gender: '',
-            location: '',
-            avatar: '',
-          });
+        alert('Conta criada com sucesso!');
+        // Pega nome e avatar do backend
+        onRegister?.(data);
+        setFormData({
+          name: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          age: '',
+          gender: '',
+          location: '',
+          avatar: '',
+        });
       } else {
         alert(data.message || 'Erro ao criar conta');
       }
